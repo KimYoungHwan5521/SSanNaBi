@@ -9,7 +9,7 @@
                     "name": "Move",
                     "type": "Value",
                     "id": "d236d799-4a1a-4a75-9e49-287e373be80f",
-                    "expectedControlType": "Vector2",
+                    "expectedControlType": "Dpad",
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": true
@@ -20,7 +20,7 @@
                     "id": "719347fb-0245-4d4a-b7fe-7d0349a17371",
                     "expectedControlType": "Button",
                     "processors": "",
-                    "interactions": "",
+                    "interactions": "Press",
                     "initialStateCheck": false
                 },
                 {
@@ -29,7 +29,7 @@
                     "id": "23c77688-0e1e-4f9c-917f-c4f0fcf7ba97",
                     "expectedControlType": "Button",
                     "processors": "",
-                    "interactions": "",
+                    "interactions": "Press",
                     "initialStateCheck": false
                 },
                 {
@@ -38,7 +38,7 @@
                     "id": "08db271c-c810-4233-9bab-8121c1ae480f",
                     "expectedControlType": "Button",
                     "processors": "",
-                    "interactions": "",
+                    "interactions": "Press",
                     "initialStateCheck": false
                 },
                 {
