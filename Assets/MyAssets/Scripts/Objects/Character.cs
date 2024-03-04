@@ -98,6 +98,23 @@ public class Character : Breakable
         rigid.AddForce(Vector2.up * jumpPower);
     }
 
+    protected virtual void OnAttack()
+    {
+        Attack();
+    }
+
+    protected virtual void Attack()
+    {
+        anim.SetTrigger("doAttack");
+    }
+
+    protected virtual void GenerateHitBox(string hitBoxName)
+    {
+        GameObject prefab = Resources.Load<GameObject>($"Prefabs/Hitboxes/{hitBoxName}");
+        GameObject inst = Instantiate(prefab, transform.position, transform.rotation);
+        inst.AddComponent<DamageComponent>().Initialize(this, attackDamage);
+    }
+
     protected bool CheckGround()
     {
         // 코요테타임이 지난 콘택트는 삭제

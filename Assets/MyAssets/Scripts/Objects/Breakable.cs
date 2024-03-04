@@ -28,13 +28,25 @@ public abstract class Breakable : MonoBehaviour
         set { _hpMax = value; }
     }
 
+    public int attackDamage;
+
     // 적이면(공격 가능하면) true
     public virtual bool CheckEnemy(Breakable target)
     {
-        if(team == Team.Ally && !(target.team == Team.NPC) || team == Team.Enemy && target.team == Team.Ally)
+        if(team == target.team)
+        {
+            return false;
+        }
+        else if(team == Team.Ally && !(target.team == Team.NPC) || team == Team.Enemy && target.team == Team.Ally)
         {
             return true;
         }
         return false;
+    }
+
+    public virtual int TakeDamage(Breakable from, int damage)
+    {
+        HPCurrent -= damage;
+        return damage;
     }
 }
