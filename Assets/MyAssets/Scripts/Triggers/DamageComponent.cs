@@ -19,10 +19,14 @@ public class DamageComponent : MonoBehaviour
         {
             if(attacker.CheckEnemy(victim))
             {
-                victim.TakeDamage(attacker, damage);
-                if(victim.TryGetComponent(out Character victimChar))
+                if (!victim.CompareTag("Player") || victim.curInvincibleTime < 0)
                 {
-                    victimChar.anim.SetTrigger("doHit");
+                    victim.TakeDamage(attacker, damage);
+                    if (victim.TryGetComponent(out Character victimChar))
+                    {
+                        victimChar.anim.SetTrigger("doHit");
+                    }
+                    victim.curInvincibleTime = victim.invincibleTime;
                 }
             }
         }

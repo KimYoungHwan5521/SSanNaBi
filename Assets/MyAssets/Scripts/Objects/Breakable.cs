@@ -30,6 +30,9 @@ public abstract class Breakable : MonoBehaviour
 
     public int attackDamage;
 
+    public float invincibleTime;
+    public float curInvincibleTime;
+
     // 적이면(공격 가능하면) true
     public virtual bool CheckEnemy(Breakable target)
     {

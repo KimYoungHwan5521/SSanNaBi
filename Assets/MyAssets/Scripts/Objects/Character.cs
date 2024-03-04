@@ -49,6 +49,7 @@ public class Character : Breakable
 
     private void Update()
     {
+        curInvincibleTime -= Time.deltaTime;
         isGround = CheckGround();
         // ¿Ãµø
         moveDirection = preferDirection * Vector2.right;
@@ -81,7 +82,7 @@ public class Character : Breakable
         Move(value.Get<Vector2>());
     }
 
-    protected virtual void Move(Vector2 direction)
+    public virtual void Move(Vector2 direction)
     {
         direction.Normalize();
         preferDirection= direction;
@@ -92,7 +93,7 @@ public class Character : Breakable
         Jump();
     }
 
-    protected virtual void Jump()
+    public virtual void Jump()
     {
         if (!isGround) return;
         rigid.AddForce(Vector2.up * jumpPower);
@@ -103,7 +104,7 @@ public class Character : Breakable
         Attack();
     }
 
-    protected virtual void Attack()
+    public virtual void Attack()
     {
         anim.SetTrigger("doAttack");
     }

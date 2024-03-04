@@ -489,8 +489,8 @@ Transform:
   m_GameObject: {fileID: 1578226431}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -2.9537, y: -2.3902, z: 0}
-  m_LocalScale: {x: 35.43931, y: 0.5003799, z: 1}
+  m_LocalPosition: {x: 0, y: -5, z: 0}
+  m_LocalScale: {x: 100, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -639,13 +639,15 @@ MonoBehaviour:
   _hpCurrent: 100
   _hpMax: 100
   attackDamage: 10
+  invincibleTime: 0
+  curInvincibleTime: 0
   rigid: {fileID: 0}
   anim: {fileID: 0}
   coyoteTime: 0.02
   preferDirection: {x: 0, y: 0}
   moveDirection: {x: 0, y: 0}
   faceDirection: {x: 0, y: 0}
-  moveSpeed: 10
+  moveSpeed: 5
   jumpPower: 300
 --- !u!4 &2524592442722781914
 Transform:
@@ -679,7 +681,7 @@ GameObject:
   - component: {fileID: 7828546506303704935}
   m_Layer: 0
   m_Name: Knight
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -725,7 +727,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: -1269609194, guid: 5ac8289fead5f7649a07bfcddeb2aaf3, type: 3}
+  m_Sprite: {fileID: 568795388, guid: e6e4e92492bd2f144806ea9be77142be, type: 3}
   m_Color: {r: 1, g: 0, b: 0, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -745,7 +747,7 @@ Transform:
   m_GameObject: {fileID: 5887236802124326940}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 1.03, y: 0.06, z: 0}
+  m_LocalPosition: {x: 9.47, y: 0.75, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -765,6 +767,7 @@ GameObject:
   - component: {fileID: 679305837782551206}
   - component: {fileID: 238929548946247290}
   - component: {fileID: 411520037457117764}
+  - component: {fileID: 5887236802124326941}
   m_Layer: 0
   m_Name: Knight (1)
   m_TagString: Untagged
@@ -772,6 +775,20 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!114 &5887236802124326941
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5887236802124326940}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a1f3c37f5e2c8024383e491566595ef8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  detectRange: 10
+  attackRange: 2
 --- !u!212 &5993594355355707072
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -840,6 +857,8 @@ MonoBehaviour:
   _hpCurrent: 100
   _hpMax: 100
   attackDamage: 10
+  invincibleTime: 0.5
+  curInvincibleTime: 0
   rigid: {fileID: 0}
   anim: {fileID: 0}
   coyoteTime: 0.02
