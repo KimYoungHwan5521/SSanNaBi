@@ -112,6 +112,7 @@ public class Character : Breakable
     {
         GameObject prefab = Resources.Load<GameObject>($"Prefabs/Hitboxes/{hitBoxName}");
         GameObject inst = Instantiate(prefab, transform.position, transform.rotation);
+        inst.transform.localScale = new Vector2(transform.localScale.x, inst.transform.localScale.y);
         inst.AddComponent<DamageComponent>().Initialize(this, attackDamage);
     }
 
