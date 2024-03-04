@@ -29,6 +29,8 @@ public class Character : Breakable
     public Rigidbody2D rigid;
     public Animator anim;
 
+    public float coyoteTime = 0.02f;
+
     public Vector2 preferDirection;
     public Vector2 moveDirection;
     public Vector2 faceDirection;
@@ -47,6 +49,8 @@ public class Character : Breakable
 
     private void Update()
     {
+        isGround = CheckGround();
+        // 이동
         moveDirection = preferDirection * Vector2.right;
         moveDirection.Normalize();
         if(moveDirection.magnitude > 0)
@@ -67,6 +71,8 @@ public class Character : Breakable
             transform.localScale *= new Vector2(-1, 1);
         }
         anim.SetFloat("speed", rigid.velocity.magnitude);
+        anim.SetBool("isGround", isGround);
+        anim.SetBool("isFall", rigid.velocity.y < 0);
     }
 
 
@@ -88,21 +94,40 @@ public class Character : Breakable
 
     protected virtual void Jump()
     {
+        if (!isGround) return;
         rigid.AddForce(Vector2.up * jumpPower);
     }
 
-    protected void CheckGround()
+    protected bool CheckGround()
     {
-
+        // 코요테타임이 지난 콘택트는 삭제
+        collisionList.RemoveAll(target => target.time < Time.time - coyoteTime);
+        if (rigid.velocity.y == 0) return true;
+        // 각도가 46도 이하면 점프 가능한 땅으로 간주
+        return collisionList.FindIndex(target => Vector2.Angle(target.contact.normal, Vector2.up) < 46.0f) >= 0;
     }
 
-    protected void OnCollisionEnter2D(Collision2D collision)
+    protected void OnCollisionStay2D(Collision2D collision)
     {
-        ContactPoint2D[] contacts = new ContactPoint2D[collision.contacts.Length];
-
-        // 콘택트 정보를 받아서 contacts에 넣기
+        // 정보를 받을 콘택트 선언
+        ContactPoint2D[] contacts = new ContactPoint2D[collision.contactCount];
+        // 콜리젼의 콘택트 정보를 받아서 contacts에 넣기
         collision.GetContacts(contacts);
+        // 콜리젼의 콘택트 정보들 중 이 오브젝트와 접촉 중인 콘택트 정보 찾기
+        ContactPoint2D myContact = System.Array.Find(contacts, target => target.otherCollider.gameObject == gameObject);
 
+        // 이미 콜리젼리스트에 들어있는 것을 더하지 않도록 중복체크
+        int collisionIndex = collisionList.FindIndex(target => target.other == collision.gameObject);
+        if(collisionIndex == -1)
+        {
+            // 똑같은 것이 없다면 리스트에 추가
+            collisionList.Add(new ContactInfo(collision.gameObject, myContact, Time.time));
+        }
+        else 
+        {
+            // 이미 들어 있다면 타임만 갱신
+            collisionList[collisionIndex] = new ContactInfo(collision.gameObject, myContact, Time.time);
+        }
         
     }
 }
