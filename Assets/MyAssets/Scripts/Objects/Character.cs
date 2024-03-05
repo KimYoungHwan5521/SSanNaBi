@@ -145,6 +145,7 @@ public class Character : Breakable
         inst.AddComponent<DamageComponent>().Initialize(this, attackDamage);
     }
 
+
     protected bool CheckGround()
     {
         // 코요테타임이 지난 콘택트는 삭제

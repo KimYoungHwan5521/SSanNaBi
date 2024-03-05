@@ -29,6 +29,7 @@ public class AIBase : MonoBehaviour
             if (CheckAttackable())
             {
                 controlledCharacter.preferDirection = Vector2.zero;
+                controlledCharacter.faceDirection = target.transform.position.x - transform.position.x < 0 ? Vector2.left: Vector2.right;
                 controlledCharacter.Attack();
             }
             else
@@ -63,6 +64,20 @@ public class AIBase : MonoBehaviour
             }
         }
         return null;
+    }
+
+    protected virtual void GenerateProjectile(string projectileName)
+    {
+        if(target == null) return;
+        GameObject prefab = Resources.Load<GameObject>($"Prefabs/Projectiles/{projectileName}");
+        Vector2 spawnPosition = transform.childCount > 0 ? GetComponentsInChildren<Transform>()[1].position : transform.position;
+        Vector2 targetBoundsCenter = target.GetComponent<Collider2D>().bounds.center;
+        Vector2 direction = new Vector2(targetBoundsCenter.x - spawnPosition.x, targetBoundsCenter.y - spawnPosition.y);
+        direction.Normalize();
+        GameObject inst = Instantiate(prefab, spawnPosition, Quaternion.Euler(0, 0, Mathf.Atan2(direction.y, direction.x)));
+        inst.AddComponent<DamageComponent>().Initialize(controlledCharacter, controlledCharacter.attackDamage);
+        inst.GetComponentInChildren<Rigidbody2D>().velocity = direction * 10;
+        Debug.Log($"targetBoundsCenter : {targetBoundsCenter}, spawnPosition : {spawnPosition}, direction : {direction}");
     }
 
     private void OnDrawGizmos()

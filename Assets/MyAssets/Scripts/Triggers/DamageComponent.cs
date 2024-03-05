@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class DamageComponent : MonoBehaviour
 {
-    Breakable attacker;
-    int damage;
+    [SerializeField]Breakable attacker;
+    [SerializeField]int damage;
 
     public void Initialize(Breakable attaker, int damage)
     {
