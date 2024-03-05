@@ -25,6 +25,7 @@ public class DamageComponent : MonoBehaviour
                     if (victim.TryGetComponent(out Character victimChar))
                     {
                         victimChar.anim.SetTrigger("doHit");
+                        victimChar.isHit = true;
                     }
                     victim.curInvincibleTime = victim.invincibleTime;
                 }

@@ -26,8 +26,16 @@ public class AIBase : MonoBehaviour
         target = FindTarget();
         if(target != null) 
         {
-            if (CheckAttackable()) controlledCharacter.Attack();
-            controlledCharacter.preferDirection = target.transform.position - transform.position;
+            if (CheckAttackable())
+            {
+                controlledCharacter.preferDirection = Vector2.zero;
+                controlledCharacter.Attack();
+            }
+            else
+            {
+                controlledCharacter.preferDirection = target.transform.position - transform.position;
+            }
+
         }
         else
         {

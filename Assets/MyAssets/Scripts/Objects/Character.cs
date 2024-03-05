@@ -5,6 +5,8 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 
 
+public enum Status { Normal, Death }
+
 public struct ContactInfo
 {
     // ºÎµúÈù ¿ÀºêÁ§Æ®
@@ -31,6 +33,8 @@ public class Character : Breakable
 
     public float coyoteTime = 0.02f;
 
+    public Status status = Status.Normal;
+
     public Vector2 preferDirection;
     public Vector2 moveDirection;
     public Vector2 faceDirection;
@@ -39,6 +43,7 @@ public class Character : Breakable
     public float jumpPower;
 
     bool isGround = false;
+    public bool isHit = false;
     protected List<ContactInfo> collisionList = new List<ContactInfo>();
 
     private void Start()
@@ -52,7 +57,15 @@ public class Character : Breakable
         curInvincibleTime -= Time.deltaTime;
         isGround = CheckGround();
         // ÀÌµ¿
-        moveDirection = preferDirection * Vector2.right;
+        if (status == Status.Death || isHit)
+        {
+            moveDirection = Vector2.zero;
+        }
+        else
+        {
+            moveDirection = preferDirection * Vector2.right;
+        }
+
         moveDirection.Normalize();
         if(moveDirection.magnitude > 0)
         {

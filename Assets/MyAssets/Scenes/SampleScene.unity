@@ -644,11 +644,13 @@ MonoBehaviour:
   rigid: {fileID: 0}
   anim: {fileID: 0}
   coyoteTime: 0.02
+  status: 0
   preferDirection: {x: 0, y: 0}
   moveDirection: {x: 0, y: 0}
   faceDirection: {x: 0, y: 0}
   moveSpeed: 5
   jumpPower: 300
+  isHit: 0
 --- !u!4 &2524592442722781914
 Transform:
   m_ObjectHideFlags: 0
@@ -788,7 +790,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   detectRange: 10
-  attackRange: 2
+  attackRange: 1.8
 --- !u!212 &5993594355355707072
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -856,17 +858,19 @@ MonoBehaviour:
   team: 0
   _hpCurrent: 100
   _hpMax: 100
-  attackDamage: 10
+  attackDamage: 30
   invincibleTime: 0.5
   curInvincibleTime: 0
   rigid: {fileID: 0}
   anim: {fileID: 0}
   coyoteTime: 0.02
+  status: 0
   preferDirection: {x: 0, y: 0}
   moveDirection: {x: 0, y: 0}
   faceDirection: {x: 0, y: 0}
   moveSpeed: 10
   jumpPower: 300
+  isHit: 0
 --- !u!50 &7054110734746756386
 Rigidbody2D:
   serializedVersion: 4
