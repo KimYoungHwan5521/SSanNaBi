@@ -8,17 +8,26 @@ public abstract class Breakable : MonoBehaviour
 {
     public Team team;
     private bool _isBreak;
-    public bool IsBreak
+    public virtual bool IsBreak
     {
         get { return _isBreak; }
-        set { _isBreak = value; }
+        set 
+        { 
+            _isBreak = value;
+            gameObject.layer = LayerMask.NameToLayer("Corpse");
+        }
     }
 
     [SerializeField]private int _hpCurrent;
     public int HPCurrent
     {
         get { return _hpCurrent; }
-        set { _hpCurrent = Mathf.Clamp(value, 0, _hpMax); }
+        set 
+        { 
+            _hpCurrent = Mathf.Clamp(value, 0, _hpMax); 
+            if(_hpCurrent <= 0 && IsBreak == false) IsBreak = true;
+
+        }
     }
 
     [SerializeField]private int _hpMax;

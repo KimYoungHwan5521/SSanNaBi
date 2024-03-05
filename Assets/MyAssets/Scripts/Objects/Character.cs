@@ -39,6 +39,21 @@ public class Character : Breakable
     public Vector2 moveDirection;
     public Vector2 faceDirection;
 
+    public override bool IsBreak 
+    { 
+        get => base.IsBreak; 
+        set
+        {
+            base.IsBreak = value;
+            if(value == true)
+            {
+                status = Status.Death;
+                anim.SetTrigger("doDeath");
+            }
+        }
+
+    }
+
     public float moveSpeed;
     public float jumpPower;
 

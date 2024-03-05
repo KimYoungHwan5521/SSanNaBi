@@ -681,7 +681,7 @@ GameObject:
   - component: {fileID: 6953548846830782341}
   - component: {fileID: 7656770219263968089}
   - component: {fileID: 7828546506303704935}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Knight
   m_TagString: Player
   m_Icon: {fileID: 0}
