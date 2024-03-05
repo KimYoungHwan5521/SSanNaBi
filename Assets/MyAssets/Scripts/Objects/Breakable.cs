@@ -15,6 +15,7 @@ public abstract class Breakable : MonoBehaviour
         { 
             _isBreak = value;
             gameObject.layer = LayerMask.NameToLayer("Corpse");
+            gameObject.AddComponent<DestroyTimer>().time = 5f;
         }
     }
 

@@ -56,7 +56,7 @@ public class AIBase : MonoBehaviour
         {
             if(raycast.collider.TryGetComponent(out Breakable Btarget))
             {
-                if(controlledCharacter.CheckEnemy(Btarget))
+                if(Btarget.IsBreak == false && controlledCharacter.CheckEnemy(Btarget))
                 {
                     return Btarget;
                 }
