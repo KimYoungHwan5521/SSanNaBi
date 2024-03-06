@@ -7,8 +7,11 @@ public class AIBase : MonoBehaviour
 {
     Character controlledCharacter;
     Breakable target;
-    public float detectRange;
+    CapsuleCollider2D capsule;
+    public float targetDetectRange;
     public float attackRange;
+
+    public float obstacleDetectRange = 1f;
 
     // Start is called before the first frame update
     void Start()
@@ -18,34 +21,64 @@ public class AIBase : MonoBehaviour
             Destroy(this);
         }
         controlledCharacter = GetComponent<Character>();
+        capsule= GetComponent<CapsuleCollider2D>();
     }
 
-    // Update is called once per frame
-    void Update()
+    private void FixedUpdate()
     {
         target = FindTarget();
-        if(target != null) 
+        // AI는 공중에서 방향 못바꾸게
+        if(controlledCharacter.CheckGround())
         {
-            if (CheckAttackable())
+            if(target != null) 
             {
-                controlledCharacter.preferDirection = Vector2.zero;
-                controlledCharacter.faceDirection = target.transform.position.x - transform.position.x < 0 ? Vector2.left: Vector2.right;
-                controlledCharacter.Attack();
-            }
-            else if(controlledCharacter.isAttack)
-            {
-                controlledCharacter.preferDirection = Vector2.zero;
+                if (CheckAttackable())
+                {
+                    // 공격 범위 안에 있다면 공격
+                    controlledCharacter.preferDirection = Vector2.zero;
+                    controlledCharacter.faceDirection = target.transform.position.x - transform.position.x < 0 ? Vector2.left: Vector2.right;
+                    controlledCharacter.Attack();
+                }
+                else if(controlledCharacter.isAttack)
+                {
+                    // 공격 중에는 움직이지 않게
+                    controlledCharacter.preferDirection = Vector2.zero;
+                }
+                else
+                {
+                    // 공격 범위 밖이라면 타겟에게 이동
+                    controlledCharacter.preferDirection = target.transform.position - transform.position;
+                    if(CheckObstacle())
+                    {
+                        controlledCharacter.Jump();
+                    }
+                }
+
             }
             else
             {
-                controlledCharacter.preferDirection = target.transform.position - transform.position;
+                controlledCharacter.preferDirection = Vector2.zero;
             }
+        }
+    }
 
-        }
-        else
+    protected bool CheckObstacle()
+    {
+        Vector3 stepableHight = capsule.bounds.center + Vector3.down * (capsule.bounds.extents.y - capsule.bounds.extents.x);
+        Ray stepRay = new Ray(stepableHight, controlledCharacter.moveDirection);
+        Debug.DrawRay(stepRay.origin, stepRay.direction);
+
+        // 필터를 통해 이동에 방해되지 않는 오브젝트는 필터링
+        ContactFilter2D filter = new ContactFilter2D();
+        filter.useTriggers = false;
+        filter.SetLayerMask(LayerMask.GetMask("Default"));
+        RaycastHit2D[] hits = new RaycastHit2D[20];
+        int hitAmount = Physics2D.Raycast(stepRay.origin, stepRay.direction, filter, hits, obstacleDetectRange);
+        if(hitAmount > 0)
         {
-            controlledCharacter.preferDirection = Vector2.zero;
+            return true;
         }
+        return false;
     }
 
     protected bool CheckAttackable()
@@ -56,10 +89,10 @@ public class AIBase : MonoBehaviour
 
     protected Breakable FindTarget()
     {
-        RaycastHit2D[] raycasts = Physics2D.CircleCastAll(transform.position, detectRange, Vector2.zero);
-        foreach(RaycastHit2D raycast in raycasts)
+        RaycastHit2D[] hits = Physics2D.CircleCastAll(transform.position, targetDetectRange, Vector2.zero);
+        foreach(RaycastHit2D hit in hits)
         {
-            if(raycast.collider.TryGetComponent(out Breakable Btarget))
+            if(hit.collider.TryGetComponent(out Breakable Btarget))
             {
                 if(Btarget.IsBreak == false && controlledCharacter.CheckEnemy(Btarget))
                 {
@@ -85,9 +118,10 @@ public class AIBase : MonoBehaviour
 
     private void OnDrawGizmos()
     {
-        Gizmos.DrawWireSphere(transform.position, detectRange);
+        Gizmos.DrawWireSphere(transform.position, targetDetectRange);
         Gizmos.color = Color.red;
         Gizmos.DrawWireSphere(transform.position, attackRange);
+
     }
 
 }

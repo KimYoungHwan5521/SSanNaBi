@@ -18,9 +18,7 @@ public class DamageComponent : MonoBehaviour
 
     protected void OnTriggerEnter2D(Collider2D collision)
     {
-        Debug.Log(collision);
         if(isProjectile && collision.gameObject.layer == 0) Destroy(gameObject);
-        //if (collision.CompareTag("Projectile") && collision.GetComponent<DamageComponent>().attacker.CheckEnemy(attacker)) Destroy(collision.gameObject);
         if(collision.gameObject.TryGetComponent(out Breakable victim))
         {
             if(attacker.CheckEnemy(victim))

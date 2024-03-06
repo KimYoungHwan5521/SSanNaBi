@@ -131,6 +131,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1152161283869061796, guid: 23a1a8212739af84e8ca8ff98d0be614, type: 3}
+      propertyPath: m_Material
+      value: 
+      objectReference: {fileID: 6200000, guid: b2fd8d43347fc7e46918fb7fa98802fe, type: 2}
     - target: {fileID: 1806470843902182620, guid: 23a1a8212739af84e8ca8ff98d0be614, type: 3}
       propertyPath: m_Name
       value: MeleeEnemy01
@@ -174,6 +178,10 @@ PrefabInstance:
     - target: {fileID: 2322707041099971779, guid: 23a1a8212739af84e8ca8ff98d0be614, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3226508701425969087, guid: 23a1a8212739af84e8ca8ff98d0be614, type: 3}
+      propertyPath: jumpPower
+      value: 300
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -304,7 +312,7 @@ Transform:
   m_GameObject: {fileID: 210376883}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 14.21, y: 4.42, z: 0}
+  m_LocalPosition: {x: 5, y: 4.57, z: 0}
   m_LocalScale: {x: 30, y: 0.95189196, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -981,7 +989,7 @@ Transform:
   m_GameObject: {fileID: 1860463622}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -19.54, y: 4.47, z: 0}
+  m_LocalPosition: {x: -28.24, y: 4.53, z: 0}
   m_LocalScale: {x: 30, y: 0.75324905, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []

@@ -31,7 +31,7 @@ public class Character : Breakable
     public Rigidbody2D rigid;
     public Animator anim;
 
-    public float coyoteTime = 0.02f;
+    public float coyoteTime = 0.015f;
 
     public Status status = Status.Normal;
 
@@ -71,6 +71,11 @@ public class Character : Breakable
     private void Update()
     {
         curInvincibleTime -= Time.deltaTime;
+
+    }
+
+    private void FixedUpdate()
+    {
         isGround = CheckGround();
         // 이동
         if (status == Status.Death || isHit)
@@ -126,6 +131,7 @@ public class Character : Breakable
     {
         if (!isGround) return;
         rigid.AddForce(Vector2.up * jumpPower);
+        isGround= false;
     }
 
     protected virtual void OnAttack()
@@ -148,7 +154,7 @@ public class Character : Breakable
     }
 
 
-    protected bool CheckGround()
+    public bool CheckGround()
     {
         // 코요테타임이 지난 콘택트는 삭제
         collisionList.RemoveAll(target => target.time < Time.time - coyoteTime);
