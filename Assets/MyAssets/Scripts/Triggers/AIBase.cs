@@ -32,6 +32,10 @@ public class AIBase : MonoBehaviour
                 controlledCharacter.faceDirection = target.transform.position.x - transform.position.x < 0 ? Vector2.left: Vector2.right;
                 controlledCharacter.Attack();
             }
+            else if(controlledCharacter.isAttack)
+            {
+                controlledCharacter.preferDirection = Vector2.zero;
+            }
             else
             {
                 controlledCharacter.preferDirection = target.transform.position - transform.position;

@@ -59,6 +59,7 @@ public class Character : Breakable
 
     bool isGround = false;
     public bool isHit = false;
+    public bool isAttack = false;
     protected List<ContactInfo> collisionList = new List<ContactInfo>();
 
     private void Start()
@@ -134,6 +135,7 @@ public class Character : Breakable
 
     public virtual void Attack()
     {
+        isAttack = true;
         anim.SetTrigger("doAttack");
     }
 
