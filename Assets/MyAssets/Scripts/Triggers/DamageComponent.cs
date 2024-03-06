@@ -1,19 +1,22 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class DamageComponent : MonoBehaviour
 {
     [SerializeField]Breakable attacker;
     [SerializeField]int damage;
+    bool isProjectile;
 
-    public void Initialize(Breakable attaker, int damage)
+    public void Initialize(Breakable attaker, int damage, bool isProjectile = false)
     {
         this.attacker = attaker;
         this.damage = damage;
+        this.isProjectile = isProjectile;
     }
 
-    private void OnTriggerEnter2D(Collider2D collision)
+    protected virtual void OnTriggerEnter2D(Collider2D collision)
     {
         if(collision.gameObject.TryGetComponent(out Breakable victim))
         {
@@ -29,7 +32,12 @@ public class DamageComponent : MonoBehaviour
                     }
                     victim.curInvincibleTime = victim.invincibleTime;
                 }
+                if(isProjectile)
+                {
+                    Destroy(gameObject);
+                }
             }
         }
+        if(isProjectile && collision.gameObject.layer == 0) Destroy(gameObject);
     }
 }

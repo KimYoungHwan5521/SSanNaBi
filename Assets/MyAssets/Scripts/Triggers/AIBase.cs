@@ -75,9 +75,8 @@ public class AIBase : MonoBehaviour
         Vector2 direction = new Vector2(targetBoundsCenter.x - spawnPosition.x, targetBoundsCenter.y - spawnPosition.y);
         direction.Normalize();
         GameObject inst = Instantiate(prefab, spawnPosition, Quaternion.Euler(0, 0, Mathf.Atan2(direction.y, direction.x)));
-        inst.AddComponent<DamageComponent>().Initialize(controlledCharacter, controlledCharacter.attackDamage);
-        inst.GetComponentInChildren<Rigidbody2D>().velocity = direction * 10;
-        Debug.Log($"targetBoundsCenter : {targetBoundsCenter}, spawnPosition : {spawnPosition}, direction : {direction}");
+        inst.AddComponent<DamageComponent>().Initialize(controlledCharacter, controlledCharacter.attackDamage, true);
+        inst.GetComponent<Rigidbody2D>().velocity = direction * 10;
     }
 
     private void OnDrawGizmos()
