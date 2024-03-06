@@ -966,8 +966,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   team: 0
-  _hpCurrent: 100
-  _hpMax: 100
+  _hpCurrent: 1000
+  _hpMax: 1000
   attackDamage: 30
   invincibleTime: 0.5
   curInvincibleTime: 0
