@@ -12,6 +12,7 @@ public class AIBase : MonoBehaviour
     public float attackRange;
 
     public float obstacleDetectRange = 1f;
+    public float cliffDetectRange = 3f;
 
     // Start is called before the first frame update
     void Start()
@@ -48,7 +49,7 @@ public class AIBase : MonoBehaviour
                 {
                     // 공격 범위 밖이라면 타겟에게 이동
                     controlledCharacter.preferDirection = target.transform.position - transform.position;
-                    if(CheckObstacle())
+                    if(CheckObstacle() || CheckCliff())
                     {
                         controlledCharacter.Jump();
                     }
@@ -62,11 +63,26 @@ public class AIBase : MonoBehaviour
         }
     }
 
+    protected bool CheckCliff()
+    {
+        Vector3 stepableHeight = capsule.bounds.center + Vector3.down * (capsule.bounds.extents.y - capsule.bounds.extents.x) + Vector3.right * controlledCharacter.moveDirection.x;
+        Ray cliffRay = new Ray(stepableHeight, Physics2D.gravity);
+        Debug.DrawRay(cliffRay.origin, cliffRay.direction * cliffDetectRange);
+
+        ContactFilter2D filter = new ContactFilter2D();
+        filter.useTriggers = false;
+        filter.SetLayerMask(LayerMask.GetMask("Default"));
+        RaycastHit2D[] hits = new RaycastHit2D[20];
+        int hitAmount = Physics2D.Raycast(cliffRay.origin, cliffRay.direction, filter, hits, cliffDetectRange);
+        if (hitAmount == 0) return true;
+        return false;
+    }
+
     protected bool CheckObstacle()
     {
-        Vector3 stepableHight = capsule.bounds.center + Vector3.down * (capsule.bounds.extents.y - capsule.bounds.extents.x);
-        Ray stepRay = new Ray(stepableHight, controlledCharacter.moveDirection);
-        Debug.DrawRay(stepRay.origin, stepRay.direction);
+        Vector3 stepableHeight = capsule.bounds.center + Vector3.down * (capsule.bounds.extents.y - capsule.bounds.extents.x);
+        Ray stepRay = new Ray(stepableHeight, controlledCharacter.moveDirection);
+        Debug.DrawRay(stepRay.origin, stepRay.direction * obstacleDetectRange);
 
         // 필터를 통해 이동에 방해되지 않는 오브젝트는 필터링
         ContactFilter2D filter = new ContactFilter2D();

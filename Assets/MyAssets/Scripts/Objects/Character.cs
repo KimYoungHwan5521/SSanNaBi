@@ -31,7 +31,7 @@ public class Character : Breakable
     public Rigidbody2D rigid;
     public Animator anim;
 
-    public float coyoteTime = 0.015f;
+    public float coyoteTime = 0.02f;
 
     public Status status = Status.Normal;
 

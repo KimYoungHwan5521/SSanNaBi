@@ -119,7 +119,7 @@ CapsuleCollider2D:
   m_GameObject: {fileID: 1806470843902182620}
   m_Enabled: 1
   m_Density: 1
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 6200000, guid: b2fd8d43347fc7e46918fb7fa98802fe, type: 2}
   m_IncludeLayers:
     serializedVersion: 2
     m_Bits: 0
@@ -198,7 +198,7 @@ MonoBehaviour:
   moveDirection: {x: 0, y: 0}
   faceDirection: {x: 0, y: 0}
   moveSpeed: 5
-  jumpPower: 30
+  jumpPower: 300
   isHit: 0
   isAttack: 0
 --- !u!114 &250260881501939274
