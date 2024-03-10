@@ -28,8 +28,11 @@ public class DamageComponent : MonoBehaviour
                     victim.TakeDamage(attacker, damage);
                     if (victim.TryGetComponent(out Character victimChar))
                     {
-                        victimChar.anim.SetTrigger("doHit");
-                        victimChar.isHit = true;
+                        if (victimChar.anim != null)
+                        { 
+                            victimChar.anim.SetTrigger("doHit");
+                            victimChar.isHit = true;
+                        }
                     }
                     victim.curInvincibleTime = victim.invincibleTime;
                 }

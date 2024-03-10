@@ -25,7 +25,7 @@ public struct ContactInfo
 }
 
 [RequireComponent(typeof(Rigidbody2D))]
-[RequireComponent(typeof(Animator))]
+// [RequireComponent(typeof(Animator))]
 public class Character : Breakable
 {
     public Rigidbody2D rigid;
@@ -48,7 +48,11 @@ public class Character : Breakable
             if(value == true)
             {
                 status = Status.Death;
-                anim.SetTrigger("doDeath");
+                if(anim != null)
+                {
+                    anim.SetTrigger("doDeath");
+
+                }
             }
         }
 
@@ -60,6 +64,20 @@ public class Character : Breakable
     bool isGround = false;
     public bool isHit = false;
     public bool isAttack = false;
+    private bool _isGrab = false;
+    public bool IsGrab
+    {
+        get => _isGrab;
+        set
+        {
+            if(value == false)
+            {
+                beGrabed = null;
+            }
+            _isGrab = value;
+        }
+    }
+    public GameObject beGrabed;
     protected List<ContactInfo> collisionList = new List<ContactInfo>();
 
     private void Start()
@@ -71,11 +89,25 @@ public class Character : Breakable
     private void Update()
     {
         curInvincibleTime -= Time.deltaTime;
-
     }
 
     private void FixedUpdate()
     {
+        // 그랩 가능한 땅을 왼쪽 혹은 오른쪽에서 잡았을 때
+        int beGrabedCollisionIndex = collisionList.FindIndex(target => target.other == beGrabed);
+        // 노말의 x가 0이면 위나 아래에서 붙은것.
+        bool isGrabSide = beGrabedCollisionIndex != -1 && collisionList[beGrabedCollisionIndex].contact.normal.x != 0;
+        if (IsGrab && isGrabSide)
+        {
+            if(beGrabed.transform.position.x > transform.position.x)
+            {
+                rigid.AddForce(Vector2.right * 100);
+            }
+            else
+            {
+                rigid.AddForce(Vector2.left * 100);
+            }
+        }
         isGround = CheckGround();
         // 이동
         if (status == Status.Death || isHit)
@@ -84,15 +116,18 @@ public class Character : Breakable
         }
         else
         {
-            moveDirection = preferDirection * Vector2.right;
+            if(IsGrab && isGrabSide) { moveDirection = preferDirection * Vector2.up; }
+            else moveDirection = preferDirection * Vector2.right;
         }
 
         moveDirection.Normalize();
+        if (IsGrab && moveDirection.y > 0) moveDirection.y *= 1.1f;
         if(moveDirection.magnitude > 0)
         {
             rigid.AddForce(moveDirection, ForceMode2D.Impulse);
             Vector2 speedLimitVelocity = rigid.velocity;
             speedLimitVelocity.x = Mathf.Clamp(speedLimitVelocity.x, -moveSpeed, moveSpeed);
+            if(IsGrab && isGrabSide) speedLimitVelocity.y = Mathf.Clamp(speedLimitVelocity.y, -moveSpeed, moveSpeed);
             rigid.velocity = speedLimitVelocity;
             faceDirection = rigid.velocity * Vector2.right;
             faceDirection.Normalize();
@@ -105,9 +140,12 @@ public class Character : Breakable
         {
             transform.localScale *= new Vector2(-1, 1);
         }
-        anim.SetFloat("speed", rigid.velocity.magnitude);
-        anim.SetBool("isGround", isGround);
-        anim.SetBool("isFall", rigid.velocity.y < 0);
+        if(anim != null)
+        {
+            anim.SetFloat("speed", rigid.velocity.magnitude);
+            anim.SetBool("isGround", isGround);
+            anim.SetBool("isFall", rigid.velocity.y < 0);
+        }
     }
 
 
@@ -129,6 +167,7 @@ public class Character : Breakable
 
     public virtual void Jump()
     {
+        if(IsGrab) IsGrab= false;
         if (!isGround) return;
         rigid.AddForce(Vector2.up * jumpPower);
         isGround= false;
@@ -141,8 +180,12 @@ public class Character : Breakable
 
     public virtual void Attack()
     {
-        isAttack = true;
-        anim.SetTrigger("doAttack");
+        if(anim != null)
+        {
+            isAttack = true;
+            anim.SetTrigger("doAttack");
+
+        }
     }
 
     protected virtual void GenerateHitBox(string hitBoxName)
@@ -161,6 +204,23 @@ public class Character : Breakable
         if (rigid.velocity.y == 0) return true;
         // 각도가 46도 이하면 점프 가능한 땅으로 간주
         return collisionList.FindIndex(target => Vector2.Angle(target.contact.normal, Vector2.up) < 46.0f) >= 0;
+    }
+
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if(collision.gameObject.CompareTag("Grabable"))
+        {
+            IsGrab = true;
+            beGrabed = collision.gameObject;
+        }
+    }
+
+    private void OnCollisionExit2D(Collision2D collision)
+    {
+        if(collision.gameObject == beGrabed)
+        {
+            IsGrab= false;
+        }
     }
 
     protected void OnCollisionStay2D(Collision2D collision)

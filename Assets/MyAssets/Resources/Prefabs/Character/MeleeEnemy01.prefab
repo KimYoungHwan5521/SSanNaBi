@@ -213,6 +213,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a1f3c37f5e2c8024383e491566595ef8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  targetDetectRange: 10
+  targetDetectRange: 15
   attackRange: 1.6
   obstacleDetectRange: 1
+  cliffDetectRange: 3

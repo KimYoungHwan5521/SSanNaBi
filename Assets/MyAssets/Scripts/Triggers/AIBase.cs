@@ -8,6 +8,7 @@ public class AIBase : MonoBehaviour
     Character controlledCharacter;
     Breakable target;
     CapsuleCollider2D capsule;
+    Rigidbody2D rigid;
     public float targetDetectRange;
     public float attackRange;
 
@@ -23,6 +24,7 @@ public class AIBase : MonoBehaviour
         }
         controlledCharacter = GetComponent<Character>();
         capsule= GetComponent<CapsuleCollider2D>();
+        rigid= GetComponent<Rigidbody2D>();
     }
 
     private void FixedUpdate()
@@ -33,6 +35,7 @@ public class AIBase : MonoBehaviour
         {
             if(target != null) 
             {
+                Vector2 targetDirection = target.transform.position - controlledCharacter.transform.position;
                 if (CheckAttackable())
                 {
                     // 공격 범위 안에 있다면 공격
@@ -48,10 +51,28 @@ public class AIBase : MonoBehaviour
                 else
                 {
                     // 공격 범위 밖이라면 타겟에게 이동
-                    controlledCharacter.preferDirection = target.transform.position - transform.position;
-                    if(CheckObstacle() || CheckCliff())
+                    if(CheckCliff() && targetDirection.y > -1)
                     {
-                        controlledCharacter.Jump();
+                        RaycastHit2D hit = controlledCharacter.transform.position.Parabolacast2D(controlledCharacter.moveDirection * controlledCharacter.moveSpeed + controlledCharacter.jumpPower * Vector2.up * 0.03f, Physics2D.gravity, 3f, 10);
+                        // cast가 닿은 면이 지면이 아니라 천장일 수도 있으므로 hit.normal이 Vector.up 기준으로 45도 이내인지 체크
+                        Debug.Log(hit.collider);
+                        if(hit.collider!= null && Vector2.Angle(Vector2.up, hit.normal) < 45)
+                        {
+                            controlledCharacter.Jump();
+                        }
+                        else
+                        {
+                            controlledCharacter.preferDirection = Vector2.zero;
+                        }
+                    }
+                    else
+                    {
+                        controlledCharacter.preferDirection = target.transform.position - transform.position;
+                        if(CheckObstacle())
+                        {
+                            controlledCharacter.Jump();
+                        }
+
                     }
                 }
 
