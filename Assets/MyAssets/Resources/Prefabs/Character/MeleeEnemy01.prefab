@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 4269895943190132951}
   - component: {fileID: 3226508701425969087}
   - component: {fileID: 250260881501939274}
-  m_Layer: 6
+  m_Layer: 9
   m_Name: MeleeEnemy01
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -199,8 +199,10 @@ MonoBehaviour:
   faceDirection: {x: 0, y: 0}
   moveSpeed: 5
   jumpPower: 300
+  chainArmSpeed: 0
   isHit: 0
   isAttack: 0
+  beGrabed: {fileID: 0}
 --- !u!114 &250260881501939274
 MonoBehaviour:
   m_ObjectHideFlags: 0

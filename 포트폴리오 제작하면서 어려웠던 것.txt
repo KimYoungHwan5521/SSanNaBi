@@ -4,3 +4,12 @@
 해결 방법:
 히트박스의 콜라이더의 Geometry Type이 Outlines인 경우에는 외곽선이 충돌할 때에 콜리젼이 체크가 된다.
 Geometry Type을 Polygons로 고쳐서 해결하였다.
+
+2. 사슬팔 구현
+Distance Joint 2D사용.
+
+발생한 문제점1 : 어째서인지 진자운동이 제대로 동작되지 않았다
+해결 방법 : FixedUpdate에서 움직임을 제어하기 위해 RigidBody의 velocity를 건드리고 있었어서 boolean과 조건문을 추가 해주었다.
+
+발생한 문제점2 : 팔이 길때 Distance Joint가 플레이어의 움직임을 방해했다.
+해결 방법 : 땅에 있을때는 Distance Joint의 enable을 false로 해주었다.

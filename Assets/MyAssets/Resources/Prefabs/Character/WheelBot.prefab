@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3312350748381685347}
-  m_Layer: 6
+  m_Layer: 9
   m_Name: ProjectileSpawnPosition
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -46,7 +46,7 @@ GameObject:
   - component: {fileID: 5847190465002048869}
   - component: {fileID: 7828410518267132963}
   - component: {fileID: 4270811196516753039}
-  m_Layer: 6
+  m_Layer: 9
   m_Name: WheelBot
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -231,7 +231,10 @@ MonoBehaviour:
   faceDirection: {x: 0, y: 0}
   moveSpeed: 5
   jumpPower: 300
+  chainArmSpeed: 0
   isHit: 0
+  isAttack: 0
+  beGrabed: {fileID: 0}
 --- !u!114 &4270811196516753039
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -244,5 +247,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a1f3c37f5e2c8024383e491566595ef8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  detectRange: 15
+  targetDetectRange: 0
   attackRange: 10
+  obstacleDetectRange: 1
+  cliffDetectRange: 3

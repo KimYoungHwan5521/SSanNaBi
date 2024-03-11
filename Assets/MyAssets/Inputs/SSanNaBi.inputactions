@@ -33,15 +33,6 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "Dodge",
-                    "type": "Button",
-                    "id": "08db271c-c810-4233-9bab-8121c1ae480f",
-                    "expectedControlType": "Button",
-                    "processors": "",
-                    "interactions": "Press",
-                    "initialStateCheck": false
-                },
-                {
                     "name": "Select",
                     "type": "Button",
                     "id": "85b2a79b-3d47-488d-90a7-7290d6df97df",
@@ -54,6 +45,33 @@
                     "name": "Cancle",
                     "type": "Button",
                     "id": "e1116d4f-7a57-431e-8976-4c60f20ab189",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "ChainArmThrow",
+                    "type": "Button",
+                    "id": "0c66ab25-6e53-46a2-89a0-362f36170144",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "ChainArmJump",
+                    "type": "Button",
+                    "id": "2781cc7b-9d9e-4ed0-98c2-b602a52d3df4",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "ChainArmPull",
+                    "type": "Button",
+                    "id": "7e92e63c-0085-4470-88b1-acafb2642119",
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "",
@@ -207,22 +225,11 @@
                 {
                     "name": "",
                     "id": "dce8b302-a5ad-4b48-97b8-535db06f61b0",
-                    "path": "<Keyboard>/z",
+                    "path": "<Keyboard>/space",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
                     "action": "Jump",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "1f8f8e42-a13d-44ba-bd3e-a7f752762bfc",
-                    "path": "<Keyboard>/c",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Dodge",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -245,6 +252,39 @@
                     "processors": "",
                     "groups": "",
                     "action": "Cancle",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "111c86d5-81f3-4ae2-a7e6-0df84b62586b",
+                    "path": "<Mouse>/leftButton",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "ChainArmThrow",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "cf2d495c-f0fb-463d-9a2f-81feb0a22e69",
+                    "path": "<Keyboard>/shift",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "ChainArmJump",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "bd46781d-0395-404d-b6c4-e580f9a10500",
+                    "path": "<Keyboard>/space",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "ChainArmPull",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
