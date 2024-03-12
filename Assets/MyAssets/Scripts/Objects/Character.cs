@@ -157,7 +157,7 @@ public class Character : Breakable
         {
             rigid.AddForce(moveDirection, ForceMode2D.Impulse);
             Vector2 speedLimitVelocity = rigid.velocity;
-            speedLimitVelocity.x = Mathf.Clamp(speedLimitVelocity.x, -moveSpeed, moveSpeed);
+            if(isGround || chainArm == null || !chainArm.GetComponent<ChainArm>().isChainArmGrab) speedLimitVelocity.x = Mathf.Clamp(speedLimitVelocity.x, -moveSpeed, moveSpeed);
             if(IsGrab && isGrabSide) speedLimitVelocity.y = Mathf.Clamp(speedLimitVelocity.y, -moveSpeed, moveSpeed);
             rigid.velocity = speedLimitVelocity;
             faceDirection = rigid.velocity * Vector2.right;
@@ -254,7 +254,18 @@ public class Character : Breakable
         Rigidbody2D instRigid = inst.GetComponent<Rigidbody2D>();
         instRigid.velocity = throwVector * chainArmSpeed;
         distanceJoint.connectedBody = instRigid;
-        //distanceJoint.enabled = true;
+    }
+
+    public void OnChainArmJump()
+    {
+        if(chainArm != null && chainArm.GetComponent<ChainArm>().isChainArmGrab) ChainArmJump();
+    }
+
+    public void ChainArmJump()
+    {
+        distanceJoint.enableCollision = false;
+        Destroy(chainArm);
+        rigid.AddForce(Vector2.up * jumpPower);
     }
 
     protected virtual void GenerateHitBox(string hitBoxName)
