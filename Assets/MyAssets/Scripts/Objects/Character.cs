@@ -96,7 +96,6 @@ public class Character : Breakable
 
         chainArmPrefab = Resources.Load<GameObject>($"Prefabs/Character/ChainHand");
 
-        Time.timeScale = 0.1f;
     }
 
     private void Update()
