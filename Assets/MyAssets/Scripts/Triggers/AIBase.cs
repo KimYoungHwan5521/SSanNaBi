@@ -36,6 +36,8 @@ public class AIBase : MonoBehaviour
             if(target != null) 
             {
                 Vector2 targetDirection = target.transform.position - controlledCharacter.transform.position;
+                controlledCharacter.faceDirection = targetDirection * Vector2.right;
+                controlledCharacter.faceDirection.Normalize();
                 if (CheckAttackable())
                 {
                     // 공격 범위 안에 있다면 공격
@@ -51,11 +53,13 @@ public class AIBase : MonoBehaviour
                 else
                 {
                     // 공격 범위 밖이라면 타겟에게 이동
+                    // 절벽이면 포물선캐스트를 통해서 점프를 할지 안할지 결정.
                     if(CheckCliff() && targetDirection.y > -1)
                     {
-                        RaycastHit2D hit = controlledCharacter.transform.position.Parabolacast2D(controlledCharacter.moveDirection * controlledCharacter.moveSpeed + controlledCharacter.jumpPower * Vector2.up * 0.03f, Physics2D.gravity, 3f, 10);
+                        Vector3 correctionVector = controlledCharacter.transform.position + capsule.bounds.extents.x * Vector3.up;
+                        RaycastHit2D hit = correctionVector.Parabolacast2D(controlledCharacter.faceDirection * controlledCharacter.moveSpeed + controlledCharacter.jumpPower * Vector2.up * 0.03f, Physics2D.gravity, 3f, 10);
                         // cast가 닿은 면이 지면이 아니라 천장일 수도 있으므로 hit.normal이 Vector.up 기준으로 45도 이내인지 체크
-                        Debug.Log(hit.collider);
+                        //Debug.Log(hit.collider);
                         if(hit.collider!= null && Vector2.Angle(Vector2.up, hit.normal) < 45)
                         {
                             controlledCharacter.Jump();
@@ -67,6 +71,7 @@ public class AIBase : MonoBehaviour
                     }
                     else
                     {
+                        // 타겟이 훨씬 아래쪽이면 절벽이어도 따라 내려간다.
                         controlledCharacter.preferDirection = target.transform.position - transform.position;
                         if(CheckObstacle())
                         {
@@ -86,7 +91,7 @@ public class AIBase : MonoBehaviour
 
     protected bool CheckCliff()
     {
-        Vector3 stepableHeight = capsule.bounds.center + Vector3.down * (capsule.bounds.extents.y - capsule.bounds.extents.x) + Vector3.right * controlledCharacter.moveDirection.x;
+        Vector3 stepableHeight = capsule.bounds.center + Vector3.down * (capsule.bounds.extents.y - capsule.bounds.extents.x) + Vector3.right * controlledCharacter.faceDirection.x;
         Ray cliffRay = new Ray(stepableHeight, Physics2D.gravity);
         Debug.DrawRay(cliffRay.origin, cliffRay.direction * cliffDetectRange);
 

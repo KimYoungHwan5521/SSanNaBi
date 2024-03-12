@@ -95,6 +95,8 @@ public class Character : Breakable
         distanceJoint = GetComponent<DistanceJoint2D>();
 
         chainArmPrefab = Resources.Load<GameObject>($"Prefabs/Character/ChainHand");
+
+        Time.timeScale = 0.1f;
     }
 
     private void Update()

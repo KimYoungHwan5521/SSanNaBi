@@ -28,8 +28,11 @@ public static class Extension
             ray.direction = direction;
             Debug.DrawRay(ray.origin, ray.direction * direction.magnitude);
             int hitAmount = Physics2D.Raycast(ray.origin, ray.direction, filter, hits, direction.magnitude);
-            if (hitAmount > 0) return hits[0];
-
+            if (hitAmount > 0)
+            {
+                Debug.Log(i);
+                return hits[0];
+            }
             formerPosition = predictPosition;
         }
         return default;
