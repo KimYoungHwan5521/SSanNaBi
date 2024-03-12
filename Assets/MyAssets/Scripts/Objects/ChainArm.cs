@@ -20,7 +20,11 @@ public class ChainArm : MonoBehaviour
 
     private void FixedUpdate()
     {
-        if(grabForce != Vector2.zero)
+        if(Vector2.Distance(transform.position, user.position) > user.GetComponent<Character>().chainArmMaxDistance)
+        {
+            user.GetComponent<Character>().DestroyChainArm();
+        }
+        if (grabForce != Vector2.zero)
         {
             isChainArmGrab= true;
             GetComponent<Rigidbody2D>().AddForce(grabForce * 1000);
@@ -59,6 +63,14 @@ public class ChainArm : MonoBehaviour
             // 잡은 콘택트 노말의 반대방향으로 잡아당기는 힘이 작용하게
             grabForce = -contacts[contactIndex].normal;
             user.GetComponent<DistanceJoint2D>().distance = Vector2.Distance(user.position, transform.position);
+        }
+        else if(collision.gameObject.CompareTag("Enemy"))
+        {
+            user.GetComponent<Character>().ChainAttack(collision.collider.GetComponent<Character>());
+        }
+        else
+        {
+            user.GetComponent<Character>().DestroyChainArm();
         }
     }
 

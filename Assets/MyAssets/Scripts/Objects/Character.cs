@@ -240,8 +240,7 @@ public class Character : Breakable
         }
         else
         {
-            distanceJoint.enabled = false;
-            Destroy(chainArm);
+            DestroyChainArm();
         }
     }
 
@@ -263,9 +262,21 @@ public class Character : Breakable
 
     public void ChainArmJump()
     {
-        distanceJoint.enableCollision = false;
-        Destroy(chainArm);
+        DestroyChainArm();
         rigid.AddForce(Vector2.up * jumpPower);
+    }
+
+    public void ChainAttack(Breakable target)
+    {
+        transform.position = chainArm.transform.position;
+        target.TakeDamage(this, attackDamage);
+        DestroyChainArm();
+    }
+
+    public void DestroyChainArm()
+    {
+        distanceJoint.enabled = false;
+        Destroy(chainArm);
     }
 
     protected virtual void GenerateHitBox(string hitBoxName)

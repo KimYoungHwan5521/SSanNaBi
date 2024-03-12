@@ -48,7 +48,7 @@ GameObject:
   - component: {fileID: 4270811196516753039}
   m_Layer: 9
   m_Name: WheelBot
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -222,7 +222,6 @@ MonoBehaviour:
   attackDamage: 10
   invincibleTime: 0
   curInvincibleTime: 0
-  rigid: {fileID: 0}
   anim: {fileID: 0}
   coyoteTime: 0.02
   status: 0
@@ -232,8 +231,11 @@ MonoBehaviour:
   moveSpeed: 5
   jumpPower: 300
   chainArmSpeed: 0
+  chainArmMaxDistance: 0
+  isGround: 0
   isHit: 0
   isAttack: 0
+  chainArm: {fileID: 0}
   beGrabed: {fileID: 0}
 --- !u!114 &4270811196516753039
 MonoBehaviour:
