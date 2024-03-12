@@ -70,12 +70,12 @@
                 },
                 {
                     "name": "ChainArmPull",
-                    "type": "Button",
+                    "type": "Value",
                     "id": "7e92e63c-0085-4470-88b1-acafb2642119",
-                    "expectedControlType": "Button",
+                    "expectedControlType": "Digital",
                     "processors": "",
                     "interactions": "",
-                    "initialStateCheck": false
+                    "initialStateCheck": true
                 }
             ],
             "bindings": [

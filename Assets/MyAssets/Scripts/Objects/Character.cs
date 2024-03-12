@@ -63,6 +63,8 @@ public class Character : Breakable
     public float jumpPower;
     public float chainArmSpeed;
 
+    public float chainArmMaxDistance;
+
     [SerializeField]bool isGround = false;
     public bool isHit = false;
     public bool isAttack = false;
@@ -79,8 +81,10 @@ public class Character : Breakable
             _isGrab = value;
         }
     }
-    bool isChainArmOuted = false;
+    float tryChainArmPull;
 
+    GameObject chainArmPrefab;
+    [SerializeField]GameObject chainArm;
     public GameObject beGrabed;
     protected List<ContactInfo> collisionList = new List<ContactInfo>();
 
@@ -89,20 +93,37 @@ public class Character : Breakable
         rigid = GetComponent<Rigidbody2D>();
         anim = GetComponent<Animator>();
         distanceJoint = GetComponent<DistanceJoint2D>();
+
+        chainArmPrefab = Resources.Load<GameObject>($"Prefabs/Character/ChainHand");
     }
 
     private void Update()
     {
         curInvincibleTime -= Time.deltaTime;
-        if(isChainArmOuted)
-        {
-            if(isGround) distanceJoint.enabled = false;
-            else distanceJoint.enabled = true;
-        }
     }
 
     private void FixedUpdate()
     {
+        if(chainArm != null)
+        {
+            if(chainArm.GetComponent<ChainArm>().isChainArmGrab)
+            {
+                if(isGround)
+                {
+                    distanceJoint.enabled = false;
+                }
+                else
+                {
+                    distanceJoint.enabled = true;
+                }
+                if(tryChainArmPull > 0)
+                {
+                    distanceJoint.enabled = true;
+                    distanceJoint.distance = Mathf.Clamp(distanceJoint.distance - 0.3f, 0.5f, chainArmMaxDistance);
+                }
+            }
+
+        }
         // 그랩 가능한 땅을 왼쪽 혹은 오른쪽에서 잡았을 때
         int beGrabedCollisionIndex = collisionList.FindIndex(target => target.other == beGrabed);
         // 노말의 x가 0이면 위나 아래에서 붙은것.
@@ -132,7 +153,7 @@ public class Character : Breakable
 
         moveDirection.Normalize();
         if (IsGrab && moveDirection.y > 0) moveDirection.y *= 1.1f;
-        if(moveDirection.magnitude > 0 || (isChainArmOuted && !isGround))
+        if(moveDirection.magnitude > 0 || (chainArm != null && !isGround))
         {
             rigid.AddForce(moveDirection, ForceMode2D.Impulse);
             Vector2 speedLimitVelocity = rigid.velocity;
@@ -170,22 +191,21 @@ public class Character : Breakable
         preferDirection= direction;
     }
 
-    protected void OnChainArmPull()
+    protected void OnChainArmPull(InputValue value)
     {
-        if(isChainArmOuted) ChainArmPull();
+        if(chainArm != null) ChainArmPull(value.Get<float>());
 
     }
 
-    public void ChainArmPull()
+    public void ChainArmPull(float value)
     {
-        distanceJoint.enabled = true;
-        distanceJoint.distance -= 1;
+        tryChainArmPull = value;
 
     }
 
     protected virtual void OnJump()
     {
-        if(!isChainArmOuted) Jump();
+        if(chainArm == null) Jump();
         
     }
 
@@ -214,28 +234,27 @@ public class Character : Breakable
 
     protected void OnChainArmThrow()
     {
-        if(!isChainArmOuted)
+        if(chainArm == null)
         {
             ChainArmThrow(Camera.main.ScreenToWorldPoint(Input.mousePosition) - transform.position);
-            isChainArmOuted = true;
         }
         else
         {
-
+            distanceJoint.enabled = false;
+            Destroy(chainArm);
         }
     }
 
     public void ChainArmThrow(Vector2 throwVector)
     {
-        GameObject prefab = Resources.Load<GameObject>($"Prefabs/Character/ChainHand");
-        GameObject inst = Instantiate(prefab, transform.position, transform.rotation);
+        GameObject inst = Instantiate(chainArmPrefab, transform.position, transform.rotation);
+        chainArm = inst;
         throwVector.Normalize();
         inst.GetComponent<ChainArm>().user = transform;
         Rigidbody2D instRigid = inst.GetComponent<Rigidbody2D>();
         instRigid.velocity = throwVector * chainArmSpeed;
         distanceJoint.connectedBody = instRigid;
-        distanceJoint.enabled = true;
-        isChainArmOuted = true;
+        //distanceJoint.enabled = true;
     }
 
     protected virtual void GenerateHitBox(string hitBoxName)

@@ -479,7 +479,7 @@ MonoBehaviour:
   m_Follow: {fileID: 399644419}
   m_Lens:
     FieldOfView: 40
-    OrthographicSize: 3
+    OrthographicSize: 10
     NearClipPlane: 0.1
     FarClipPlane: 5000
     Dutch: 0
@@ -606,9 +606,11 @@ MonoBehaviour:
   moveSpeed: 10
   jumpPower: 300
   chainArmSpeed: 30
+  chainArmMaxDistance: 30
   isGround: 0
   isHit: 0
   isAttack: 0
+  chainArm: {fileID: 0}
   beGrabed: {fileID: 0}
 --- !u!50 &399644416
 Rigidbody2D:
@@ -943,7 +945,7 @@ Camera:
   far clip plane: 5000
   field of view: 40
   orthographic: 1
-  orthographic size: 3
+  orthographic size: 10
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -1237,6 +1239,7 @@ GameObject:
   - component: {fileID: 1323153407}
   - component: {fileID: 1323153406}
   - component: {fileID: 1323153405}
+  - component: {fileID: 1323153408}
   m_Layer: 0
   m_Name: Square (7)
   m_TagString: Grabable
@@ -1356,6 +1359,33 @@ Transform:
   m_Children: []
   m_Father: {fileID: 457738284}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!50 &1323153408
+Rigidbody2D:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1323153404}
+  m_BodyType: 2
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDrag: 0
+  m_AngularDrag: 0.05
+  m_GravityScale: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 0
+  m_Constraints: 0
 --- !u!1 &1578226431
 GameObject:
   m_ObjectHideFlags: 0
