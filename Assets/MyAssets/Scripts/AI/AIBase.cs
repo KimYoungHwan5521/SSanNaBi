@@ -2,18 +2,24 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+public enum MoveType { Normal, Fixed, Patrol }
+
 [RequireComponent(typeof(Character))]
 public class AIBase : MonoBehaviour
 {
-    Character controlledCharacter;
-    Breakable target;
-    CapsuleCollider2D capsule;
-    Rigidbody2D rigid;
+    protected Character controlledCharacter;
+    protected Breakable target;
+    protected CapsuleCollider2D capsule;
+    protected Rigidbody2D rigid;
+
+    public MoveType moveType;
+
     public float targetDetectRange;
     public float attackRange;
 
     public float obstacleDetectRange = 1f;
     public float cliffDetectRange = 3f;
+
 
     // Start is called before the first frame update
     void Start()
@@ -27,7 +33,7 @@ public class AIBase : MonoBehaviour
         rigid= GetComponent<Rigidbody2D>();
     }
 
-    private void FixedUpdate()
+    protected virtual void FixedUpdate()
     {
         target = FindTarget();
         // AI는 공중에서 방향 못바꾸게
@@ -50,7 +56,7 @@ public class AIBase : MonoBehaviour
                     // 공격 중에는 움직이지 않게
                     controlledCharacter.preferDirection = Vector2.zero;
                 }
-                else
+                else if(moveType != MoveType.Fixed)
                 {
                     // 공격 범위 밖이라면 타겟에게 이동
                     // 절벽이면 포물선캐스트를 통해서 점프를 할지 안할지 결정.

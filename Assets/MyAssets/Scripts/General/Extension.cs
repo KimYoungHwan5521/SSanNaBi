@@ -30,7 +30,6 @@ public static class Extension
             int hitAmount = Physics2D.Raycast(ray.origin, ray.direction, filter, hits, direction.magnitude);
             if (hitAmount > 0)
             {
-                Debug.Log(i);
                 return hits[0];
             }
             formerPosition = predictPosition;
