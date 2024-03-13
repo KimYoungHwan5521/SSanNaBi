@@ -6,10 +6,12 @@ AnimatorOverrideController:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: New Animator Override Controller
+  m_Name: MrRayAnimation
   m_Controller: {fileID: 9100000, guid: 81217c7f2e2f8994bb8eb98d2a9f7608, type: 2}
   m_Clips:
   - m_OriginalClip: {fileID: 7400000, guid: 8c8eb756b55bd574ab427af0f206de3f, type: 2}
     m_OverrideClip: {fileID: 7400000, guid: 0f70c7f9069961b4895eeb3a0da1d6ea, type: 2}
   - m_OriginalClip: {fileID: 7400000, guid: 54c7f128e712c6c4fb40d333688cccf0, type: 2}
     m_OverrideClip: {fileID: 7400000, guid: 0f70c7f9069961b4895eeb3a0da1d6ea, type: 2}
+  - m_OriginalClip: {fileID: 7400000, guid: 17e274cefd38e4c4cad3615a2ea0700a, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: e14454d2e8ceca44dadd2d2c7d380e75, type: 2}
