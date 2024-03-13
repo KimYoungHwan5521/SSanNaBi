@@ -82,6 +82,7 @@ public class Character : Breakable
         }
     }
     float tryChainArmPull;
+    float chainArmJumpTime = 1f;
 
     GameObject chainArmPrefab;
     [SerializeField]GameObject chainArm;
@@ -141,6 +142,8 @@ public class Character : Breakable
             }
         }
         isGround = CheckGround();
+        if (isGround) chainArmJumpTime = 1f;
+        else if(chainArmJumpTime > 1) chainArmJumpTime -= Time.fixedDeltaTime;
         // ¿Ãµø
         if (status == Status.Death || isHit)
         {
@@ -158,7 +161,10 @@ public class Character : Breakable
         {
             rigid.AddForce(moveDirection, ForceMode2D.Impulse);
             Vector2 speedLimitVelocity = rigid.velocity;
-            if(isGround || chainArm == null || !chainArm.GetComponent<ChainArm>().isChainArmGrab) speedLimitVelocity.x = Mathf.Clamp(speedLimitVelocity.x, -moveSpeed, moveSpeed);
+            if((isGround || chainArm == null || !chainArm.GetComponent<ChainArm>().isChainArmGrab))
+            {
+                speedLimitVelocity.x = Mathf.Clamp(speedLimitVelocity.x, -moveSpeed * chainArmJumpTime, moveSpeed * chainArmJumpTime);
+            }
             if(IsGrab && isGrabSide) speedLimitVelocity.y = Mathf.Clamp(speedLimitVelocity.y, -moveSpeed, moveSpeed);
             rigid.velocity = speedLimitVelocity;
             faceDirection = rigid.velocity * Vector2.right;
@@ -265,8 +271,10 @@ public class Character : Breakable
     public void ChainArmJump()
     {
         DestroyChainArm();
-        rigid.AddForce(Vector2.up * jumpPower);
+        chainArmJumpTime = 3f;
+        rigid.AddForce(moveDirection * jumpPower);
     }
+
 
     public void ChainAttack(Breakable target)
     {
