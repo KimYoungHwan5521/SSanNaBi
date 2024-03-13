@@ -241,6 +241,7 @@ public class Character : Breakable
         }
         else
         {
+            tryChainArmPull = 0;
             DestroyChainArm();
         }
     }
