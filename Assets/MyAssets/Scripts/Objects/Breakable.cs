@@ -43,6 +43,11 @@ public abstract class Breakable : MonoBehaviour
     public float invincibleTime;
     public float curInvincibleTime;
 
+    private void Update()
+    {
+        curInvincibleTime -= Time.deltaTime;
+    }
+
     // 적이면(공격 가능하면) true
     public virtual bool CheckEnemy(Breakable target)
     {
@@ -59,7 +64,18 @@ public abstract class Breakable : MonoBehaviour
 
     public virtual int TakeDamage(Breakable from, int damage)
     {
+        if(CompareTag("Player"))
+        {
+            // 플레이어 히트 이펙트
+            Time.timeScale = 0.1f;
+            Invoke("TimeScaleNormalization", 0.15f);
+        }
         HPCurrent -= damage;
         return damage;
+    }
+
+    void TimeScaleNormalization()
+    {
+        Time.timeScale = 1f;
     }
 }

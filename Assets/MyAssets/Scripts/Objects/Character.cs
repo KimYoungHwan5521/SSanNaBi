@@ -99,11 +99,6 @@ public class Character : Breakable
 
     }
 
-    private void Update()
-    {
-        curInvincibleTime -= Time.deltaTime;
-    }
-
     private void FixedUpdate()
     {
         if(chainArm != null)
