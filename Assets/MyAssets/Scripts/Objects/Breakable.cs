@@ -64,18 +64,8 @@ public abstract class Breakable : MonoBehaviour
 
     public virtual int TakeDamage(Breakable from, int damage)
     {
-        if(CompareTag("Player"))
-        {
-            // 플레이어 히트 이펙트
-            Time.timeScale = 0.1f;
-            Invoke("TimeScaleNormalization", 0.15f);
-        }
         HPCurrent -= damage;
         return damage;
     }
 
-    void TimeScaleNormalization()
-    {
-        Time.timeScale = 1f;
-    }
 }

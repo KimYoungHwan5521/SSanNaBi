@@ -29,6 +29,7 @@ public struct ContactInfo
 public class Character : Breakable
 {
     public Animator anim;
+    Animator hitAnim;
     Rigidbody2D rigid;
     DistanceJoint2D distanceJoint;
 
@@ -39,6 +40,7 @@ public class Character : Breakable
     public Vector2 preferDirection;
     public Vector2 moveDirection;
     public Vector2 faceDirection;
+    Vector2 preferReversableDashDirection;
 
     public override bool IsBreak 
     { 
@@ -81,6 +83,7 @@ public class Character : Breakable
             _isGrab = value;
         }
     }
+    bool isReversalDashable;
     float tryChainArmPull;
     float chainArmJumpTime = 1f;
 
@@ -92,7 +95,8 @@ public class Character : Breakable
     private void Start()
     {
         rigid = GetComponent<Rigidbody2D>();
-        anim = GetComponent<Animator>();
+        anim = GetComponentsInChildren<Animator>()[0];
+        if(CompareTag("Player")) hitAnim = GetComponentsInChildren<Animator>()[1];
         distanceJoint = GetComponent<DistanceJoint2D>();
 
         chainArmPrefab = Resources.Load<GameObject>($"Prefabs/Character/ChainHand");
@@ -140,27 +144,32 @@ public class Character : Breakable
         if (isGround) chainArmJumpTime = 1f;
         else if(chainArmJumpTime > 1) chainArmJumpTime -= Time.fixedDeltaTime;
         // 이동
-        if (status == Status.Death || isHit)
+        if (status == Status.Death)
         {
             moveDirection = Vector2.zero;
         }
         else
         {
-            if(IsGrab && isGrabSide) { moveDirection = preferDirection * Vector2.up; }
+            if(preferReversableDashDirection != Vector2.zero) { moveDirection = preferReversableDashDirection; }
+            else if(IsGrab && isGrabSide) { moveDirection = preferDirection * Vector2.up; }
             else moveDirection = preferDirection * Vector2.right;
         }
 
         moveDirection.Normalize();
+        // 벽을 오를때 중력때문에 너무 느려서 보정치를 줌
         if (IsGrab && moveDirection.y > 0) moveDirection.y *= 1.1f;
         if(moveDirection.magnitude > 0 || (chainArm != null && !isGround))
         {
-            rigid.AddForce(moveDirection, ForceMode2D.Impulse);
+            float correctionValue = 1f;
+            if (preferReversableDashDirection != Vector2.zero) correctionValue = 3f;
+            rigid.AddForce(moveDirection * correctionValue, ForceMode2D.Impulse);
             Vector2 speedLimitVelocity = rigid.velocity;
-            if((isGround || chainArm == null || !chainArm.GetComponent<ChainArm>().isChainArmGrab))
+            if(((isGround || chainArm == null || !chainArm.GetComponent<ChainArm>().isChainArmGrab)) && preferReversableDashDirection == Vector2.zero)
             {
                 speedLimitVelocity.x = Mathf.Clamp(speedLimitVelocity.x, -moveSpeed * chainArmJumpTime, moveSpeed * chainArmJumpTime);
             }
             if(IsGrab && isGrabSide) speedLimitVelocity.y = Mathf.Clamp(speedLimitVelocity.y, -moveSpeed, moveSpeed);
+            else if (chainArmJumpTime < 1.1f) speedLimitVelocity.y = Mathf.Clamp(speedLimitVelocity.y, -moveSpeed * 10, moveSpeed);
             rigid.velocity = speedLimitVelocity;
             faceDirection = rigid.velocity * Vector2.right;
             faceDirection.Normalize();
@@ -179,6 +188,17 @@ public class Character : Breakable
             anim.SetBool("isGround", isGround);
             anim.SetBool("isFall", rigid.velocity.y < 0);
         }
+    }
+
+    protected void OnReversalDash(InputValue value)
+    {
+        if(isReversalDashable) ReversalDash(value.Get<Vector2>());
+    }
+
+    public void ReversalDash(Vector2 value)
+    {
+        preferReversableDashDirection= value;
+        isReversalDashable= false;
     }
 
 
@@ -341,5 +361,33 @@ public class Character : Breakable
             collisionList[collisionIndex] = new ContactInfo(collision.gameObject, myContact, Time.time);
         }
         
+    }
+
+    public override int TakeDamage(Breakable from, int damage)
+    {
+        if (CompareTag("Player"))
+        {
+            // 플레이어 히트 이펙트
+            hitAnim.SetTrigger("doHit");
+            if(chainArm != null) DestroyChainArm();
+            IsGrab = false;
+            Time.timeScale = 0.1f;
+            isReversalDashable= true;
+            Invoke("TimeScaleNormalization", 0.15f);
+            Invoke("ResetPreferReversalDashDirection", 0.3f);
+        }
+        return base.TakeDamage(from, damage);
+    }
+
+    void TimeScaleNormalization()
+    {
+        Time.timeScale = 1f;
+        isReversalDashable= false;
+    }
+
+    void ResetPreferReversalDashDirection()
+    {
+        preferReversableDashDirection = Vector2.zero;
+
     }
 }

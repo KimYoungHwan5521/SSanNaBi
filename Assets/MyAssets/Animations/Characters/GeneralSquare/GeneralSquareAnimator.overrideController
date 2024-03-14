@@ -7,5 +7,23 @@ AnimatorOverrideController:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: GeneralSquareAnimator
-  m_Controller: {fileID: 0}
-  m_Clips: []
+  m_Controller: {fileID: 9100000, guid: 81217c7f2e2f8994bb8eb98d2a9f7608, type: 2}
+  m_Clips:
+  - m_OriginalClip: {fileID: 7400000, guid: 8b76ef11e5592434ca6e0b0839d8314c, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: 42cb1de3355c0934c83ffaeee96bd51d, type: 2}
+  - m_OriginalClip: {fileID: 7400000, guid: 9bebd1193ebdb92429635f1d598aaf00, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: 42cb1de3355c0934c83ffaeee96bd51d, type: 2}
+  - m_OriginalClip: {fileID: 7400000, guid: 8c8eb756b55bd574ab427af0f206de3f, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: 42cb1de3355c0934c83ffaeee96bd51d, type: 2}
+  - m_OriginalClip: {fileID: 7400000, guid: 54c7f128e712c6c4fb40d333688cccf0, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: 42cb1de3355c0934c83ffaeee96bd51d, type: 2}
+  - m_OriginalClip: {fileID: 7400000, guid: 17e274cefd38e4c4cad3615a2ea0700a, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: 42cb1de3355c0934c83ffaeee96bd51d, type: 2}
+  - m_OriginalClip: {fileID: 7400000, guid: fb7b1df8d78543f468fc9e522b71d4f4, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: 42cb1de3355c0934c83ffaeee96bd51d, type: 2}
+  - m_OriginalClip: {fileID: 7400000, guid: 36c711e0e57ec9748b5a3aec78be73cb, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: 42cb1de3355c0934c83ffaeee96bd51d, type: 2}
+  - m_OriginalClip: {fileID: 7400000, guid: 913d943e12a32e643a995231f6a07b90, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: 42cb1de3355c0934c83ffaeee96bd51d, type: 2}
+  - m_OriginalClip: {fileID: 7400000, guid: b03b6a34cb7692f469454a1a345a2788, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: 42cb1de3355c0934c83ffaeee96bd51d, type: 2}
