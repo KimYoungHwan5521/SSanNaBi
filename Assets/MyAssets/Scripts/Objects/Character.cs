@@ -73,6 +73,7 @@ public class Character : Breakable
 
     public float chainArmMaxDistance;
 
+    public bool flyable;
     [SerializeField]bool isGround = false;
     public bool isHit = false;
     public bool isAttack = false;
@@ -104,7 +105,7 @@ public class Character : Breakable
     {
         rigid = GetComponent<Rigidbody2D>();
         bodyCollider = GetComponent<Collider2D>();
-        anim = GetComponentsInChildren<Animator>()[0];
+        anim = GetComponentInChildren<Animator>();
         if(CompareTag("Player")) hitAnim = GetComponentsInChildren<Animator>()[1];
         distanceJoint = GetComponent<DistanceJoint2D>();
 
@@ -186,10 +187,21 @@ public class Character : Breakable
         else
         {
             if(preferReversableDashDirection != Vector2.zero) moveDirection = preferReversableDashDirection;
-            if(chainAttackDashDirection != Vector2.zero) moveDirection = chainAttackDashDirection;
-            if(chainAttackDashDirection != Vector2.zero) moveDirection = chainAttackDashDirection;
-            else if(IsGrab && isGrabSide) moveDirection = preferDirection * Vector2.up;
-            else moveDirection = preferDirection * Vector2.right;
+            else if(chainAttackDashDirection != Vector2.zero) moveDirection = chainAttackDashDirection;
+            else
+            {
+                if (flyable)
+                {
+                    moveDirection = preferDirection;
+                }
+                else
+                {
+                    if (IsGrab && isGrabSide) moveDirection = preferDirection * Vector2.up;
+                    else moveDirection = preferDirection * Vector2.right;
+
+                }
+
+            }
         }
 
         moveDirection.Normalize();
