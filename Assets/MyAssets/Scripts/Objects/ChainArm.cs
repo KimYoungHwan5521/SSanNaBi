@@ -9,18 +9,18 @@ public class ChainArm : MonoBehaviour
     public Transform user;
     public bool isChainArmGrab = false;
 
-    List<GameObject> chainsList = new List<GameObject>();
-    GameObject chain;
+    //List<GameObject> chainsList = new List<GameObject>();
+    //GameObject chain;
 
     private void Start()
     {
         lineRenderer = GetComponent<LineRenderer>();
-        chain = Resources.Load<GameObject>("Prefabs/Character/Chain");
+        //chain = Resources.Load<GameObject>("Prefabs/Character/Chain");
     }
 
     private void FixedUpdate()
     {
-        if(Vector2.Distance(transform.position, user.position) > user.GetComponent<Character>().chainArmMaxDistance)
+        if (Vector2.Distance(transform.position, user.position) > user.GetComponent<Character>().chainArmMaxDistance)
         {
             user.GetComponent<Character>().DestroyChainArm();
         }
@@ -62,6 +62,7 @@ public class ChainArm : MonoBehaviour
             int contactIndex = System.Array.FindIndex(contacts, target => target.otherCollider.gameObject == gameObject);
             // 잡은 콘택트 노말의 반대방향으로 잡아당기는 힘이 작용하게
             grabForce = -contacts[contactIndex].normal;
+
             user.GetComponent<DistanceJoint2D>().distance = Vector2.Distance(user.position, transform.position);
         }
         else if(collision.gameObject.CompareTag("Enemy"))
@@ -73,5 +74,6 @@ public class ChainArm : MonoBehaviour
             user.GetComponent<Character>().DestroyChainArm();
         }
     }
+
 
 }

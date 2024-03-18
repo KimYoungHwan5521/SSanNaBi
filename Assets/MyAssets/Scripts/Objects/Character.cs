@@ -112,7 +112,7 @@ public class Character : Breakable
         {
             if(chainArm.GetComponent<ChainArm>().isChainArmGrab)
             {
-                if(isGround)
+                if(isGround || IsGrab)
                 {
                     distanceJoint.enabled = false;
                 }
@@ -146,7 +146,6 @@ public class Character : Breakable
         isGround = CheckGround();
         if (isGround) chainArmJumpTime = 1f;
         else if(chainArmJumpTime > 1) chainArmJumpTime -= Time.fixedDeltaTime;
-        Debug.Log(preferReversableDashDirection);
         // ¿Ãµø
         if (status == Status.Death)
         {
