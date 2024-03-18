@@ -1,18 +1,34 @@
-1. 사슬팔 구현
-Distance Joint 2D사용.
+1. 사슬팔 구현 (Distance Joint 2D사용.)
 
 발생한 문제점1 : 어째서인지 진자운동이 제대로 동작되지 않았다
+
 해결 방법 : FixedUpdate에서 움직임을 제어하기 위해 RigidBody의 velocity를 건드리고 있었어서 boolean과 조건문을 추가 해주었다.
 
+
 발생한 문제점2 : 팔이 길때 Distance Joint가 플레이어의 움직임을 방해했다.
+
 해결 방법 : 땅에 있을때는 Distance Joint의 enable을 false로 해주었다.
 
+
+
 2. 2D에서 target을 바라보는 오브젝트 구현
+
 발생한 문제점1 : transform.rotation.z(또는 x, y)가 가리키는 값은 Quaternion값으로 인스펙터의 Transform의 Rotation이 가리키는 값이 아니다.
+
 해결 방법 : transform.rotation.eulerAngles.z에 접근하면 된다.
 
+
 발생한 문제점2 : 기본적으로 현재 rotation.eulerAngle.z가 preferRotation 보다 크면 반시계로 움직여야 하지만 한바퀴 돌아버렸을때(head 기준으로 Vector2.up방향을 지날 때) preferRotation 값이 1->360 혹은 그 반대로 값이 급변한다. 이 때 head가 가까운방향으로 도는게 아니라 먼방향으로 한바퀴를 길게 도는 문제가 생겼다.
+
 해결 방법 : rotation.eulerAngle.z과 preferRotation의 차이가 180보다 크면 회전을 반대로 하게 조건문을 추가 해주었다.
+
+
+
+3. Reversal Dash 대각선 방향 인풋 받기
+
+발생한 문제점 : 리버설 대쉬를 구현할 때 인풋 밸류를 위/아래 키와 오른쪽/왼쪽 키를 같이 입력받아서 대각선 이동을 구현 하려 할 때에 플레이어가 버튼을 동시에 눌러도 먼저 눌린키 하나만 입력되는 문제가 있었다.
+
+해결 방법 : 불리언과 벡터변수를 두개로 분리해서 좌우 입력과 위아래 입력을 따로받고 받을 수 있는 시간을 주었다. (격투게임처럼)
 
 
 

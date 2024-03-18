@@ -41,6 +41,8 @@ public class Character : Breakable
     public Vector2 moveDirection;
     public Vector2 faceDirection;
     Vector2 preferReversableDashDirection;
+    Vector2 preferReversableDashDirectionX;
+    Vector2 preferReversableDashDirectionY;
 
     public override bool IsBreak 
     { 
@@ -83,7 +85,8 @@ public class Character : Breakable
             _isGrab = value;
         }
     }
-    bool isReversalDashable;
+    bool isReversalDashableX;
+    bool isReversalDashableY;
     float tryChainArmPull;
     float chainArmJumpTime = 1f;
 
@@ -143,6 +146,7 @@ public class Character : Breakable
         isGround = CheckGround();
         if (isGround) chainArmJumpTime = 1f;
         else if(chainArmJumpTime > 1) chainArmJumpTime -= Time.fixedDeltaTime;
+        Debug.Log(preferReversableDashDirection);
         // 이동
         if (status == Status.Death)
         {
@@ -160,9 +164,7 @@ public class Character : Breakable
         if (IsGrab && moveDirection.y > 0) moveDirection.y *= 1.1f;
         if(moveDirection.magnitude > 0 || (chainArm != null && !isGround))
         {
-            float correctionValue = 1f;
-            if (preferReversableDashDirection != Vector2.zero) correctionValue = 3f;
-            rigid.AddForce(moveDirection * correctionValue, ForceMode2D.Impulse);
+            rigid.AddForce(moveDirection, ForceMode2D.Impulse);
             Vector2 speedLimitVelocity = rigid.velocity;
             if(((isGround || chainArm == null || !chainArm.GetComponent<ChainArm>().isChainArmGrab)) && preferReversableDashDirection == Vector2.zero)
             {
@@ -192,13 +194,20 @@ public class Character : Breakable
 
     protected void OnReversalDash(InputValue value)
     {
-        if(isReversalDashable) ReversalDash(value.Get<Vector2>());
+        if(isReversalDashableX || isReversalDashableY) ReversalDash(value.Get<Vector2>());
     }
 
     public void ReversalDash(Vector2 value)
     {
-        preferReversableDashDirection= value;
-        isReversalDashable= false;
+        if(value == Vector2.left || value == Vector2.right)
+        {
+            preferReversableDashDirectionX = value;
+            isReversalDashableX = false;
+        }else if(value == Vector2.up || value == Vector2.down)
+        {
+            preferReversableDashDirectionY = value;
+            isReversalDashableY = false;
+        }
     }
 
 
@@ -368,26 +377,30 @@ public class Character : Breakable
         if (CompareTag("Player"))
         {
             // 플레이어 히트 이펙트
+            isReversalDashableX= true;
+            isReversalDashableY= true;
             hitAnim.SetTrigger("doHit");
             if(chainArm != null) DestroyChainArm();
             IsGrab = false;
             Time.timeScale = 0.1f;
-            isReversalDashable= true;
-            Invoke("TimeScaleNormalization", 0.15f);
-            Invoke("ResetPreferReversalDashDirection", 0.3f);
+            Invoke("ReversalDash", 0.15f);
+            Invoke("ReversalDashEnd", 1f);
         }
         return base.TakeDamage(from, damage);
     }
 
-    void TimeScaleNormalization()
+    void ReversalDash()
     {
         Time.timeScale = 1f;
-        isReversalDashable= false;
+        preferReversableDashDirection += preferReversableDashDirectionX + preferReversableDashDirectionY;
+        isReversalDashableX= false;
+        isReversalDashableY= false;
     }
 
-    void ResetPreferReversalDashDirection()
+    void ReversalDashEnd()
     {
         preferReversableDashDirection = Vector2.zero;
 
     }
+
 }
