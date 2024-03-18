@@ -35,6 +35,7 @@ public class AIBase : MonoBehaviour
 
     protected virtual void FixedUpdate()
     {
+        if (controlledCharacter.status == Status.Grabed) return;
         target = FindTarget();
         // AI는 공중에서 방향 못바꾸게
         if(controlledCharacter.CheckGround())

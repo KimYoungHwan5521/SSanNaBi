@@ -75,5 +75,13 @@ public class ChainArm : MonoBehaviour
         }
     }
 
+    private void OnCollisionStay2D(Collision2D collision)
+    {
+        if (collision.gameObject.CompareTag("Enemy"))
+        {
+            user.GetComponent<Character>().ChainAttack(collision.collider.GetComponent<Character>());
+        }
+    }
+
 
 }

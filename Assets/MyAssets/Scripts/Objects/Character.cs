@@ -5,7 +5,7 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 
 
-public enum Status { Normal, Death }
+public enum Status { Normal, Death, Grabed }
 
 public struct ContactInfo
 {
@@ -31,7 +31,10 @@ public class Character : Breakable
     public Animator anim;
     Animator hitAnim;
     Rigidbody2D rigid;
+    Collider2D bodyCollider;
     DistanceJoint2D distanceJoint;
+
+    Character grabedTarget;
 
     public float coyoteTime = 0.02f;
 
@@ -43,6 +46,7 @@ public class Character : Breakable
     Vector2 preferReversableDashDirection;
     Vector2 preferReversableDashDirectionX;
     Vector2 preferReversableDashDirectionY;
+    Vector2 chainAttackDashDirection;
 
     public override bool IsBreak 
     { 
@@ -87,6 +91,7 @@ public class Character : Breakable
     }
     bool isReversalDashableX;
     bool isReversalDashableY;
+    bool isChainAttack = false;
     float tryChainArmPull;
     float chainArmJumpTime = 1f;
 
@@ -98,6 +103,7 @@ public class Character : Breakable
     private void Start()
     {
         rigid = GetComponent<Rigidbody2D>();
+        bodyCollider = GetComponent<Collider2D>();
         anim = GetComponentsInChildren<Animator>()[0];
         if(CompareTag("Player")) hitAnim = GetComponentsInChildren<Animator>()[1];
         distanceJoint = GetComponent<DistanceJoint2D>();
@@ -105,9 +111,35 @@ public class Character : Breakable
         chainArmPrefab = Resources.Load<GameObject>($"Prefabs/Character/ChainHand");
 
     }
+    private void Update()
+    {
+        if(isChainAttack)
+        {
+            if(Input.GetMouseButtonUp(0))
+            {
+                ChainAttackEnd();
+            }
+        }
+    }
 
     private void FixedUpdate()
     {
+        if(grabedTarget != null)
+        {
+            transform.position = grabedTarget.GetComponent<Collider2D>().bounds.center;
+
+        }
+        if(isChainAttack)
+        {
+            rigid.bodyType = RigidbodyType2D.Kinematic;
+            bodyCollider.isTrigger = true;
+        }
+        else
+        {
+            rigid.bodyType = RigidbodyType2D.Dynamic;
+            bodyCollider.isTrigger = false;
+
+        }
         if(chainArm != null)
         {
             if(chainArm.GetComponent<ChainArm>().isChainArmGrab)
@@ -153,8 +185,10 @@ public class Character : Breakable
         }
         else
         {
-            if(preferReversableDashDirection != Vector2.zero) { moveDirection = preferReversableDashDirection; }
-            else if(IsGrab && isGrabSide) { moveDirection = preferDirection * Vector2.up; }
+            if(preferReversableDashDirection != Vector2.zero) moveDirection = preferReversableDashDirection;
+            if(chainAttackDashDirection != Vector2.zero) moveDirection = chainAttackDashDirection;
+            if(chainAttackDashDirection != Vector2.zero) moveDirection = chainAttackDashDirection;
+            else if(IsGrab && isGrabSide) moveDirection = preferDirection * Vector2.up;
             else moveDirection = preferDirection * Vector2.right;
         }
 
@@ -165,7 +199,7 @@ public class Character : Breakable
         {
             rigid.AddForce(moveDirection, ForceMode2D.Impulse);
             Vector2 speedLimitVelocity = rigid.velocity;
-            if(((isGround || chainArm == null || !chainArm.GetComponent<ChainArm>().isChainArmGrab)) && preferReversableDashDirection == Vector2.zero)
+            if(((isGround || chainArm == null || !chainArm.GetComponent<ChainArm>().isChainArmGrab)) && preferReversableDashDirection == Vector2.zero && chainAttackDashDirection == Vector2.zero)
             {
                 speedLimitVelocity.x = Mathf.Clamp(speedLimitVelocity.x, -moveSpeed * chainArmJumpTime, moveSpeed * chainArmJumpTime);
             }
@@ -185,9 +219,16 @@ public class Character : Breakable
         }
         if(anim != null)
         {
-            anim.SetFloat("speed", rigid.velocity.magnitude);
-            anim.SetBool("isGround", isGround);
-            anim.SetBool("isFall", rigid.velocity.y < 0);
+            if(status == Status.Grabed) 
+            {
+                anim.SetTrigger("doHit");
+            }
+            else
+            {
+                anim.SetFloat("speed", rigid.velocity.magnitude);
+                anim.SetBool("isGround", isGround);
+                anim.SetBool("isFall", rigid.velocity.y < 0);
+            }
         }
     }
 
@@ -210,8 +251,9 @@ public class Character : Breakable
     }
 
 
-    protected virtual void OnMove(InputValue value) 
+    protected virtual void OnMove(InputValue value)
     {
+        if (isChainAttack) grabedTarget.Move(value.Get<Vector2>());
         Move(value.Get<Vector2>());
     }
 
@@ -299,11 +341,38 @@ public class Character : Breakable
     }
 
 
-    public void ChainAttack(Breakable target)
+    public void ChainAttack(Character target)
     {
-        transform.position = chainArm.transform.position;
-        target.TakeDamage(this, attackDamage);
         DestroyChainArm();
+        grabedTarget = target;
+        if(Input.GetMouseButton(0)) 
+        { 
+            isChainAttack= true;
+            grabedTarget.status = Status.Grabed;
+            Invoke("ChainAttackEnd", 3f);
+        }
+        else
+        {
+            Invoke("ChainAttackEnd", 0.1f);
+        }
+        //transform.position = chainArm.transform.position;
+    }
+    void ChainAttackEnd()
+    {
+        if (grabedTarget != null)
+        {
+            grabedTarget.TakeDamage(this, attackDamage);
+            grabedTarget= null;
+            isChainAttack= false;
+            chainAttackDashDirection = Camera.main.ScreenToWorldPoint(Input.mousePosition) - transform.position;
+            Invoke("ChainAttackDashEnd", 0.5f);
+        }
+
+    }
+
+    void ChainAttackDashEnd()
+    {
+        chainAttackDashDirection = Vector2.zero;
     }
 
     public void DestroyChainArm()

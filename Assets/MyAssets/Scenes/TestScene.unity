@@ -135,6 +135,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: MeleeEnemy01
       objectReference: {fileID: 0}
+    - target: {fileID: 1806470843902182620, guid: 23a1a8212739af84e8ca8ff98d0be614, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 2322707041099971779, guid: 23a1a8212739af84e8ca8ff98d0be614, type: 3}
       propertyPath: m_LocalPosition.x
       value: -67.99
@@ -638,7 +642,7 @@ Rigidbody2D:
     m_Bits: 0
   m_Interpolate: 0
   m_SleepingMode: 1
-  m_CollisionDetection: 0
+  m_CollisionDetection: 1
   m_Constraints: 4
 --- !u!114 &399644417
 MonoBehaviour:
