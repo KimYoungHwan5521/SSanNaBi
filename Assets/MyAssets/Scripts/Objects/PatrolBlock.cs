@@ -55,7 +55,7 @@ public class PatrolBlock : MonoBehaviour
         {
             if(upperCollisionList[i].other != null && upperCollisionList[i].other.TryGetComponent(out Character character))
             {
-                character.velocityCorrection = rigid.velocity;
+                character.velocityCorrection = rigid.velocity * Vector2.right;
             }
 
         }
