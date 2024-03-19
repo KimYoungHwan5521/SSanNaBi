@@ -25,7 +25,7 @@ public class DamageComponent : MonoBehaviour
             {
                 if (!victim.CompareTag("Player") || victim.curInvincibleTime < 0)
                 {
-                    victim.TakeDamage(attacker, damage);
+                    victim.TakeDamage(attacker, damage, collision.ClosestPoint(transform.position));
                     if (victim.TryGetComponent(out Character victimChar))
                     {
                         if (victimChar.anim != null)

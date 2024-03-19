@@ -43,7 +43,7 @@ public abstract class Breakable : MonoBehaviour
     public float invincibleTime;
     public float curInvincibleTime;
 
-    private void Update()
+    protected virtual void Update()
     {
         curInvincibleTime -= Time.deltaTime;
     }
@@ -62,7 +62,7 @@ public abstract class Breakable : MonoBehaviour
         return false;
     }
 
-    public virtual int TakeDamage(Breakable from, int damage)
+    public virtual int TakeDamage(Breakable from, int damage, Vector3 hitPoint)
     {
         HPCurrent -= damage;
         return damage;

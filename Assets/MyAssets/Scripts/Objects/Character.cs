@@ -93,13 +93,26 @@ public class Character : Breakable
     bool isReversalDashableX;
     bool isReversalDashableY;
     bool isChainAttack = false;
+    bool _isKnockBack = false;
+    bool IsKnockBack
+    {
+        get => _isKnockBack;
+        set
+        {
+            _isKnockBack= value;
+            if(value == true)
+            {
+                Invoke("KnockBackEnd", 0.5f);
+            }
+        }
+    }
     float tryChainArmPull;
     float chainArmJumpTime = 1f;
 
     GameObject chainArmPrefab;
     [SerializeField]GameObject chainArm;
     public GameObject beGrabed;
-    protected List<ContactInfo> collisionList = new List<ContactInfo>();
+    [SerializeField]protected List<ContactInfo> collisionList = new List<ContactInfo>();
 
     private void Start()
     {
@@ -112,7 +125,7 @@ public class Character : Breakable
         chainArmPrefab = Resources.Load<GameObject>($"Prefabs/Character/ChainHand");
 
     }
-    private void Update()
+    protected override void Update()
     {
         if(isChainAttack)
         {
@@ -121,6 +134,7 @@ public class Character : Breakable
                 ChainAttackEnd();
             }
         }
+        base.Update();
     }
 
     private void FixedUpdate()
@@ -215,7 +229,7 @@ public class Character : Breakable
             {
                 speedLimitVelocity.x = Mathf.Clamp(speedLimitVelocity.x, -moveSpeed * chainArmJumpTime, moveSpeed * chainArmJumpTime);
             }
-            if(IsGrab && isGrabSide) speedLimitVelocity.y = Mathf.Clamp(speedLimitVelocity.y, -moveSpeed, moveSpeed);
+            if((IsGrab && isGrabSide) || flyable) speedLimitVelocity.y = Mathf.Clamp(speedLimitVelocity.y, -moveSpeed, moveSpeed);
             else if (chainArmJumpTime < 1.1f) speedLimitVelocity.y = Mathf.Clamp(speedLimitVelocity.y, -moveSpeed * 10, moveSpeed);
             rigid.velocity = speedLimitVelocity;
             faceDirection = rigid.velocity * Vector2.right;
@@ -223,7 +237,7 @@ public class Character : Breakable
         }
         else
         {
-            rigid.velocity *= Vector2.up;
+            if(!IsKnockBack)rigid.velocity *= Vector2.up;
         }
         if(transform.localScale.x * faceDirection.x < 0)
         {
@@ -373,7 +387,7 @@ public class Character : Breakable
     {
         if (grabedTarget != null)
         {
-            grabedTarget.TakeDamage(this, attackDamage);
+            grabedTarget.TakeDamage(this, attackDamage, transform.position);
             grabedTarget= null;
             isChainAttack= false;
             chainAttackDashDirection = Camera.main.ScreenToWorldPoint(Input.mousePosition) - transform.position;
@@ -452,10 +466,19 @@ public class Character : Breakable
         
     }
 
-    public override int TakeDamage(Breakable from, int damage)
+    public override int TakeDamage(Breakable from, int damage, Vector3 hitPoint)
     {
         if (CompareTag("Player"))
         {
+            // 넉백
+            if(hitPoint != null)
+            {
+                Vector2 knockBackDirection = bodyCollider.bounds.center - hitPoint;
+                knockBackDirection.Normalize();
+                IsKnockBack= true;
+                rigid.AddForce(knockBackDirection * 10, ForceMode2D.Impulse);
+            }
+            
             // 플레이어 히트 이펙트
             isReversalDashableX= true;
             isReversalDashableY= true;
@@ -465,8 +488,9 @@ public class Character : Breakable
             Time.timeScale = 0.1f;
             Invoke("ReversalDash", 0.15f);
             Invoke("ReversalDashEnd", 1f);
+            
         }
-        return base.TakeDamage(from, damage);
+        return base.TakeDamage(from, damage, hitPoint);
     }
 
     void ReversalDash()
@@ -481,6 +505,11 @@ public class Character : Breakable
     {
         preferReversableDashDirection = Vector2.zero;
 
+    }
+
+    void KnockBackEnd()
+    {
+        IsKnockBack = false;
     }
 
 }
