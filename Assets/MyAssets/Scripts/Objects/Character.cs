@@ -36,7 +36,7 @@ public class Character : Breakable
 
     Character grabedTarget;
 
-    public float coyoteTime = 0.02f;
+    public static float coyoteTime = 0.08f;
 
     public Status status = Status.Normal;
 
@@ -47,6 +47,7 @@ public class Character : Breakable
     Vector2 preferReversableDashDirectionX;
     Vector2 preferReversableDashDirectionY;
     Vector2 chainAttackDashDirection;
+    public Vector2 velocityCorrection;
 
     public override bool IsBreak 
     { 
@@ -238,11 +239,14 @@ public class Character : Breakable
         else
         {
             if(!IsKnockBack)rigid.velocity *= Vector2.up;
+            rigid.velocity += velocityCorrection;
         }
         if(transform.localScale.x * faceDirection.x < 0)
         {
             transform.localScale *= new Vector2(-1, 1);
         }
+
+
         if(anim != null)
         {
             if(status == Status.Grabed) 
