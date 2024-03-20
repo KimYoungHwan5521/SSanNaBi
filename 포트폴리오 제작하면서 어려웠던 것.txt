@@ -55,6 +55,19 @@
 
 해결 방법 : velocityCorrection *= Vector2.right를 해주었다.
 
+
+
+6. chain arm predict line renderer 구현
+
+발생한 문제점 1 : Layer를 비교 할 때 gameobject.layer는 layer number를 반환하고 LayerMask.GetMask()는 2^(layer number)를 반환했다.
+
+해결 방법 : left shift(1 << layer number)를 쓰면 2^(layer number)가 된다. 그러면 비교 할 수 있다.
+
+
+발생한 문제점 2 : LineRenderer의 color를 바꾸고 싶었는데 lineRenderer.colorGradient를 직접 건드렸을 때 제대로 동작하지 않았다.
+
+해결 방법 : colorGradient를 직접 건드리는게 아니라 LineRenderer.startColor와 LineRenderer.endColor를 설정 해주면 되었다.
+
 ------------------이전 기획 단계------------------
 0. 공격으로 총알을 제거 하는데 히트박스가 먼저 생성되고 투사체가 들어 오는 경우는 막아졌지만
 이미 투사체가 들어온 후 그 위에 히트박스가 그려질경우에는 콜리젼 체크가 되지 않았었다.

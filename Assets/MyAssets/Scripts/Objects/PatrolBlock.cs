@@ -9,6 +9,7 @@ public class PatrolBlock : MonoBehaviour
     public Transform endPoint;
 
     Rigidbody2D rigid;
+    LineRenderer lineRenderer;
 
     public float moveSpeed;
 
@@ -23,6 +24,9 @@ public class PatrolBlock : MonoBehaviour
         rigid = GetComponent<Rigidbody2D>();
         body.transform.position = startPoint.transform.position;
         destination = endPoint.position;
+        lineRenderer = GetComponent<LineRenderer>();
+        lineRenderer.SetPosition(0, startPoint.position);
+        lineRenderer.SetPosition(1, endPoint.position);
     }
 
     private void FixedUpdate()

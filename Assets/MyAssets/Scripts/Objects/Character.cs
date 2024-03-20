@@ -33,12 +33,16 @@ public class Character : Breakable
     Rigidbody2D rigid;
     Collider2D bodyCollider;
     DistanceJoint2D distanceJoint;
+    LineRenderer chainArmPredictLineRenderer;
 
     Character grabedTarget;
 
     public static float coyoteTime = 0.08f;
 
     public Status status = Status.Normal;
+
+    // LayerMask를 변수로 지정해두면 인스펙터창에서 관리하기 쉽다.
+    [SerializeField] LayerMask chainArmPredictLayerMask;
 
     public Vector2 preferDirection;
     public Vector2 moveDirection;
@@ -122,12 +126,14 @@ public class Character : Breakable
         anim = GetComponentInChildren<Animator>();
         if(CompareTag("Player")) hitAnim = GetComponentsInChildren<Animator>()[1];
         distanceJoint = GetComponent<DistanceJoint2D>();
+        chainArmPredictLineRenderer = GetComponent<LineRenderer>();
 
-        chainArmPrefab = Resources.Load<GameObject>($"Prefabs/Character/ChainHand");
+        chainArmPrefab = Resources.Load<GameObject>($"Prefabs/Characters/ChainHand");
 
     }
     protected override void Update()
     {
+        if(CompareTag("Player")) PredictChainArmTrajectory();
         if(isChainAttack)
         {
             if(Input.GetMouseButtonUp(0))
@@ -262,6 +268,52 @@ public class Character : Breakable
         }
     }
 
+    void PredictChainArmTrajectory()
+    {
+        if(chainArm == null)
+        {
+            chainArmPredictLineRenderer.enabled = true;
+            Vector3 center = bodyCollider.bounds.center;
+            Vector2 direction = Camera.main.ScreenToWorldPoint(Input.mousePosition) - center;
+            direction.Normalize();
+            Ray predictRay = new Ray(center, direction * 30);
+            ContactFilter2D filter = new ContactFilter2D();
+            filter.useTriggers = false;
+            filter.SetLayerMask(chainArmPredictLayerMask);
+            RaycastHit2D[] hits = new RaycastHit2D[20];
+            int hitAmount = Physics2D.Raycast(predictRay.origin, predictRay.direction, filter, hits);
+            if(hitAmount > 0)
+            {
+                chainArmPredictLineRenderer.SetPosition(0, center);
+                chainArmPredictLineRenderer.SetPosition(1, hits[0].point);
+                // hits[0].transform.gameObject.layer는 9가 반환 되고 LayerMask.GetMask("Enemy")는 2^9으로 반환되기 때문에
+                // left shift를 통해 (1 << x) 비교해주어야 한다.
+                if (1 << hits[0].transform.gameObject.layer == LayerMask.GetMask("Enemy"))
+                {
+                    
+                    chainArmPredictLineRenderer.startColor = Color.red;
+                    chainArmPredictLineRenderer.endColor= Color.red;
+
+                }
+                else
+                {
+                    chainArmPredictLineRenderer.startColor = Color.cyan;
+                    chainArmPredictLineRenderer.endColor= Color.cyan;
+                }
+            }
+            else
+            {
+                chainArmPredictLineRenderer.enabled=false;
+
+            }
+        }
+        else
+        {
+            chainArmPredictLineRenderer.enabled=false;
+        }
+        
+    }
+
     protected void OnReversalDash(InputValue value)
     {
         if(isReversalDashableX || isReversalDashableY) ReversalDash(value.Get<Vector2>());
@@ -367,7 +419,7 @@ public class Character : Breakable
     {
         DestroyChainArm();
         chainArmJumpTime = 3f;
-        rigid.AddForce(moveDirection * jumpPower);
+        rigid.AddForce(Vector2.up * jumpPower);
     }
 
 
