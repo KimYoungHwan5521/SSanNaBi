@@ -182,11 +182,7 @@ public class Character : Breakable
             }
 
         }
-        // 그랩 가능한 땅을 왼쪽 혹은 오른쪽에서 잡았을 때
-        int beGrabedCollisionIndex = collisionList.FindIndex(target => target.other == beGrabed);
-        // 노말의 x가 0이면 위나 아래에서 붙은것.
-        bool isGrabSide = beGrabedCollisionIndex != -1 && collisionList[beGrabedCollisionIndex].contact.normal.x != 0;
-        if (IsGrab && isGrabSide)
+        if (IsGrab)
         {
             if(beGrabed.transform.position.x > transform.position.x)
             {
@@ -217,7 +213,7 @@ public class Character : Breakable
                 }
                 else
                 {
-                    if (IsGrab && isGrabSide) moveDirection = preferDirection * Vector2.up;
+                    if (IsGrab) moveDirection = preferDirection * Vector2.up;
                     else moveDirection = preferDirection * Vector2.right;
 
                 }
@@ -236,7 +232,7 @@ public class Character : Breakable
             {
                 speedLimitVelocity.x = Mathf.Clamp(speedLimitVelocity.x, -moveSpeed * chainArmJumpTime, moveSpeed * chainArmJumpTime);
             }
-            if((IsGrab && isGrabSide) || flyable) speedLimitVelocity.y = Mathf.Clamp(speedLimitVelocity.y, -moveSpeed, moveSpeed);
+            if((IsGrab) || flyable) speedLimitVelocity.y = Mathf.Clamp(speedLimitVelocity.y, -moveSpeed, moveSpeed);
             else if (chainArmJumpTime < 1.1f) speedLimitVelocity.y = Mathf.Clamp(speedLimitVelocity.y, -moveSpeed * 10, moveSpeed);
             rigid.velocity = speedLimitVelocity;
             faceDirection = rigid.velocity * Vector2.right;
@@ -367,6 +363,7 @@ public class Character : Breakable
     {
         if(IsGrab) IsGrab= false;
         if (!isGround) return;
+        velocityCorrection *= Vector2.right;
         rigid.AddForce(Vector2.up * jumpPower);
         isGround= false;
     }
@@ -485,7 +482,8 @@ public class Character : Breakable
     {
         if(collision.gameObject.CompareTag("Grabable"))
         {
-            IsGrab = true;
+            int contactIndex = System.Array.FindIndex(collision.contacts, target => target.otherCollider.gameObject == gameObject);
+            if(Vector2.Angle(collision.GetContact(contactIndex).normal, Vector2.up) == 90) IsGrab = true;
             beGrabed = collision.gameObject;
         }
     }

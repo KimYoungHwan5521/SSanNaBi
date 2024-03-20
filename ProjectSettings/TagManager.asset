@@ -7,6 +7,7 @@ TagManager:
   - Projectile
   - Grabable
   - Enemy
+  - ChainArm
   layers:
   - Default
   - TransparentFX

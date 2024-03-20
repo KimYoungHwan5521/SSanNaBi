@@ -16,7 +16,7 @@ GameObject:
   - component: {fileID: -6904281575813721433}
   m_Layer: 8
   m_Name: ChainHand
-  m_TagString: Untagged
+  m_TagString: ChainArm
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

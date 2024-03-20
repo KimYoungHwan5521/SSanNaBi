@@ -64,11 +64,12 @@ public class PatrolBlock : MonoBehaviour
 
         }
         
-
-        if((moveDirection * Time.fixedDeltaTime).magnitude > Vector2.Distance(destination, body.transform.position))
+        // 이동방향 변경
+        if((moveDirection * Time.fixedDeltaTime * moveSpeed / 100).magnitude > Vector2.Distance(destination, body.transform.position))
         {
-            if(destination == endPoint.position) destination = startPoint.position;
+            if (destination == endPoint.position) destination = startPoint.position;
             else destination = endPoint.position;
+            
         }
     }
 
