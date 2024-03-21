@@ -82,7 +82,7 @@ public class Character : Breakable
     [SerializeField]bool isGround = false;
     public bool isHit = false;
     public bool isAttack = false;
-    private bool _isGrab = false;
+    [SerializeField] private bool _isGrab = false;
     public bool IsGrab
     {
         get => _isGrab;
@@ -121,6 +121,7 @@ public class Character : Breakable
 
     private void Start()
     {
+        //Time.timeScale = 0.1f;
         rigid = GetComponent<Rigidbody2D>();
         bodyCollider = GetComponent<Collider2D>();
         anim = GetComponentInChildren<Animator>();
@@ -241,7 +242,8 @@ public class Character : Breakable
         else
         {
             if(!IsKnockBack)rigid.velocity *= Vector2.up;
-            rigid.velocity += velocityCorrection;
+            if(!IsGrab)rigid.velocity += velocityCorrection;
+            else rigid.velocity += velocityCorrection * Vector2.right;
         }
         if(transform.localScale.x * faceDirection.x < 0)
         {

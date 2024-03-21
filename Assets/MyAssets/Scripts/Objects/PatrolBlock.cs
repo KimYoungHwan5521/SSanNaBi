@@ -21,10 +21,10 @@ public class PatrolBlock : MonoBehaviour
 
     private void Start()
     {
-        rigid = GetComponent<Rigidbody2D>();
+        rigid = GetComponentInChildren<Rigidbody2D>();
         body.transform.position = startPoint.transform.position;
         destination = endPoint.position;
-        lineRenderer = GetComponent<LineRenderer>();
+        lineRenderer = GetComponentInChildren<LineRenderer>();
         lineRenderer.SetPosition(0, startPoint.position);
         lineRenderer.SetPosition(1, endPoint.position);
     }
