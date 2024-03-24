@@ -69,6 +69,11 @@
 해결 방법 : colorGradient를 직접 건드리는게 아니라 LineRenderer.startColor와 LineRenderer.endColor를 설정 해주면 되었다.
 
 
+발생한 문제점 3 : 점선으로 그린 라인렌더러의 텍스쳐가 반복되지 않고 늘어났다.
+
+해결 방법 : 1. 사용된 매테리얼의 스프라이트의 Wrap Mode를 Repeat으로 바꾸어 주었다. 2. LineRenderer의 Texture Mode를 Tile로 바꾸어 주었다.
+
+
 
 7. 밟으면 내려가는 발판 구현
 

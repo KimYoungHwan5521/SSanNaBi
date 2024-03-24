@@ -18,6 +18,8 @@ public class PatrolBlock : MonoBehaviour
     int nodeIndex = 0;
     bool isGoingBack = false;
 
+    public bool isCycle;
+
     [SerializeField]Vector3 moveDirection;
     Vector3 departure;
     Vector3 destination;
@@ -82,34 +84,51 @@ public class PatrolBlock : MonoBehaviour
         if((moveDirection * Time.fixedDeltaTime * moveSpeed / 10).magnitude > Vector2.Distance(destination, body.transform.position))
         {
             departure = destination;
-            if(!isGoingBack)
+            if(isCycle)
             {
                 if(nodeIndex > nodes.Length - 3)
                 {
-                    isGoingBack= true;
-                    destination = nodes[nodeIndex];
+                    destination = nodes[0];
+                    nodeIndex = -1;
                 }
                 else
                 {
                     destination = nodes[nodeIndex + 2];
                     nodeIndex++;
+
                 }
             }
             else
             {
-                if(nodeIndex < 1)
+                if(!isGoingBack)
                 {
-                    isGoingBack= false;
-                    destination= nodes[nodeIndex + 1];
+                    if(nodeIndex > nodes.Length - 3)
+                    {
+                        isGoingBack= true;
+                        destination = nodes[nodeIndex];
+                    }
+                    else
+                    {
+                        destination = nodes[nodeIndex + 2];
+                        nodeIndex++;
+                    }
                 }
                 else
                 {
-                    destination = nodes[nodeIndex - 1];
-                    nodeIndex--;
+                    if(nodeIndex < 1)
+                    {
+                        isGoingBack= false;
+                        destination= nodes[nodeIndex + 1];
+                    }
+                    else
+                    {
+                        destination = nodes[nodeIndex - 1];
+                        nodeIndex--;
+                    }
                 }
+
             }
 
-            
         }
     }
 
@@ -139,10 +158,16 @@ public class PatrolBlock : MonoBehaviour
     private void OnDrawGizmos()
     {
         Gizmos.color = Color.yellow;
-        for(int i=0; i<nodes.Length - 1; i++)
+        
+        if(nodes.Length <= 2) Gizmos.DrawLine(startPoint.position, endPoint.position);
+        else Gizmos.DrawLine(startPoint.position, nodeTransforms[0].position);
+        
+        for(int i=0; i<nodes.Length - 3; i++)
         {
-            Gizmos.DrawLine(nodes[i], nodes[i+1]);
-
+            Gizmos.DrawLine(nodeTransforms[i].position, nodeTransforms[i + 1].position);
         }
+
+        if (nodes.Length > 2) Gizmos.DrawLine(nodeTransforms[nodes.Length - 3].position, endPoint.position);
+        if(isCycle) Gizmos.DrawLine(endPoint.position, startPoint.position);
     }
 }
