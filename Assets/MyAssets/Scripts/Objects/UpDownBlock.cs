@@ -49,8 +49,7 @@ public class UpDownBlock : MonoBehaviour
         {
             if(collision.collider.TryGetComponent(out Character character))
             {
-                if (character.IsGrab) character.velocityCorrection = Vector2.zero;
-                else character.velocityCorrection = Vector2.down * 10;
+                character.velocityCorrection = Vector2.down * 10;
             }
             collisioinCount++;
         }
