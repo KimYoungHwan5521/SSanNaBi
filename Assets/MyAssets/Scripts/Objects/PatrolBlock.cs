@@ -13,33 +13,47 @@ public class PatrolBlock : MonoBehaviour
 
     public float moveSpeed;
 
-    Vector3 moveDirection;
+    public Transform[] nodeTransforms;
+    public Vector3[] nodes;
+    int nodeIndex = 0;
+    bool isGoingBack = false;
+
+    [SerializeField]Vector3 moveDirection;
+    Vector3 departure;
     Vector3 destination;
 
     List<ContactInfo> upperCollisionList = new List<ContactInfo>();
     List<ContactInfo> removeCollisionList = new List<ContactInfo>();
 
+
     private void Start()
     {
         rigid = GetComponentInChildren<Rigidbody2D>();
-        body.transform.position = startPoint.transform.position;
-        destination = endPoint.position;
         lineRenderer = GetComponentInChildren<LineRenderer>();
-        lineRenderer.SetPosition(0, startPoint.position);
-        lineRenderer.SetPosition(1, endPoint.position);
+
+        startPoint.position = body.transform.parent.position;
+        nodes[0] = startPoint.position;
+        for (int i = 0; i < nodes.Length - 2; i++)
+        {
+            nodes[i + 1] = nodeTransforms[i].position;
+        }
+        nodes[nodes.Length - 1] = endPoint.position;
+
+        departure = nodes[0];
+        destination = nodes[1];
+        body.transform.position = startPoint.position;
+
+        lineRenderer.positionCount = nodes.Length;
+        for (int i = 0; i < nodes.Length; i++)
+        {
+            lineRenderer.SetPosition(i, nodes[i]);
+        }
     }
 
     private void FixedUpdate()
     {
+        moveDirection = destination - departure;
 
-        if (destination == endPoint.position)
-        {
-            moveDirection = endPoint.position - startPoint.position;
-        }
-        else
-        {
-            moveDirection = startPoint.position - endPoint.position;
-        }
         moveDirection.Normalize();
         rigid.velocity = moveDirection * moveSpeed * Time.fixedDeltaTime;
 
@@ -63,12 +77,38 @@ public class PatrolBlock : MonoBehaviour
             }
 
         }
-        
+
         // 이동방향 변경
-        if((moveDirection * Time.fixedDeltaTime * moveSpeed / 100).magnitude > Vector2.Distance(destination, body.transform.position))
+        if((moveDirection * Time.fixedDeltaTime * moveSpeed / 10).magnitude > Vector2.Distance(destination, body.transform.position))
         {
-            if (destination == endPoint.position) destination = startPoint.position;
-            else destination = endPoint.position;
+            departure = destination;
+            if(!isGoingBack)
+            {
+                if(nodeIndex > nodes.Length - 3)
+                {
+                    isGoingBack= true;
+                    destination = nodes[nodeIndex];
+                }
+                else
+                {
+                    destination = nodes[nodeIndex + 2];
+                    nodeIndex++;
+                }
+            }
+            else
+            {
+                if(nodeIndex < 1)
+                {
+                    isGoingBack= false;
+                    destination= nodes[nodeIndex + 1];
+                }
+                else
+                {
+                    destination = nodes[nodeIndex - 1];
+                    nodeIndex--;
+                }
+            }
+
             
         }
     }
@@ -99,6 +139,10 @@ public class PatrolBlock : MonoBehaviour
     private void OnDrawGizmos()
     {
         Gizmos.color = Color.yellow;
-        Gizmos.DrawLine(startPoint.position, endPoint.position);
+        for(int i=0; i<nodes.Length - 1; i++)
+        {
+            Gizmos.DrawLine(nodes[i], nodes[i+1]);
+
+        }
     }
 }
