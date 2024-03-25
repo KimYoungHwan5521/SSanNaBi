@@ -6,6 +6,8 @@ public enum Team { Ally, Enemy, NPC, Object}
 
 public abstract class Breakable : MonoBehaviour
 {
+    GameObject marker;
+
     public Team team;
     private bool _isBreak;
     public virtual bool IsBreak
@@ -15,6 +17,7 @@ public abstract class Breakable : MonoBehaviour
         { 
             _isBreak = value;
             gameObject.layer = LayerMask.NameToLayer("Corpse");
+            Destroy(marker);
             gameObject.AddComponent<DestroyTimer>().time = 5f;
         }
     }
@@ -42,6 +45,17 @@ public abstract class Breakable : MonoBehaviour
 
     public float invincibleTime;
     public float curInvincibleTime;
+
+    protected virtual void Start()
+    {
+        if(team == Team.Enemy)
+        {
+            GameObject inst = Resources.Load<GameObject>("Prefabs/UI/EnemyMarker");
+            GameObject mainCanvas = GameObject.FindGameObjectWithTag("MainCanvas");
+            marker = Instantiate(inst, mainCanvas.transform);
+            marker.AddComponent<Marker>().Initialize(gameObject);
+        }
+    }
 
     protected virtual void Update()
     {

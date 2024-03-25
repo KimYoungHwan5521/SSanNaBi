@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class DamageBlock : Breakable
 {
-    void Start()
+    protected override void Start()
     {
         gameObject.AddComponent<DamageComponent>().Initialize(this, attackDamage);
     }

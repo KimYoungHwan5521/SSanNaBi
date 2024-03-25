@@ -119,7 +119,7 @@ public class Character : Breakable
     public GameObject beGrabed;
     [SerializeField]protected List<ContactInfo> collisionList = new List<ContactInfo>();
 
-    private void Start()
+    protected override void Start()
     {
         //Time.timeScale = 0.1f;
         rigid = GetComponent<Rigidbody2D>();
@@ -128,6 +128,7 @@ public class Character : Breakable
         if(CompareTag("Player")) hitAnim = GetComponentsInChildren<Animator>()[1];
         distanceJoint = GetComponent<DistanceJoint2D>();
         chainArmPredictLineRenderer = GetComponent<LineRenderer>();
+        base.Start();
 
         chainArmPrefab = Resources.Load<GameObject>($"Prefabs/Characters/ChainHand");
 
