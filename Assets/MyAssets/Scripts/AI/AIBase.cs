@@ -8,7 +8,7 @@ public enum MoveType { Normal, Fixed, Patrol }
 public class AIBase : MonoBehaviour
 {
     protected Character controlledCharacter;
-    protected Breakable target;
+    [SerializeField]protected Breakable target;
     protected CapsuleCollider2D capsule;
     protected Rigidbody2D rigid;
 
@@ -19,6 +19,8 @@ public class AIBase : MonoBehaviour
 
     public float obstacleDetectRange = 1f;
     public float cliffDetectRange = 3f;
+
+    public bool jumpable;
 
 
     // Start is called before the first frame update
@@ -66,10 +68,14 @@ public class AIBase : MonoBehaviour
                         Vector3 correctionVector = controlledCharacter.transform.position + capsule.bounds.extents.x * Vector3.up;
                         RaycastHit2D hit = correctionVector.Parabolacast2D(controlledCharacter.faceDirection * controlledCharacter.moveSpeed + controlledCharacter.jumpPower * Vector2.up * 0.03f, Physics2D.gravity, 3f, 10);
                         // cast가 닿은 면이 지면이 아니라 천장일 수도 있으므로 hit.normal이 Vector.up 기준으로 45도 이내인지 체크
-                        //Debug.Log(hit.collider);
+                        // 절벽인 경우
                         if(hit.collider!= null && Vector2.Angle(Vector2.up, hit.normal) < 45)
                         {
-                            controlledCharacter.Jump();
+                            if(moveType == MoveType.Normal && jumpable)
+                            {
+                                controlledCharacter.Jump();
+
+                            }
                         }
                         else
                         {
@@ -79,10 +85,17 @@ public class AIBase : MonoBehaviour
                     else
                     {
                         // 타겟이 훨씬 아래쪽이면 절벽이어도 따라 내려간다.
-                        controlledCharacter.preferDirection = target.transform.position - transform.position;
+                        if(moveType == MoveType.Normal)
+                        {
+                            controlledCharacter.preferDirection = target.transform.position - transform.position;
+                        }
+
                         if(CheckObstacle())
                         {
-                            controlledCharacter.Jump();
+                            if(moveType == MoveType.Normal && jumpable)
+                            {
+                                controlledCharacter.Jump();
+                            }
                         }
 
                     }
@@ -91,7 +104,19 @@ public class AIBase : MonoBehaviour
             }
             else
             {
-                controlledCharacter.preferDirection = Vector2.zero;
+                if(moveType == MoveType.Normal)
+                {
+                    controlledCharacter.preferDirection = Vector2.zero;
+                }
+                else if(moveType == MoveType.Patrol)
+                {
+                    //Debug.Log(CheckObstacle());
+                    if(CheckObstacle())
+                    {
+                        controlledCharacter.faceDirection *= -1;
+                    }
+                    controlledCharacter.preferDirection = controlledCharacter.faceDirection;
+                }
             }
         }
     }

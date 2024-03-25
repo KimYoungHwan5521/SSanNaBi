@@ -133,6 +133,8 @@ public class Character : Breakable
 
         chainArmPrefab = Resources.Load<GameObject>($"Prefabs/Characters/ChainHand");
 
+        faceDirection = Vector2.right;
+
     }
     protected override void Update()
     {
@@ -239,6 +241,7 @@ public class Character : Breakable
             else if (chainArmJumpTime < 1.1f) speedLimitVelocity.y = Mathf.Clamp(speedLimitVelocity.y, -moveSpeed * 10, moveSpeed);
             rigid.velocity = speedLimitVelocity;
             faceDirection = rigid.velocity * Vector2.right;
+            if (rigid.velocity.magnitude <= 0.01f) faceDirection = Vector2.right;
             faceDirection.Normalize();
         }
         else

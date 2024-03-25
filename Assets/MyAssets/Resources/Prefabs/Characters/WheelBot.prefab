@@ -223,18 +223,24 @@ MonoBehaviour:
   invincibleTime: 0
   curInvincibleTime: 0
   anim: {fileID: 0}
-  coyoteTime: 0.02
   status: 0
+  chainArmPredictLayerMask:
+    serializedVersion: 2
+    m_Bits: 0
   preferDirection: {x: 0, y: 0}
   moveDirection: {x: 0, y: 0}
   faceDirection: {x: 0, y: 0}
+  velocityCorrection: {x: 0, y: 0}
   moveSpeed: 5
   jumpPower: 300
   chainArmSpeed: 0
   chainArmMaxDistance: 0
+  flyable: 0
   isGround: 0
   isHit: 0
   isAttack: 0
+  _isGrab: 0
+  isChainAttack: 0
   chainArm: {fileID: 0}
   beGrabed: {fileID: 0}
 --- !u!114 &4270811196516753039
@@ -249,7 +255,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a1f3c37f5e2c8024383e491566595ef8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  targetDetectRange: 0
+  target: {fileID: 0}
+  moveType: 2
+  targetDetectRange: 10
   attackRange: 10
   obstacleDetectRange: 1
   cliffDetectRange: 3
+  jumpable: 0
