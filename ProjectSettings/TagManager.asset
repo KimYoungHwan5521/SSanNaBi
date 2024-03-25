@@ -9,6 +9,7 @@ TagManager:
   - Enemy
   - ChainArm
   - MainCanvas
+  - ChainGrabable
   layers:
   - Default
   - TransparentFX

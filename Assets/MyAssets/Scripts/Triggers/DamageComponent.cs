@@ -16,25 +16,36 @@ public class DamageComponent : MonoBehaviour
         this.isProjectile = isProjectile;
     }
 
-    protected void OnTriggerEnter2D(Collider2D collision)
+    protected void OnTriggerStay2D(Collider2D collision)
     {
         if(isProjectile && collision.gameObject.layer == 0) Destroy(gameObject);
         if(collision.gameObject.TryGetComponent(out Breakable victim))
         {
             if(attacker.CheckEnemy(victim))
             {
-                if (!victim.CompareTag("Player") || victim.curInvincibleTime < 0)
+                if (!victim.CompareTag("Player"))
                 {
                     victim.TakeDamage(attacker, damage, collision.ClosestPoint(transform.position));
-                    if (victim.TryGetComponent(out Character victimChar))
+
+                }
+                else if(victim.curInvincibleTime < 0)
+                {
+                    if (victim.TryGetComponent(out Character victimChar) && !victimChar.isChainAttack)
                     {
+                        victim.TakeDamage(attacker, damage, collision.ClosestPoint(transform.position));
+                        victim.curInvincibleTime = victim.invincibleTime;
                         if (victimChar.anim != null)
                         { 
                             victimChar.anim.SetTrigger("doHit");
                             victimChar.isHit = true;
                         }
+
                     }
-                    victim.curInvincibleTime = victim.invincibleTime;
+
+                }
+                else
+                {
+
                 }
                 if(isProjectile)
                 {

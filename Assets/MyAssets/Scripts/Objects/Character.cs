@@ -35,7 +35,8 @@ public class Character : Breakable
     DistanceJoint2D distanceJoint;
     LineRenderer chainArmPredictLineRenderer;
 
-    Character grabedTarget;
+    GameObject grabedTarget;
+    Character grabdCharacter;
 
     public static float coyoteTime = 0.08f;
 
@@ -97,7 +98,7 @@ public class Character : Breakable
     }
     bool isReversalDashableX;
     bool isReversalDashableY;
-    bool isChainAttack = false;
+    public bool isChainAttack = false;
     bool _isKnockBack = false;
     bool IsKnockBack
     {
@@ -334,7 +335,7 @@ public class Character : Breakable
 
     protected virtual void OnMove(InputValue value)
     {
-        if (isChainAttack) grabedTarget.Move(value.Get<Vector2>());
+        if (isChainAttack && grabdCharacter != null) grabdCharacter.Move(value.Get<Vector2>());
         Move(value.Get<Vector2>());
     }
 
@@ -426,24 +427,43 @@ public class Character : Breakable
     public void ChainAttack(Character target)
     {
         DestroyChainArm();
-        grabedTarget = target;
+        grabedTarget = target.gameObject;
+        grabdCharacter = target;
         if(Input.GetMouseButton(0)) 
         { 
             isChainAttack= true;
-            grabedTarget.status = Status.Grabed;
+            target.status = Status.Grabed;
             Invoke("ChainAttackEnd", 3f);
         }
         else
         {
             Invoke("ChainAttackEnd", 0.1f);
         }
-        //transform.position = chainArm.transform.position;
     }
+
+    public void ChainAttack(GameObject target)
+    {
+        DestroyChainArm();
+        grabedTarget = target;
+        if(Input.GetMouseButton(0))
+        {
+            isChainAttack = true;
+        }
+        else
+        {
+            ChainAttackEnd();
+        }
+    }
+
     void ChainAttackEnd()
     {
         if (grabedTarget != null)
         {
-            grabedTarget.TakeDamage(this, attackDamage, transform.position);
+            if(grabdCharacter != null)
+            {
+                grabdCharacter.TakeDamage(this, attackDamage, transform.position);
+                grabdCharacter = null;
+            }
             grabedTarget= null;
             isChainAttack= false;
             chainAttackDashDirection = Camera.main.ScreenToWorldPoint(Input.mousePosition) - transform.position;
