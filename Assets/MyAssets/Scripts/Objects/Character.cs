@@ -255,6 +255,13 @@ public class Character : Breakable
             transform.localScale *= new Vector2(-1, 1);
         }
 
+        if(flyable)
+        {
+            transform.Rotate(0, 0, -moveDirection.x * moveSpeed * Time.fixedDeltaTime * 50);
+            if (transform.eulerAngles.z > 30 && transform.eulerAngles.z < 180) transform.eulerAngles = new Vector3(0, 0, 30);
+            if (transform.eulerAngles.z > 180 && transform.eulerAngles.z < 330) transform.eulerAngles = new Vector3(0, 0, 330);
+        }
+
 
         if(anim != null)
         {
