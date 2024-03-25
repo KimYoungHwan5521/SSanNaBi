@@ -183,12 +183,13 @@ public class AIBase : MonoBehaviour
         GameObject prefab = Resources.Load<GameObject>($"Prefabs/Projectiles/{projectileName}");
         Vector2 spawnPosition = transform.childCount > 0 ? GetComponentsInChildren<Transform>()[1].position : transform.position;
         Vector2 targetBoundsCenter = target.GetComponent<Collider2D>().bounds.center;
-        Vector2 direction = new Vector2(targetBoundsCenter.x - spawnPosition.x, targetBoundsCenter.y - spawnPosition.y);
+        Vector2 direction = new Vector2((targetBoundsCenter.x - spawnPosition.x) * Random.Range(0.9f, 1.1f), (targetBoundsCenter.y - spawnPosition.y) * Random.Range(0.9f, 1.1f));
         direction.Normalize();
         GameObject inst = Instantiate(prefab, spawnPosition, Quaternion.Euler(0, 0, Mathf.Atan2(direction.y, direction.x)));
         inst.AddComponent<DamageComponent>().Initialize(controlledCharacter, controlledCharacter.attackDamage, true);
         inst.GetComponent<Rigidbody2D>().velocity = direction * 10;
     }
+
 
     private void OnDrawGizmos()
     {
