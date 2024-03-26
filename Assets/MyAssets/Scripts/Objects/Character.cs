@@ -35,7 +35,7 @@ public class Character : Breakable
     LineRenderer chainArmPredictLineRenderer;
 
     GameObject grabedTarget;
-    Character grabdCharacter;
+    Character grabedCharacter;
 
     public static float coyoteTime = 0.08f;
 
@@ -343,7 +343,7 @@ public class Character : Breakable
 
     protected virtual void OnMove(InputValue value)
     {
-        if (isChainAttack && grabdCharacter != null) grabdCharacter.Move(value.Get<Vector2>());
+        if (isChainAttack && grabedCharacter != null) grabedCharacter.Move(value.Get<Vector2>());
         Move(value.Get<Vector2>());
     }
 
@@ -436,7 +436,7 @@ public class Character : Breakable
     {
         DestroyChainArm();
         grabedTarget = target.gameObject;
-        grabdCharacter = target;
+        grabedCharacter = target;
         if(Input.GetMouseButton(0)) 
         { 
             isChainAttack= true;
@@ -467,10 +467,26 @@ public class Character : Breakable
     {
         if (grabedTarget != null)
         {
-            if(grabdCharacter != null)
+            if(grabedCharacter != null)
             {
-                grabdCharacter.TakeDamage(this, attackDamage, transform.position);
-                grabdCharacter = null;
+                grabedCharacter.TakeDamage(this, attackDamage, transform.position);
+                grabedCharacter = null;
+            }
+            else
+            {
+                // grabedCharacter∞° null¿Ã∏È patrolBlock
+                PatrolBlock patrol = grabedTarget.GetComponent<PatrolBlock>();
+                patrol.movable = false;
+                if(patrol.isGoingBack)
+                {
+                    patrol.transform.position = patrol.endPoint.position;
+
+                }
+                else
+                {
+                    patrol.transform.position = patrol.startPoint.position;
+
+                }
             }
             grabedTarget= null;
             isChainAttack= false;

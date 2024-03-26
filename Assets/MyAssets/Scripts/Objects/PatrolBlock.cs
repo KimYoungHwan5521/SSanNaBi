@@ -16,9 +16,10 @@ public class PatrolBlock : MonoBehaviour
     public Transform[] nodeTransforms;
     public Vector3[] nodes;
     int nodeIndex = 0;
-    bool isGoingBack = false;
+    public bool isGoingBack = false;
 
     public bool isCycle;
+    public bool movable;
 
     [SerializeField]Vector3 moveDirection;
     Vector3 departure;
@@ -54,81 +55,88 @@ public class PatrolBlock : MonoBehaviour
 
     private void FixedUpdate()
     {
-        moveDirection = destination - departure;
-
-        moveDirection.Normalize();
-        rigid.velocity = moveDirection * moveSpeed * Time.fixedDeltaTime;
-
-        // 코요테타임이 지난 콘택트는 삭제
-        removeCollisionList = upperCollisionList.FindAll(target => target.time < Time.time - Character.coyoteTime);
-        foreach(ContactInfo c in removeCollisionList)
+        if (movable)
         {
-            if(c.other != null && c.other.TryGetComponent(out Character removeC))
-            {
-                removeC.velocityCorrection = Vector2.zero;
-            }
-            upperCollisionList.Remove(c);
-        }
-        // 발판위에 오브젝트가 같이 움직이게
-        // 발판위에 오브젝트한테 속도를 주고 직전에 줫었던 값을 제거하고 현재속도를 다시 넣어준다.
-        for(int i=0; i<upperCollisionList.Count;i++)
-        {
-            if(upperCollisionList[i].other != null && upperCollisionList[i].other.TryGetComponent(out Character character))
-            {
-                character.velocityCorrection = rigid.velocity * Vector2.right;
-            }
+            moveDirection = destination - departure;
 
-        }
+            moveDirection.Normalize();
+            rigid.velocity = moveDirection * moveSpeed * Time.fixedDeltaTime;
 
-        // 이동방향 변경
-        if((moveDirection * Time.fixedDeltaTime * moveSpeed / 10).magnitude > Vector2.Distance(destination, body.transform.position))
-        {
-            departure = destination;
-            if(isCycle)
+            // 코요테타임이 지난 콘택트는 삭제
+            removeCollisionList = upperCollisionList.FindAll(target => target.time < Time.time - Character.coyoteTime);
+            foreach(ContactInfo c in removeCollisionList)
             {
-                if(nodeIndex > nodes.Length - 3)
+                if(c.other != null && c.other.TryGetComponent(out Character removeC))
                 {
-                    destination = nodes[0];
-                    nodeIndex = -1;
+                    removeC.velocityCorrection = Vector2.zero;
                 }
-                else
-                {
-                    destination = nodes[nodeIndex + 2];
-                    nodeIndex++;
-
-                }
+                upperCollisionList.Remove(c);
             }
-            else
+            // 발판위에 오브젝트가 같이 움직이게
+            // 발판위에 오브젝트한테 속도를 주고 직전에 줫었던 값을 제거하고 현재속도를 다시 넣어준다.
+            for(int i=0; i<upperCollisionList.Count;i++)
             {
-                if(!isGoingBack)
+                if(upperCollisionList[i].other != null && upperCollisionList[i].other.TryGetComponent(out Character character))
+                {
+                    character.velocityCorrection = rigid.velocity * Vector2.right;
+                }
+
+            }
+
+            // 이동방향 변경
+            if((moveDirection * Time.fixedDeltaTime * moveSpeed / 10).magnitude > Vector2.Distance(destination, body.transform.position))
+            {
+                departure = destination;
+                if(isCycle)
                 {
                     if(nodeIndex > nodes.Length - 3)
                     {
-                        isGoingBack= true;
-                        destination = nodes[nodeIndex];
+                        destination = nodes[0];
+                        nodeIndex = -1;
                     }
                     else
                     {
                         destination = nodes[nodeIndex + 2];
                         nodeIndex++;
+
                     }
                 }
                 else
                 {
-                    if(nodeIndex < 1)
+                    if(!isGoingBack)
                     {
-                        isGoingBack= false;
-                        destination= nodes[nodeIndex + 1];
+                        if(nodeIndex > nodes.Length - 3)
+                        {
+                            isGoingBack= true;
+                            destination = nodes[nodeIndex];
+                        }
+                        else
+                        {
+                            destination = nodes[nodeIndex + 2];
+                            nodeIndex++;
+                        }
                     }
                     else
                     {
-                        destination = nodes[nodeIndex - 1];
-                        nodeIndex--;
+                        if(nodeIndex < 1)
+                        {
+                            isGoingBack= false;
+                            destination= nodes[nodeIndex + 1];
+                        }
+                        else
+                        {
+                            destination = nodes[nodeIndex - 1];
+                            nodeIndex--;
+                        }
                     }
+
                 }
 
             }
-
+        }
+        else
+        {
+            rigid.velocity = Vector2.zero;
         }
     }
 

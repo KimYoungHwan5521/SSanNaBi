@@ -72,7 +72,7 @@ public class ChainArm : MonoBehaviour
         else if(collision.gameObject.CompareTag("ChainGrabable"))
         {
             user.GetComponent<Character>().ChainAttack(collision.collider.gameObject);
-
+            collision.gameObject.GetComponent<PatrolBlock>().movable = true;
         }
         else
         {

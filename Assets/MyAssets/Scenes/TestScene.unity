@@ -2394,7 +2394,9 @@ MonoBehaviour:
   nodes:
   - {x: 6.028778, y: 43.747932, z: 0}
   - {x: 6.028778, y: 43.747932, z: 0}
+  isGoingBack: 0
   isCycle: 0
+  movable: 0
   moveDirection: {x: 0, y: 0, z: 0}
 --- !u!1 &2161484748879141275
 GameObject:
