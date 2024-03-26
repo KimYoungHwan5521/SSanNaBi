@@ -94,6 +94,7 @@ MonoBehaviour:
   _hpCurrent: 0
   _hpMax: 0
   attackDamage: 10
+  flyable: 0
   invincibleTime: 0
   curInvincibleTime: 0
 --- !u!1 &5330059484054492929
@@ -170,7 +171,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 4
   m_Sprite: {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6, type: 3}
   m_Color: {r: 1, g: 0.1462264, b: 0.1462264, a: 1}
   m_FlipX: 0
@@ -191,7 +192,7 @@ BoxCollider2D:
   m_GameObject: {fileID: 5330059484054492929}
   m_Enabled: 1
   m_Density: 1
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 6200000, guid: b2fd8d43347fc7e46918fb7fa98802fe, type: 2}
   m_IncludeLayers:
     serializedVersion: 2
     m_Bits: 0

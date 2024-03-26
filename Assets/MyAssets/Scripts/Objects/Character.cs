@@ -154,16 +154,19 @@ public class Character : Breakable
             transform.position = grabedTarget.GetComponent<Collider2D>().bounds.center;
 
         }
-        if(isChainAttack)
+        if(CompareTag("Player"))
         {
-            rigid.bodyType = RigidbodyType2D.Kinematic;
-            bodyCollider.isTrigger = true;
-        }
-        else
-        {
-            rigid.bodyType = RigidbodyType2D.Dynamic;
-            bodyCollider.isTrigger = false;
+            if(isChainAttack)
+            {
+                rigid.bodyType = RigidbodyType2D.Kinematic;
+                bodyCollider.isTrigger = true;
+            }
+            else
+            {
+                rigid.bodyType = RigidbodyType2D.Dynamic;
+                bodyCollider.isTrigger = false;
 
+            }
         }
         if(chainArm != null)
         {
