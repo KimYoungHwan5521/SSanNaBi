@@ -283,7 +283,9 @@ MonoBehaviour:
   - {x: 6.028778, y: 43.747932, z: 0}
   - {x: 6.028778, y: 43.747932, z: 0}
   - {x: 25.128777, y: 33.54793, z: 0}
+  isGoingBack: 0
   isCycle: 0
+  movable: 1
   moveDirection: {x: 0, y: 0, z: 0}
 --- !u!120 &7562259270998694838
 LineRenderer:

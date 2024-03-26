@@ -34,7 +34,7 @@ public class PatrolBlock : MonoBehaviour
         rigid = GetComponentInChildren<Rigidbody2D>();
         lineRenderer = GetComponentInChildren<LineRenderer>();
 
-        startPoint.position = body.transform.position;
+        body.transform.position = startPoint.position;
         nodes[0] = startPoint.position;
         for (int i = 0; i < nodes.Length - 2; i++)
         {
@@ -167,8 +167,8 @@ public class PatrolBlock : MonoBehaviour
     {
         Gizmos.color = Color.yellow;
         
-        if(nodes.Length <= 2) Gizmos.DrawLine(body.transform.position, endPoint.position);
-        else Gizmos.DrawLine(body.transform.position, nodeTransforms[0].position);
+        if(nodes.Length <= 2) Gizmos.DrawLine(startPoint.position, endPoint.position);
+        else Gizmos.DrawLine(startPoint.position, nodeTransforms[0].position);
         
         for(int i=0; i<nodes.Length - 3; i++)
         {
