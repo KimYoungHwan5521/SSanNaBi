@@ -6,6 +6,8 @@ public enum Team { Ally, Enemy, NPC, Object}
 
 public abstract class Breakable : MonoBehaviour
 {
+    protected Rigidbody2D rigid;
+
     GameObject marker;
 
     public Team team;
@@ -18,7 +20,8 @@ public abstract class Breakable : MonoBehaviour
             _isBreak = value;
             gameObject.layer = LayerMask.NameToLayer("Corpse");
             Destroy(marker);
-            gameObject.AddComponent<DestroyTimer>().time = 5f;
+            gameObject.AddComponent<DestroyTimer>().time = 3f;
+            if (flyable) rigid.gravityScale = 1f;
         }
     }
 
@@ -42,6 +45,8 @@ public abstract class Breakable : MonoBehaviour
     }
 
     public int attackDamage;
+
+    public bool flyable;
 
     public float invincibleTime;
     public float curInvincibleTime;

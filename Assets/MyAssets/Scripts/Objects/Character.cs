@@ -30,7 +30,6 @@ public class Character : Breakable
 {
     public Animator anim;
     Animator hitAnim;
-    Rigidbody2D rigid;
     Collider2D bodyCollider;
     DistanceJoint2D distanceJoint;
     LineRenderer chainArmPredictLineRenderer;
@@ -79,7 +78,6 @@ public class Character : Breakable
 
     public float chainArmMaxDistance;
 
-    public bool flyable;
     [SerializeField]bool isGround = false;
     public bool isHit = false;
     public bool isAttack = false;
@@ -255,7 +253,7 @@ public class Character : Breakable
             transform.localScale *= new Vector2(-1, 1);
         }
 
-        if(flyable)
+        if(flyable && !IsBreak)
         {
             transform.Rotate(0, 0, -moveDirection.x * moveSpeed * Time.fixedDeltaTime * 50);
             if (transform.eulerAngles.z > 30 && transform.eulerAngles.z < 180) transform.eulerAngles = new Vector3(0, 0, 30);
