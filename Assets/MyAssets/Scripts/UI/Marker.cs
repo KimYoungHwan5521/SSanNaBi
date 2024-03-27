@@ -55,7 +55,6 @@ public class Marker : MonoBehaviour
 
     public void HideMarker()
     {
-        Debug.Log("hide");
         images[0].color = new Color(images[0].color.r, images[0].color.g, images[0].color.b, 0);
         images[1].color = new Color(images[1].color.r, images[1].color.g, images[1].color.b, 0);
 
