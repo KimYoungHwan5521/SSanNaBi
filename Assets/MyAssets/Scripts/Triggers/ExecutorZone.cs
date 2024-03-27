@@ -59,7 +59,7 @@ public class ExecutorZone : MonoBehaviour
                     spawnPosition = new Vector2(hit.collider.bounds.center.x + hit.collider.bounds.extents.x * discriminantVector.x, spawnPosY) - discriminantVector * 13f;
                 }
                 GameObject inst = Instantiate(executor, spawnPosition, Quaternion.identity);
-                inst.GetComponent<Breakable>().marker.GetComponent<Marker>().HideMarker();
+                //inst.GetComponentInChildren<Breakable>().marker.GetComponent<Marker>().HideMarker();
 
                 if (discriminantVector == Vector2.down) inst.transform.Rotate(0, 0, 180f);
                 else if (discriminantVector == Vector2.right) inst.transform.Rotate(0, 0, -90f);

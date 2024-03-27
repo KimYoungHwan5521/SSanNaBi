@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static UnityEngine.RuleTile.TilingRuleOutput;
 
 public class ExecutorAttack : StateMachineBehaviour
 {
@@ -19,8 +20,11 @@ public class ExecutorAttack : StateMachineBehaviour
     // OnStateExit is called when a transition ends and the state machine finishes evaluating this state
     override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        animator.GetComponentInParent<AIExecutor>().isAttack = false;
-        animator.GetComponentInParent<AIExecutor>().marker.ExposeMarker();
+        AIExecutor executor = animator.GetComponentInParent<AIExecutor>();
+        executor.marker.ExposeMarker();
+        if (executor.attackCount == 0) executor.transform.localScale = new Vector3(-executor.transform.localScale.x, executor.transform.localScale.y, executor.transform.localScale.z);
+        else if (executor.attackCount >= 3) executor.attackCount = 0;
+        executor.isAttack = false;
     }
 
     // OnStateMove is called right after Animator.OnAnimatorMove()

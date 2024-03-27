@@ -78,6 +78,7 @@ public class Character : Breakable
 
     public float chainArmMaxDistance;
 
+
     [SerializeField]bool isGround = false;
     public bool isHit = false;
     public bool isAttack = false;
@@ -464,6 +465,12 @@ public class Character : Breakable
         {
             ChainAttackEnd();
         }
+    }
+
+    public void ChainAttack(ExecutorCore executor)
+    {
+        DestroyChainArm();
+        executor.TakeDamage(this, attackDamage, transform.position);
     }
 
     void ChainAttackEnd()

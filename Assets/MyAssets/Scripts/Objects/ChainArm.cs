@@ -65,9 +65,17 @@ public class ChainArm : MonoBehaviour
 
             user.GetComponent<DistanceJoint2D>().distance = Vector2.Distance(user.position, transform.position);
         }
-        else if(collision.gameObject.CompareTag("Enemy"))
+        else if(collision.gameObject.CompareTag("Enemy") && collision.gameObject.GetComponent<Breakable>().curInvincibleTime < 0)
         {
-            user.GetComponent<Character>().ChainAttack(collision.collider.GetComponent<Character>());
+            if(collision.collider.TryGetComponent(out Character character))
+            {
+                user.GetComponent<Character>().ChainAttack(character);
+            }
+            else
+            {
+                user.GetComponent<Character>().ChainAttack(collision.collider.GetComponent<ExecutorCore>());
+
+            }
         }
         else if(collision.gameObject.CompareTag("ChainGrabable"))
         {

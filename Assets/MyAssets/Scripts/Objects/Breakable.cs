@@ -53,7 +53,7 @@ public abstract class Breakable : MonoBehaviour
 
     protected virtual void Start()
     {
-        if(team == Team.Enemy)
+        if(team == Team.Enemy && !CompareTag("Executor(Field)"))
         {
             GameObject inst = Resources.Load<GameObject>("Prefabs/UI/EnemyMarker");
             GameObject mainCanvas = GameObject.FindGameObjectWithTag("MainCanvas");
@@ -84,6 +84,7 @@ public abstract class Breakable : MonoBehaviour
     public virtual int TakeDamage(Breakable from, int damage, Vector3 hitPoint)
     {
         HPCurrent -= damage;
+        curInvincibleTime = invincibleTime;
         return damage;
     }
 

@@ -11,10 +11,17 @@ public class AIExecutor : MonoBehaviour
     GameObject player;
     public Marker marker;
 
+    public Transform leftEdge;
+    public Transform rightEdge;
+    float leftLimit;
+    float rightLimit;
+
     public float attackCoolTime;
     float curAttackCoolTime;
 
+    public bool isActivate;
     public bool isAttack;
+    public int attackCount = 0;
 
 
     void Start()
@@ -23,31 +30,42 @@ public class AIExecutor : MonoBehaviour
         anim = GetComponentInChildren<Animator>();
         player = GameObject.FindGameObjectWithTag("Player");
 
+        leftLimit = leftEdge.position.x;
+        rightLimit = rightEdge.position.x;
         curAttackCoolTime = attackCoolTime + Random.Range(-3f, 3f);
     }
 
     void Update()
     {
-        if(marker == null)
-        {
-            marker = GetComponentInChildren<Breakable>().marker.GetComponentInChildren<Marker>();
-            marker.isExecutor = true;
-            marker.ExposeMarker();
-        }
         
     }
 
     private void FixedUpdate()
     {
+        if (!isActivate) return;
         if (!isAttack) 
         {
-            transform.position = new Vector3(player.transform.position.x, transform.position.y, transform.position.z);
+            if(marker == null)
+            {
+                marker = GetComponentInChildren<Breakable>().marker.GetComponentInChildren<Marker>();
+                marker.isExecutor = true;
+                marker.ExposeMarker();
+            }
+            if(attackCount == -2) transform.position = new Vector3(rightLimit - 5f, transform.position.y, transform.position.z);
+            else if(attackCount == -1)
+            {
+                transform.position = new Vector3(leftLimit + 5f, transform.position.y, transform.position.z);
+            }
+            else transform.position = new Vector3(Mathf.Clamp(player.transform.position.x, leftLimit + 5f, rightLimit - 5f), transform.position.y, transform.position.z);
             if(curAttackCoolTime < 0)
             {
                 isAttack= true;
                 marker.HideMarker();
+                attackCount++;
+                if(attackCount == 0) transform.localScale = new Vector3(-transform.localScale.x, transform.localScale.y, transform.localScale.z);
+                anim.SetInteger("attackCount", attackCount);
                 anim.SetTrigger("doAttack");
-                curAttackCoolTime = attackCoolTime + Random.Range(-3f, 3f);
+                curAttackCoolTime = attackCoolTime + Random.Range(-2f, 2f);
             }
             curAttackCoolTime -= Time.deltaTime;
 

@@ -1524,7 +1524,7 @@ GameObject:
   - component: {fileID: 3917905783347095634}
   m_Layer: 11
   m_Name: Executor(Field)
-  m_TagString: Untagged
+  m_TagString: Executor(Field)
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1592,6 +1592,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3b018057ff7c7d94d873fc02154c7883, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  marker: {fileID: 0}
   team: 1
   _hpCurrent: 10000
   _hpMax: 10000
