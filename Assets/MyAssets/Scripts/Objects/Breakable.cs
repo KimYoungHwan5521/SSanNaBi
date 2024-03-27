@@ -8,7 +8,7 @@ public abstract class Breakable : MonoBehaviour
 {
     protected Rigidbody2D rigid;
 
-    GameObject marker;
+    public GameObject marker;
 
     public Team team;
     private bool _isBreak;
@@ -53,7 +53,7 @@ public abstract class Breakable : MonoBehaviour
 
     protected virtual void Start()
     {
-        if(team == Team.Enemy && CompareTag("Enemy"))
+        if(team == Team.Enemy)
         {
             GameObject inst = Resources.Load<GameObject>("Prefabs/UI/EnemyMarker");
             GameObject mainCanvas = GameObject.FindGameObjectWithTag("MainCanvas");
