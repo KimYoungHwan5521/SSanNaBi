@@ -596,7 +596,7 @@ public class Character : Breakable
             hitAnim.SetTrigger("doHit");
             if(chainArm != null) DestroyChainArm();
             IsGrab = false;
-            Time.timeScale = 0.1f;
+            Time.timeScale = 0.2f;
             Invoke("ReversalDash", 0.15f);
             Invoke("ReversalDashEnd", 1f);
             
