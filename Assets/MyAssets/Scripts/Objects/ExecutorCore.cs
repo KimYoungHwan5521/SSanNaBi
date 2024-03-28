@@ -31,6 +31,7 @@ public class ExecutorCore : Breakable
         anim.SetTrigger("doHit");
         if (HPCurrent == 300) executor.attackCount = -2;
         else if (HPCurrent == 200) executor.attackCount = -3;
+        else if (HPCurrent == 100 ) executor.Break();
         return base.TakeDamage(from, damage, hitPoint);
     }
 }

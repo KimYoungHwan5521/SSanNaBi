@@ -21,10 +21,11 @@ public class ExecutorAttack : StateMachineBehaviour
     override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
         AIExecutor executor = animator.GetComponentInParent<AIExecutor>();
-        executor.marker.ExposeMarker();
+        if(!executor.isBreak)executor.marker.ExposeMarker();
         if (executor.attackCount == 0) executor.transform.localScale = new Vector3(-executor.transform.localScale.x, executor.transform.localScale.y, executor.transform.localScale.z);
         else if (executor.attackCount >= 3) executor.attackCount = 0;
         executor.isAttack = false;
+        executor.isTornado= false;
     }
 
     // OnStateMove is called right after Animator.OnAnimatorMove()

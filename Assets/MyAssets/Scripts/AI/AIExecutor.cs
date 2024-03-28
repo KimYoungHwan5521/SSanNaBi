@@ -23,6 +23,9 @@ public class AIExecutor : MonoBehaviour
     public bool isAttack;
     public int attackCount = 0;
 
+    public bool isTornado;
+    public bool isBreak;
+
 
     void Start()
     {
@@ -42,7 +45,7 @@ public class AIExecutor : MonoBehaviour
 
     private void FixedUpdate()
     {
-        if (!isActivate) return;
+        if (!isActivate || isBreak) return;
         if (!isAttack) 
         {
             if(marker == null)
@@ -53,16 +56,21 @@ public class AIExecutor : MonoBehaviour
             }
             if(attackCount == -2) transform.position = new Vector3(rightLimit - 5f, transform.position.y, transform.position.z);
             else if(attackCount == -1)
-            {
+            { 
                 transform.position = new Vector3(leftLimit + 5f, transform.position.y, transform.position.z);
             }
-            else transform.position = new Vector3(Mathf.Clamp(player.transform.position.x, leftLimit + 5f, rightLimit - 5f), transform.position.y, transform.position.z);
+            else
+            {
+                float velocity = Mathf.Clamp(player.transform.position.x, transform.position.x - Time.fixedDeltaTime * 30, transform.position.x + Time.fixedDeltaTime * 30);
+                transform.position = new Vector3(Mathf.Clamp(velocity, leftLimit + 5f, rightLimit - 5f), transform.position.y, transform.position.z);
+            }
             if(curAttackCoolTime < 0)
             {
                 isAttack= true;
                 marker.HideMarker();
                 attackCount++;
                 if(attackCount == 0) transform.localScale = new Vector3(-transform.localScale.x, transform.localScale.y, transform.localScale.z);
+                else if(attackCount == -2) isTornado= true;
                 anim.SetInteger("attackCount", attackCount);
                 anim.SetTrigger("doAttack");
                 curAttackCoolTime = attackCoolTime + Random.Range(-2f, 2f);
@@ -70,6 +78,20 @@ public class AIExecutor : MonoBehaviour
             curAttackCoolTime -= Time.deltaTime;
 
         }
+        else if(isTornado)
+        {
+            float velocity = Mathf.Clamp(player.transform.position.x, transform.position.x - Time.fixedDeltaTime * 5, transform.position.x + Time.fixedDeltaTime * 5);
+            transform.position = new Vector3(Mathf.Clamp(velocity, leftLimit + 5f, rightLimit - 5f), transform.position.y, transform.position.z);
+
+        }
+    }
+
+    public void Break()
+    {
+        isBreak= true;
+        gameObject.layer = 1 >> LayerMask.GetMask("Corpse");
+        gameObject.AddComponent<DestroyTimer>().time = 11f;
+        anim.SetTrigger("doDeath");
     }
 
 
