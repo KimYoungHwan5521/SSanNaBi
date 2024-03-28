@@ -47,7 +47,7 @@ public class ExecutorZone : MonoBehaviour
                     // 그래서 discriminantVector를 정의해해주었다.
                     discriminantVector = hit.normal * Vector2.up;
                     discriminantVector.Normalize();
-                    float spawnPosX = Mathf.Clamp(hit.point.x, hit.collider.bounds.center.x - hit.collider.bounds.extents.x + 5f, hit.collider.bounds.center.x + hit.collider.bounds.extents.x - 5f);
+                    float spawnPosX = Mathf.Clamp(hit.point.x, hit.collider.bounds.center.x - hit.collider.bounds.extents.x + 5.2f, hit.collider.bounds.center.x + hit.collider.bounds.extents.x - 5.2f);
                     spawnPosition = new Vector2(spawnPosX ,hit.collider.bounds.center.y + hit.collider.bounds.extents.y * discriminantVector.y) - discriminantVector * 13f;
 
                 }
@@ -55,11 +55,10 @@ public class ExecutorZone : MonoBehaviour
                 {
                     discriminantVector = hit.normal * Vector2.right;
                     discriminantVector.Normalize();
-                    float spawnPosY = Mathf.Clamp(hit.point.y, hit.collider.bounds.center.y - hit.collider.bounds.extents.y + 5f, hit.collider.bounds.center.y + hit.collider.bounds.extents.y - 5f);
+                    float spawnPosY = Mathf.Clamp(hit.point.y, hit.collider.bounds.center.y - hit.collider.bounds.extents.y + 5.2f, hit.collider.bounds.center.y + hit.collider.bounds.extents.y - 5.2f);
                     spawnPosition = new Vector2(hit.collider.bounds.center.x + hit.collider.bounds.extents.x * discriminantVector.x, spawnPosY) - discriminantVector * 13f;
                 }
                 GameObject inst = Instantiate(executor, spawnPosition, Quaternion.identity);
-                //inst.GetComponentInChildren<Breakable>().marker.GetComponent<Marker>().HideMarker();
 
                 if (discriminantVector == Vector2.down) inst.transform.Rotate(0, 0, 180f);
                 else if (discriminantVector == Vector2.right) inst.transform.Rotate(0, 0, -90f);
