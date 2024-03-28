@@ -24,6 +24,8 @@ public class ExecutorCore : Breakable
             else markerScript.HideMarker();
         }
         base.Update();
+
+        if (executor.attackCount < 3) curInvincibleTime = invincibleTime;
     }
 
     public override int TakeDamage(Breakable from, int damage, Vector3 hitPoint)

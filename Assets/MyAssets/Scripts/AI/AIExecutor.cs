@@ -5,8 +5,8 @@ using UnityEngine.UI;
 
 public class AIExecutor : MonoBehaviour
 {
-    Rigidbody2D rigid;
     Animator anim;
+    ExecutorCore core;
 
     GameObject player;
     public Marker marker;
@@ -29,8 +29,9 @@ public class AIExecutor : MonoBehaviour
 
     void Start()
     {
-        rigid = GetComponentInChildren<Rigidbody2D>();
         anim = GetComponentInChildren<Animator>();
+        core= GetComponentInChildren<ExecutorCore>();
+
         player = GameObject.FindGameObjectWithTag("Player");
 
         leftLimit = leftEdge.position.x;
@@ -50,7 +51,7 @@ public class AIExecutor : MonoBehaviour
         {
             if(marker == null)
             {
-                marker = GetComponentInChildren<Breakable>().marker.GetComponentInChildren<Marker>();
+                marker = core.marker.GetComponentInChildren<Marker>();
                 marker.isExecutor = true;
                 marker.ExposeMarker();
             }
@@ -69,8 +70,9 @@ public class AIExecutor : MonoBehaviour
                 isAttack= true;
                 marker.HideMarker();
                 attackCount++;
-                if(attackCount == 0) transform.localScale = new Vector3(-transform.localScale.x, transform.localScale.y, transform.localScale.z);
-                else if(attackCount == -2) isTornado= true;
+                if (attackCount == 0) transform.localScale = new Vector3(-transform.localScale.x, transform.localScale.y, transform.localScale.z);
+                else if (attackCount == -2) isTornado = true;
+                else if (attackCount == 3) core.curInvincibleTime = 0;
                 anim.SetInteger("attackCount", attackCount);
                 anim.SetTrigger("doAttack");
                 curAttackCoolTime = attackCoolTime + Random.Range(-2f, 2f);
