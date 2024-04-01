@@ -418,6 +418,7 @@ public class Character : Breakable
         chainArm = inst;
         throwVector.Normalize();
         inst.GetComponent<ChainArm>().user = transform;
+        inst.GetComponent<ChainArm>().userChar = this;
         Rigidbody2D instRigid = inst.GetComponent<Rigidbody2D>();
         instRigid.velocity = throwVector * chainArmSpeed;
         distanceJoint.connectedBody = instRigid;

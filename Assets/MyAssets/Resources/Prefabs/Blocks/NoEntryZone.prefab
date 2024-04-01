@@ -143,6 +143,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2dc98fdb7cffdf44eab7b2824ea05b64, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  marker: {fileID: 0}
   team: 1
   _hpCurrent: 0
   _hpMax: 0

@@ -13,6 +13,8 @@ TagManager:
   - VirtualCamera
   - Executor
   - Executor(Field)
+  - Justice
+  - HitBox
   layers:
   - Default
   - TransparentFX

@@ -53,7 +53,7 @@ public abstract class Breakable : MonoBehaviour
 
     protected virtual void Start()
     {
-        if(team == Team.Enemy && !CompareTag("Executor(Field)"))
+        if(team == Team.Enemy && !CompareTag("Executor(Field)") && !CompareTag("Justice"))
         {
             GameObject inst = Resources.Load<GameObject>("Prefabs/UI/EnemyMarker");
             GameObject mainCanvas = GameObject.FindGameObjectWithTag("MainCanvas");
