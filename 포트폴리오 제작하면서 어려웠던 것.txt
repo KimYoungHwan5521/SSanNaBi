@@ -104,10 +104,12 @@
 발생한 문제점 : 오브젝트에 파티클시스템을 달아주었는데 파티클이 떨어지는 중에도 오브젝트가 이동하면 그대로 따라갔다
 
 해결 방법 : Particle System의 Simulation Space를 Local에서 World로 변경해주었다.
-------------------이전 기획 단계------------------
-0. 공격으로 총알을 제거 하는데 히트박스가 먼저 생성되고 투사체가 들어 오는 경우는 막아졌지만
-이미 투사체가 들어온 후 그 위에 히트박스가 그려질경우에는 콜리젼 체크가 되지 않았었다.
 
-해결 방법:
-히트박스의 콜라이더의 Geometry Type이 Outlines인 경우에는 외곽선이 충돌할 때에 콜리젼이 체크가 된다.
-Geometry Type을 Polygons로 고쳐서 해결하였다.
+
+
+11. SpriteRenderer color 바꾸기
+
+발생한 문제점 : 오브젝트의 SpriteRenderer에 접근해서 color값을 바꾸어 주려고 SpriteRenderer.color = Color.yellow;를 넣어 주었으나 디버그상으로는 컬러가 바뀌었다고 뜨면서도 실제 씬과 인스펙터상의 컬러값은 바뀌지 않았다.
+
+해결 방법 : SpriteRenderer.material.color에 접근해서 매테리얼의 컬러값을 바꾸어 주었다.
+

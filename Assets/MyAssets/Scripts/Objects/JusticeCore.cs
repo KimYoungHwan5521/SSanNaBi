@@ -7,6 +7,17 @@ public class JusticeCore : MonoBehaviour
     public Transform[] cores;
     float rotationSpeed = 100f;
 
+    int activateCore = 0;
+    public bool isCoreActivated;
+
+    private void Start()
+    {
+        for(int i=0; i<cores.Length; i++)
+        {
+            cores[i].GetComponentsInChildren<SpriteRenderer>()[1].material.color = new Color(0.56f, 0.56f, 0.56f, 1);
+        }
+    }
+
     private void FixedUpdate()
     {
         // 1. 부모 자체를 회전함
@@ -25,5 +36,17 @@ public class JusticeCore : MonoBehaviour
             cores[i].rotation = Quaternion.Euler(0, 0, Mathf.Atan2((cores[i].position - transform.position).y, (cores[i].position - transform.position).x) * Mathf.Rad2Deg - 90);
         }
 
+    }
+
+    public void CoreActivate()
+    {
+        if(activateCore < cores.Length)
+        {
+            cores[activateCore].GetComponentsInChildren<SpriteRenderer>()[1].material.color = Color.yellow;
+            cores[activateCore].GetComponentInChildren<Collider2D>().enabled = true;
+            isCoreActivated = true;
+            activateCore++;
+
+        }
     }
 }

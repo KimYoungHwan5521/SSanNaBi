@@ -7,6 +7,7 @@ public class AIJustice : AIBase
 {
     public SpriteRenderer dashRangeSR;
     public float dashRange;
+    public JusticeCore justiceCore;
 
     public Collider2D bodyCollider;
 
@@ -90,6 +91,7 @@ public class AIJustice : AIBase
                         else
                         {
                             transform.parent.position = dashPosition;
+                            if (!justiceCore.isCoreActivated) justiceCore.CoreActivate();
                             dashAttack = false;
                             curDashCharge = dashCharge;
                             curDashAttackCoolTime = dashAttackCoolTime;
@@ -178,6 +180,7 @@ public class AIJustice : AIBase
         isWeak = true;
         bodyCollider.enabled = true;
         dashRangeSR.enabled = false;
+        controlledCharacter.anim.ResetTrigger("doAttack");
         controlledCharacter.anim.StopPlayback();
     }
 

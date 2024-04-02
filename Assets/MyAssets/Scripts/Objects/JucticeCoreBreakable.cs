@@ -15,6 +15,8 @@ public class JucticeCoreBreakable : Breakable
             gameObject.layer = LayerMask.NameToLayer("Corpse");
             GetComponent<SpriteRenderer>().enabled = false;
             GetComponent<Animator>().SetTrigger("doDeath");
+            Debug.Log(transform.parent.GetComponentInParent<JusticeCore>().gameObject);
+            transform.parent.GetComponentInParent<JusticeCore>().isCoreActivated = false;
             justice.GetComponent<AIJustice>().JusticeCoreHit();
         }
     }

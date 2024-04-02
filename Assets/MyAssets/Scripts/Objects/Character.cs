@@ -488,6 +488,7 @@ public class Character : Breakable
         {
             if(grabedCharacter != null)
             {
+                grabedCharacter.status = Status.Normal;
                 grabedCharacter.TakeDamage(this, attackDamage, transform.position);
                 grabedCharacter = null;
             }

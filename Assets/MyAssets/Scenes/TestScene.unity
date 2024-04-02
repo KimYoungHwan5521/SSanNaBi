@@ -306,7 +306,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 1
   m_Sprite: {fileID: -2413806693520163455, guid: a86470a33a6bf42c4b3595704624658b, type: 3}
-  m_Color: {r: 0.5660378, g: 0.5660378, b: 0.5660378, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -700,7 +700,7 @@ CapsuleCollider2D:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 247010581}
-  m_Enabled: 1
+  m_Enabled: 0
   m_Density: 1
   m_Material: {fileID: 0}
   m_IncludeLayers:
@@ -768,6 +768,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cores: []
+  isCoreActivated: 0
 --- !u!212 &247010588
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -1134,6 +1135,7 @@ MonoBehaviour:
   - {fileID: 995776741}
   - {fileID: 1304952031}
   - {fileID: 247010582}
+  isCoreActivated: 0
 --- !u!4 &437261178 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 7158641956770195459, guid: 7f442ecc515a61146a35a22eead219a2, type: 3}
@@ -7391,7 +7393,7 @@ CapsuleCollider2D:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 995776740}
-  m_Enabled: 1
+  m_Enabled: 0
   m_Density: 1
   m_Material: {fileID: 0}
   m_IncludeLayers:
@@ -7459,6 +7461,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cores: []
+  isCoreActivated: 0
 --- !u!212 &995776746
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -13062,6 +13065,7 @@ MonoBehaviour:
   jumpable: 0
   dashRangeSR: {fileID: 1404879039}
   dashRange: 20
+  justiceCore: {fileID: 433667520}
   bodyCollider: {fileID: 0}
   dashAttackCoolTime: 5
   dashCharge: 1
@@ -13224,7 +13228,7 @@ CapsuleCollider2D:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1304952030}
-  m_Enabled: 1
+  m_Enabled: 0
   m_Density: 1
   m_Material: {fileID: 0}
   m_IncludeLayers:
@@ -13292,6 +13296,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cores: []
+  isCoreActivated: 0
 --- !u!212 &1304952037
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -13672,7 +13677,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 1
   m_Sprite: {fileID: -2413806693520163455, guid: a86470a33a6bf42c4b3595704624658b, type: 3}
-  m_Color: {r: 0.5660378, g: 0.5660378, b: 0.5660378, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -13992,7 +13997,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 1
   m_Sprite: {fileID: -2413806693520163455, guid: a86470a33a6bf42c4b3595704624658b, type: 3}
-  m_Color: {r: 0.5660378, g: 0.5660378, b: 0.5660378, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
