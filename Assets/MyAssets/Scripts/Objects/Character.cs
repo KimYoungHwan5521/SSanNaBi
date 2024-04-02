@@ -521,7 +521,7 @@ public class Character : Breakable
     protected virtual void GenerateHitBox(string hitBoxName)
     {
         GameObject prefab = Resources.Load<GameObject>($"Prefabs/Hitboxes/{hitBoxName}");
-        GameObject inst = Instantiate(prefab, transform.position, transform.rotation);
+        GameObject inst = Instantiate(prefab, transform);
         inst.transform.localScale = new Vector2(transform.localScale.x, inst.transform.localScale.y);
         inst.AddComponent<DamageComponent>().Initialize(this, attackDamage);
     }
@@ -588,7 +588,7 @@ public class Character : Breakable
                 Vector2 knockBackDirection = bodyCollider.bounds.center - hitPoint;
                 knockBackDirection.Normalize();
                 IsKnockBack= true;
-                rigid.AddForce(knockBackDirection * 10, ForceMode2D.Impulse);
+                rigid.AddForce(knockBackDirection * 5, ForceMode2D.Impulse);
             }
             
             // 플레이어 히트 이펙트
