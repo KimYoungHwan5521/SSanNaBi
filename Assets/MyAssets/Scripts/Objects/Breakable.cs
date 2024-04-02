@@ -11,7 +11,7 @@ public abstract class Breakable : MonoBehaviour
     public GameObject marker;
 
     public Team team;
-    private bool _isBreak;
+    protected bool _isBreak;
     public virtual bool IsBreak
     {
         get { return _isBreak; }

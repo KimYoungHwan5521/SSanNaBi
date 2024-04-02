@@ -474,6 +474,14 @@ public class Character : Breakable
         executor.TakeDamage(this, attackDamage, transform.position);
     }
 
+    public void ChainAttack(JucticeCoreBreakable jucticeCore)
+    {
+        DestroyChainArm();
+        grabedTarget = jucticeCore.gameObject;
+        jucticeCore.TakeDamage(this, attackDamage, transform.position);
+        Invoke("ChainAttackEnd", 0.1f);
+    }
+
     void ChainAttackEnd()
     {
         if (grabedTarget != null)
@@ -485,18 +493,25 @@ public class Character : Breakable
             }
             else
             {
-                // grabedCharacter∞° null¿Ã∏È patrolBlock
-                PatrolBlock patrol = grabedTarget.GetComponent<PatrolBlock>();
-                patrol.movable = false;
-                if(patrol.isGoingBack)
+                // patrolBlock
+                if(grabedTarget.TryGetComponent<PatrolBlock>(out PatrolBlock patrol))
                 {
-                    patrol.transform.position = patrol.endPoint.position;
+                    patrol.movable = false;
+                    if(patrol.isGoingBack)
+                    {
+                        patrol.transform.position = patrol.endPoint.position;
 
+                    }
+                    else
+                    {
+                        patrol.transform.position = patrol.startPoint.position;
+
+                    }
                 }
                 else
                 {
-                    patrol.transform.position = patrol.startPoint.position;
-
+                    // justiceCore
+                    
                 }
             }
             grabedTarget= null;
@@ -601,6 +616,10 @@ public class Character : Breakable
             Invoke("ReversalDash", 0.15f);
             Invoke("ReversalDashEnd", 1f);
             
+        } else if(CompareTag("Justice"))
+        {
+            GetComponent<AIJustice>().bodyCollider.enabled= false;
+            anim.SetTrigger("doHit");
         }
         return base.TakeDamage(from, damage, hitPoint);
     }

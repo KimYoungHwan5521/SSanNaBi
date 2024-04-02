@@ -1,0 +1,29 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class JusticeCore : MonoBehaviour
+{
+    public Transform[] cores;
+    float rotationSpeed = 100f;
+
+    private void FixedUpdate()
+    {
+        // 1. 부모 자체를 회전함
+        transform.Rotate(Vector3.forward * rotationSpeed * Time.fixedDeltaTime);
+
+        float angle = transform.rotation.eulerAngles.z * Mathf.Deg2Rad;
+        float radius = 6f; // 반지름 설정
+
+        for(int i=0;i<cores.Length;i++)
+        {
+            // 2. 부모의 회전값을 기준점으로 자식들을 등간격 배치
+            cores[i].position = new Vector3(transform.position.x + Mathf.Cos(angle + 2 * Mathf.PI * i / cores.Length) * radius,
+                                           transform.position.y + Mathf.Sin(angle + 2 * Mathf.PI * i / cores.Length) * radius,
+                                           cores[i].position.z);
+            // 3. 중앙(부모위치)을 바라보게
+            cores[i].rotation = Quaternion.Euler(0, 0, Mathf.Atan2((cores[i].position - transform.position).y, (cores[i].position - transform.position).x) * Mathf.Rad2Deg - 90);
+        }
+
+    }
+}
