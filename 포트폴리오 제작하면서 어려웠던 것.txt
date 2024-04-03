@@ -113,3 +113,11 @@
 
 해결 방법 : SpriteRenderer.material.color에 접근해서 매테리얼의 컬러값을 바꾸어 주었다.
 
+
+
+12. 애니메이션 vs Update
+
+발생한 문제점 : 애니메이션을 통해서 오브젝트의 transform.rotation을 건드렸더니 FixedUpdate에 들어있는 transform.rotation의 동작이 무시되었다.
+
+해결 방법 : 이렇게 애니메이션 때문에 Update(또는 FixedUpdate)의  동작이 무시될 때는 애니메이션보다 늦게 동작하는 LateUpdate를 사용해주어야 한다. 
+

@@ -7,7 +7,7 @@ public class JusticeCore : MonoBehaviour
     public Transform[] cores;
     float rotationSpeed = 100f;
 
-    int activateCore = 0;
+    public int activateCore = 0;
     public bool isCoreActivated;
 
     private void Start()

@@ -10,7 +10,7 @@ public class Marker : MonoBehaviour
     Image[] images;
 
     RectTransform mainCanvas;
-    Transform player;
+    //Transform player;
 
     float xPos;
     float yPos;
@@ -28,14 +28,14 @@ public class Marker : MonoBehaviour
     void Start()
     {
         mainCanvas = GameObject.FindGameObjectWithTag("MainCanvas").GetComponent<RectTransform>();
-        player = GameObject.FindGameObjectWithTag("Player").GetComponent<Transform>();
+        //player = GameObject.FindGameObjectWithTag("Player").GetComponent<Transform>();
     }
 
     void Update()
     {
         if (owner != null)
         {
-            if (Vector2.Distance(owner.transform.position, player.position) > 100)
+            if (Vector2.Distance(owner.transform.position, Camera.main.transform.position) > 100)
             {
                 HideMarker();
             }
