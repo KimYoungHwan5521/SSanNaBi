@@ -235,13 +235,16 @@ public class AIJustice : AIBase
     {
         beHit= true;
         isWeak = false;
+        curDashAfterDelay = dashAfterDelay;
+        curDashAttackCoolTime= dashAttackCoolTime;
+        curDashCharge = dashCharge;
         controlledCharacter.anim.SetBool("isWeak", false);
     }
 
 
     private void OnTriggerStay2D(Collider2D collision)
     {
-        if((collision.CompareTag("Player") || collision.CompareTag("ChainArm")) && !controlledCharacter.isAttack && !dashAttackReady && !isWeak && !beHit && !nextPhase)
+        if((collision.CompareTag("Player") || (collision.CompareTag("ChainArm") && !justiceCore.isCoreActivated)) && !controlledCharacter.isAttack && !dashAttackReady && !isWeak && !beHit && !nextPhase)
         {
             controlledCharacter.isAttack= true;
             controlledCharacter.anim.SetTrigger("doAttack");
