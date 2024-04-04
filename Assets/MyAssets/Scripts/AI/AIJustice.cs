@@ -12,6 +12,9 @@ public class AIJustice : AIBase
     SpriteRenderer[] coreSprites;
 
     public Collider2D bodyCollider;
+    public JusticeZone justiceZone;
+
+    public bool isAlterEgo;
 
     Vector3 targetDirection;
     Quaternion rememberRotation;
@@ -44,12 +47,17 @@ public class AIJustice : AIBase
     {
         controlledCharacter = GetComponent<Character>();
         bodyCollider= GetComponent<Collider2D>();
-        coreSprites = justiceCore.GetComponentsInChildren<SpriteRenderer>();
+        if(!isAlterEgo)
+        {
+            coreSprites = justiceCore.GetComponentsInChildren<SpriteRenderer>();
+
+        }
 
         curDashAttackCoolTime = dashAttackCoolTime;
         curDashCharge= dashCharge;
         curDashAfterDelay= dashAfterDelay;
-        curReadyToNextPhase= readyToNextPhase;
+        if (isAlterEgo) curReadyToNextPhase = 1f;
+        else curReadyToNextPhase= readyToNextPhase;
         curCircularAttackReady= circularAttackReady;
         curCircularAttackDelay= circularAttackDelay;
         if(dashRangeSR!= null)
@@ -124,7 +132,7 @@ public class AIJustice : AIBase
                                 else
                                 {
                                     transform.parent.position = dashPosition;
-                                    if (!justiceCore.isCoreActivated) justiceCore.CoreActivate();
+                                    if (!isAlterEgo && !justiceCore.isCoreActivated) justiceCore.CoreActivate();
                                     dashAttack = false;
                                     curDashCharge = dashCharge;
                                     curDashAttackCoolTime = dashAttackCoolTime;
@@ -157,6 +165,7 @@ public class AIJustice : AIBase
                             {
                                 dashAfter = false;
                                 curDashAfterDelay = dashAfterDelay;
+                                if (isAlterEgo) beHit = true;
                             }
                             curDashAfterDelay -= Time.fixedDeltaTime;
                         }
@@ -185,9 +194,13 @@ public class AIJustice : AIBase
                         if(curCircularAttackDelay < 0)
                         {
                             circularAttackRangeSR.enabled = false;
-                            for (int i = 0; i < coreSprites.Length; i++)
+                            if(!isAlterEgo)
                             {
-                                if(i >= justiceCore.activateCore * 2)coreSprites[i].enabled = true;
+                                for (int i = 0; i < coreSprites.Length; i++)
+                                {
+                                    if(i >= justiceCore.activateCore * 2)coreSprites[i].enabled = true;
+                                }
+
                             }
                             controlledCharacter.anim.SetBool("isHide", false);
                             controlledCharacter.anim.SetTrigger("doCircularAttack");
@@ -210,9 +223,13 @@ public class AIJustice : AIBase
                     {
                         beHit = false;
                         nextPhase = true;
-                        for(int i = 0;i<coreSprites.Length; i++)
+                        if(!isAlterEgo)
                         {
-                            coreSprites[i].enabled = false;
+                            for(int i = 0;i<coreSprites.Length; i++)
+                            {
+                                coreSprites[i].enabled = false;
+                            }
+
                         }
 
                         controlledCharacter.anim.SetBool("isHide", true);
@@ -241,10 +258,20 @@ public class AIJustice : AIBase
         controlledCharacter.anim.SetBool("isWeak", false);
     }
 
+    void AlterEgoDeath()
+    {
+        if (isAlterEgo)
+        {
+            BeHit();
+            justiceZone.justiceAlterEgoDead= true;
+        }
+        else justiceZone.justiceMainDead = true;
+    }
+
 
     private void OnTriggerStay2D(Collider2D collision)
     {
-        if((collision.CompareTag("Player") || (collision.CompareTag("ChainArm") && !justiceCore.isCoreActivated)) && !controlledCharacter.isAttack && !dashAttackReady && !isWeak && !beHit && !nextPhase)
+        if((collision.CompareTag("Player") || (collision.CompareTag("ChainArm") && !isAlterEgo && !justiceCore.isCoreActivated)) && !controlledCharacter.isAttack && !dashAttackReady && !isWeak && !beHit && !nextPhase)
         {
             controlledCharacter.isAttack= true;
             controlledCharacter.anim.SetTrigger("doAttack");
@@ -255,7 +282,7 @@ public class AIJustice : AIBase
     public void JusticeCoreHit()
     {
         isWeak = true;
-        bodyCollider.enabled = true;
+        if(!isAlterEgo)bodyCollider.enabled = true;
         dashRangeSR.enabled = false;
         controlledCharacter.anim.SetBool("isWeak", true);
         controlledCharacter.anim.ResetTrigger("doAttack");

@@ -300,7 +300,8 @@ public class Character : Breakable
                 chainArmPredictLineRenderer.SetPosition(1, hits[0].point);
                 // hits[0].transform.gameObject.layer는 9가 반환 되고 LayerMask.GetMask("Enemy")는 2^9으로 반환되기 때문에
                 // left shift를 통해 (1 << x) 비교해주어야 한다.
-                if (1 << hits[0].transform.gameObject.layer == LayerMask.GetMask("Enemy"))
+                // (layer에서 tag로 교체)
+                if (hits[0].transform.gameObject.CompareTag("Enemy")|| hits[0].transform.gameObject.CompareTag("Justice"))
                 {
                     
                     chainArmPredictLineRenderer.startColor = Color.red;

@@ -20,7 +20,8 @@ public abstract class Breakable : MonoBehaviour
             _isBreak = value;
             gameObject.layer = LayerMask.NameToLayer("Corpse");
             Destroy(marker);
-            gameObject.AddComponent<DestroyTimer>().time = 3f;
+            if(CompareTag("Justice")) transform.parent.gameObject.AddComponent<DestroyTimer>().time =3f;
+            else gameObject.AddComponent<DestroyTimer>().time = 3f;
             if (flyable) rigid.gravityScale = 1f;
         }
     }

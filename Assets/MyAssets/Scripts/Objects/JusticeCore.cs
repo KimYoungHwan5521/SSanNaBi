@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class JusticeCore : MonoBehaviour
 {
+    public Transform body;
     public Transform[] cores;
     float rotationSpeed = 100f;
 
@@ -20,6 +21,7 @@ public class JusticeCore : MonoBehaviour
 
     private void FixedUpdate()
     {
+        if(body != null)transform.position = body.position;
         // 1. 부모 자체를 회전함
         transform.Rotate(Vector3.forward * rotationSpeed * Time.fixedDeltaTime);
 
