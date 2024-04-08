@@ -31,7 +31,7 @@ Transform:
   m_GameObject: {fileID: 2641059691708748095}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 43.49551, y: 22.243692, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -185,10 +185,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3b018057ff7c7d94d873fc02154c7883, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  marker: {fileID: 0}
   team: 1
   _hpCurrent: 60
   _hpMax: 60
   attackDamage: 10
+  flyable: 0
   invincibleTime: 0
   curInvincibleTime: 0
   anim: {fileID: 0}
@@ -204,7 +206,6 @@ MonoBehaviour:
   jumpPower: 300
   chainArmSpeed: 0
   chainArmMaxDistance: 0
-  flyable: 0
   isGround: 0
   isHit: 0
   isAttack: 0
@@ -224,6 +225,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a1f3c37f5e2c8024383e491566595ef8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  controlledCharacter: {fileID: 0}
   target: {fileID: 0}
   moveType: 2
   targetDetectRange: 30

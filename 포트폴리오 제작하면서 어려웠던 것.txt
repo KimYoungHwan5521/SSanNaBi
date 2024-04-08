@@ -33,6 +33,7 @@
 
 
 4. 넉백 구현
+
 발생한 문제점 : Trigger인 DamageComponent와 피격체의 콘택트 포인트를 알고 싶었다.
 
 해결 방법 : collision.ClosestPoint()를 사용하였다.
@@ -62,7 +63,7 @@
 발생한 문제점 1 : Layer를 비교 할 때 gameobject.layer는 layer number를 반환하고 LayerMask.GetMask()는 2^(layer number)를 반환했다.
 
 해결 방법 : left shift(1 << layer number)를 쓰면 2^(layer number)가 된다. 그러면 비교 할 수 있다.
-
++ 이후에는 레이어가 아닌 태그를 체크하는 방식으로 바꾸었음.
 
 발생한 문제점 2 : LineRenderer의 color를 바꾸고 싶었는데 lineRenderer.colorGradient를 직접 건드렸을 때 제대로 동작하지 않았다.
 
@@ -79,7 +80,7 @@
 
 발생한 문제점 : 밟았을때 내려가게 만들었더니 내려가면서 콜라이더가 떨어지는 판정이 되어서 통통 튀면서 내려갔다 올라갔다를 반복했다.
 
-해결 방법 : 이전에 움직이는 발판의 경우에는 correctionValue에 Vector2.right를 곱했었는데 내려가는 발판의 경우에는 correctionValue를 그대로 주고 대신에 점프 키를 눌렀을 때에 correctionValue를 Vector2.right를 곱하게 해서 아래로 잡아당기는 것이 점프를 방해하지 못하게 만들었다.. 
+해결 방법 : 이전에 움직이는 발판의 경우에는 correctionValue에 Vector2.right를 곱했었는데 내려가는 발판의 경우에는 correctionValue를 그대로 주고 대신에 점프 키를 눌렀을 때에 correctionValue를 Vector2.right를 곱하게 해서 아래로 잡아당기는 것이 점프를 방해하지 못하게 만들었다.
 
 
 

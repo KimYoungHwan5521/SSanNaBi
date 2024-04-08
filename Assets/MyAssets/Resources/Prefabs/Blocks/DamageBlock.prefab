@@ -90,6 +90,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2dc98fdb7cffdf44eab7b2824ea05b64, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  marker: {fileID: 0}
   team: 1
   _hpCurrent: 0
   _hpMax: 0
@@ -124,7 +125,7 @@ Transform:
   m_GameObject: {fileID: 5330059484054492929}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -35.1, y: -14.9, z: 0.17711832}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 30, y: 0.95189196, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:

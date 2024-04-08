@@ -15,6 +15,7 @@ TagManager:
   - Executor(Field)
   - Justice
   - HitBox
+  - BackWall
   layers:
   - Default
   - TransparentFX
