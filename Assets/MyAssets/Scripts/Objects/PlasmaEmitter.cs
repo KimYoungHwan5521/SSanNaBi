@@ -7,8 +7,12 @@ public class PlasmaEmitter : MonoBehaviour
 {
     LineRenderer lineRenderer;
     EdgeCollider2D[] edgeColliders;
+
+    Vector3 platPosition;
+    Vector3 bodyPosition;
     Vector2 edgeStart;
     Vector2 edgeEnd;
+    Vector2 lookDirection;
     List<Vector2> edges;
 
     private void Start()
@@ -16,14 +20,19 @@ public class PlasmaEmitter : MonoBehaviour
         lineRenderer = GetComponent<LineRenderer>();
         edgeColliders= GetComponentsInChildren<EdgeCollider2D>();
 
-        lineRenderer.SetPosition(0, transform.position - GetComponent<Collider2D>().bounds.extents.y * 3 / 4 * Vector3.up);
+        platPosition = GetComponentsInChildren<Transform>()[1].position;
+        bodyPosition = GetComponentsInChildren<Transform>()[2].position;
+        lineRenderer.SetPosition(0, bodyPosition);
         edgeStart = Vector2.zero;
+
+        lookDirection = bodyPosition - platPosition;
+        lookDirection.Normalize();
     }
 
     void FixedUpdate()
     {
         RaycastHit2D[] hits = new RaycastHit2D[10];
-        Physics2D.RaycastNonAlloc(transform.position, Vector2.down, hits, 30f);
+        Physics2D.RaycastNonAlloc(bodyPosition, lookDirection, hits, 30f);
 
         bool firstHit = false;
         for(int i=0; i<hits.Length; i++)
@@ -32,7 +41,7 @@ public class PlasmaEmitter : MonoBehaviour
             if((hits[i].collider.CompareTag("Untagged") || hits[i].collider.CompareTag("Grabable")))
             {
                 lineRenderer.SetPosition(1, hits[i].point);
-                edgeEnd= Vector2.Distance(transform.position, hits[i].point) * Vector2.down;
+                edgeEnd= Vector2.Distance(bodyPosition, hits[i].point) * Vector2.down;
                 edges = new List<Vector2> { edgeStart, edgeEnd };
                 edgeColliders[0].SetPoints(edges);
                 edgeColliders[1].SetPoints(edges);
