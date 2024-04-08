@@ -21,6 +21,7 @@ public class AISupervisor : MonoBehaviour
     float curDeathTime;
 
     public float moveSpeed;
+    float moveSpeedCorrection;
     bool isWatching;
 
     private void Start()
@@ -28,6 +29,7 @@ public class AISupervisor : MonoBehaviour
         playerT = GameObject.FindGameObjectWithTag("Player").transform;
         canvas = GetComponentInChildren<Canvas>().GetComponent<RectTransform>();
         curDeathTime = deathTime;
+        preferPosition = transform.position;
     }
 
     private void Update()
@@ -64,8 +66,9 @@ public class AISupervisor : MonoBehaviour
 
         }
         preferDirection = new Vector3(preferPosition.x - transform.position.x, preferPosition.y - transform.position.y, 0);
-
-        transform.position += moveSpeed * Time.fixedDeltaTime * preferDirection;
+        if (Vector2.Distance(transform.position, preferPosition) > 20) moveSpeedCorrection = 3;
+        else moveSpeedCorrection = 1;
+        transform.position += moveSpeed * moveSpeedCorrection * Time.fixedDeltaTime * preferDirection;
 
     }
 

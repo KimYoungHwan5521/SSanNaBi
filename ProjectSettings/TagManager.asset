@@ -16,6 +16,8 @@ TagManager:
   - Justice
   - HitBox
   - BackWall
+  - CameraBoundary
+  - PlasmaEmitter
   layers:
   - Default
   - TransparentFX
