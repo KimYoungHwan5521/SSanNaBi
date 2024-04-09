@@ -32,7 +32,7 @@ public class PlasmaEmitter : MonoBehaviour
     void FixedUpdate()
     {
         RaycastHit2D[] hits = new RaycastHit2D[10];
-        Physics2D.RaycastNonAlloc(bodyPosition, lookDirection, hits, 30f);
+        Physics2D.RaycastNonAlloc(bodyPosition, lookDirection, hits, 200f);
 
         bool firstHit = false;
         for(int i=0; i<hits.Length; i++)

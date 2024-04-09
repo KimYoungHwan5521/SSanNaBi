@@ -5,6 +5,7 @@ using UnityEngine;
 public class DoorButton : MonoBehaviour
 {
     public Animator doors;
+    public bool openDefault;
     public float offTime;
     float curOffTime;
 
@@ -16,6 +17,7 @@ public class DoorButton : MonoBehaviour
     {
         backSR = GetComponentsInChildren<SpriteRenderer>()[0];
         frontT = GetComponentsInChildren<Transform>()[1];
+        if (openDefault) doors.SetBool("isDoorOpen", true);
     }
 
     private void Update()
@@ -25,8 +27,8 @@ public class DoorButton : MonoBehaviour
         {
             if(curOffTime < 0)
             {
-                doors.SetTrigger("DoorOpen/Close");
                 isButtonOn = false;
+                doors.SetBool("isDoorOpen", isButtonOn ^ openDefault);
             }
             frontT.localScale = (offTime - curOffTime) / offTime * Vector3.one;
             curOffTime -= Time.deltaTime;
@@ -40,9 +42,9 @@ public class DoorButton : MonoBehaviour
 
     public void ButtonOn()
     {
-        doors.SetTrigger("DoorOpen/Close");
-        curOffTime = offTime;
         isButtonOn= true;
+        doors.SetBool("isDoorOpen", isButtonOn ^ openDefault);
+        curOffTime = offTime;
     }
 
 }
