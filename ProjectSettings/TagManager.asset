@@ -18,6 +18,7 @@ TagManager:
   - BackWall
   - CameraBoundary
   - PlasmaEmitter
+  - DoorButton
   layers:
   - Default
   - TransparentFX

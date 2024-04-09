@@ -37,7 +37,7 @@ public class AISupervisor : MonoBehaviour
         if(isWatching)
         {
             deathTimerText.enabled = true;
-            deathTimerText.text = $"{(int)curDeathTime}";
+            deathTimerText.text = $"{(int)Mathf.Clamp(curDeathTime, 0, deathTime)}";
             xPos = Mathf.Clamp(Camera.main.WorldToScreenPoint(transform.position).x, 0, canvas.rect.width - 10 - deathTimerText.rectTransform.rect.width);
             yPos = Mathf.Clamp(Camera.main.WorldToScreenPoint(transform.position).y, deathTimerText.rectTransform.rect.height, canvas.rect.height - 10 - deathTimerText.rectTransform.rect.height);
             pos = new Vector2(xPos, yPos);

@@ -150,6 +150,7 @@ public class Character : Breakable
 
     private void FixedUpdate()
     {
+        if (rigid.bodyType == RigidbodyType2D.Static) return;
         if(grabedTarget != null)
         {
             transform.position = grabedTarget.GetComponent<Collider2D>().bounds.center;

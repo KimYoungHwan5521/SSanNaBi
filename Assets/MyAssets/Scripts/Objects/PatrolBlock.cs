@@ -21,7 +21,7 @@ public class PatrolBlock : MonoBehaviour
     public bool isCycle;
     public bool movable;
 
-    [SerializeField]Vector3 moveDirection;
+    Vector3 moveDirection;
     Vector3 departure;
     Vector3 destination;
 
@@ -45,12 +45,13 @@ public class PatrolBlock : MonoBehaviour
         departure = nodes[0];
         destination = nodes[1];
         body.transform.position = startPoint.position;
-
-        lineRenderer.positionCount = nodes.Length;
+        
+        lineRenderer.positionCount = isCycle ? nodes.Length + 1 : nodes.Length;
         for (int i = 0; i < nodes.Length; i++)
         {
             lineRenderer.SetPosition(i, nodes[i]);
         }
+        if (isCycle) lineRenderer.SetPosition(nodes.Length, nodes[0]);
     }
 
     private void FixedUpdate()

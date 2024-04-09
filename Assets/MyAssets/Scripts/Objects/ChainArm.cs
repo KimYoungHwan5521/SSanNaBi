@@ -60,6 +60,11 @@ public class ChainArm : MonoBehaviour
 
             
         }
+        else if(collision.gameObject.CompareTag("DoorButton"))
+        {
+            userChar.DestroyChainArm();
+            collision.gameObject.GetComponent<DoorButton>().ButtonOn();
+        }
         else if(collision.gameObject.CompareTag("ChainGrabable"))
         {
             userChar.ChainAttack(collision.collider.gameObject);
