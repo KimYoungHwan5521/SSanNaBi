@@ -190,7 +190,7 @@ BoxCollider2D:
   m_GameObject: {fileID: 3540192675004551179}
   m_Enabled: 1
   m_Density: 1
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 6200000, guid: b2fd8d43347fc7e46918fb7fa98802fe, type: 2}
   m_IncludeLayers:
     serializedVersion: 2
     m_Bits: 0
@@ -286,7 +286,6 @@ MonoBehaviour:
   isGoingBack: 0
   isCycle: 0
   movable: 1
-  moveDirection: {x: 0, y: 0, z: 0}
 --- !u!120 &7562259270998694838
 LineRenderer:
   serializedVersion: 2

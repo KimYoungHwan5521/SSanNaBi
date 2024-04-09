@@ -606,7 +606,7 @@ public class Character : Breakable
                 Vector2 knockBackDirection = bodyCollider.bounds.center - hitPoint;
                 knockBackDirection.Normalize();
                 IsKnockBack= true;
-                rigid.AddForce(knockBackDirection * 5, ForceMode2D.Impulse);
+                rigid.AddForce(knockBackDirection * 3, ForceMode2D.Impulse);
             }
             
             // 플레이어 히트 이펙트
