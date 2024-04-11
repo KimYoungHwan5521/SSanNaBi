@@ -7,8 +7,6 @@ public class TutorialDrone : MonoBehaviour
     LineRenderer lineRenderer;
     Character target;
 
-    bool readyAttack;
-
     private void Start()
     {
         lineRenderer= GetComponentInChildren<LineRenderer>();
@@ -20,7 +18,6 @@ public class TutorialDrone : MonoBehaviour
         if(collision.CompareTag("Player"))
         {
             target = collision.GetComponent<Character>();
-            readyAttack=true;
             Invoke("Attack", 0.5f);
         }
     }
