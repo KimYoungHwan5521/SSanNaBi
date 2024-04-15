@@ -111,7 +111,7 @@ public class AIBase : MonoBehaviour
                 else if(moveType == MoveType.Patrol)
                 {
                     //Debug.Log(CheckObstacle());
-                    if(CheckObstacle())
+                    if(CheckObstacle() || CheckCliff())
                     {
                         controlledCharacter.faceDirection *= -1;
                     }
@@ -187,7 +187,7 @@ public class AIBase : MonoBehaviour
         direction.Normalize();
         GameObject inst = Instantiate(prefab, spawnPosition, Quaternion.Euler(0, 0, Mathf.Atan2(direction.y, direction.x)));
         inst.AddComponent<DamageComponent>().Initialize(controlledCharacter, controlledCharacter.attackDamage, true);
-        inst.GetComponent<Rigidbody2D>().velocity = direction * 10;
+        inst.GetComponent<Rigidbody2D>().velocity = direction * 30;
     }
 
 

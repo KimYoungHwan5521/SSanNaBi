@@ -39,11 +39,6 @@ public class AIExecutor : MonoBehaviour
         curAttackCoolTime = attackCoolTime + Random.Range(-3f, 3f);
     }
 
-    void Update()
-    {
-        
-    }
-
     private void FixedUpdate()
     {
         if (!isActivate || isBreak) return;

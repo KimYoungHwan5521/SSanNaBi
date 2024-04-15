@@ -18,7 +18,7 @@ public class DamageComponent : MonoBehaviour
 
     protected void OnTriggerStay2D(Collider2D collision)
     {
-        if(isProjectile && collision.gameObject.layer == 0) Destroy(gameObject);
+        //if(isProjectile && collision.gameObject.layer == 0 && !collision.CompareTag("CameraBoundary")) Destroy(gameObject);
         if(collision.gameObject.TryGetComponent(out Breakable victim))
         {
             if(attacker.CheckEnemy(victim))
