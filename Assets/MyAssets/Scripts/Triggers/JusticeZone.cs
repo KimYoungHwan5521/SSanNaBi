@@ -7,18 +7,20 @@ public class JusticeZone : MonoBehaviour
     GameObject justiceInst;
     GameObject justiceAlterEgoInst;
     public Transform spawnPosition;
+    public Animator entryDoor;
+    public Animator exitDoor;
 
-    GameObject justiceMain;
-    GameObject justiceAlterEgo;
-    [SerializeField]bool firstJusticeAppeared;
-    [SerializeField] bool secondJusticeAppeard;
-    [SerializeField] bool justiceDefeated;
+    [SerializeField]GameObject justiceMain;
+    [SerializeField]GameObject justiceAlterEgo;
+    bool firstJusticeAppeared;
+    bool secondJusticeAppeard;
+    bool justiceDefeated;
 
     public bool justiceMainDead;
     public bool justiceAlterEgoDead;
 
     public float alterEgoSpawnCoolTime;
-    [SerializeField]float curAlterEgoSpawnCoolTime;
+    float curAlterEgoSpawnCoolTime;
 
     private void Start()
     {
@@ -27,7 +29,8 @@ public class JusticeZone : MonoBehaviour
 
         justiceAlterEgoDead = true;
         curAlterEgoSpawnCoolTime = 6f;
-}
+        entryDoor.SetTrigger("Open");
+    }
 
     private void Update()
     {
@@ -49,7 +52,7 @@ public class JusticeZone : MonoBehaviour
                     justiceAlterEgo.GetComponentInChildren<AIJustice>().justiceZone = this;
                     curAlterEgoSpawnCoolTime = alterEgoSpawnCoolTime;
                 }
-                else
+                else if(!justiceMain.GetComponentInChildren<AIJustice>().isWeak)
                 {
                     curAlterEgoSpawnCoolTime -= Time.deltaTime;
                 }
@@ -57,6 +60,7 @@ public class JusticeZone : MonoBehaviour
             if(justiceMainDead)
             {
                 if(!justiceAlterEgoDead) justiceAlterEgo.GetComponent<Character>().TakeDamage(null, 1000, justiceAlterEgo.transform.position);
+                exitDoor.SetTrigger("Open");
                 justiceDefeated= true;
             }
         }
@@ -71,6 +75,7 @@ public class JusticeZone : MonoBehaviour
             justiceMain = Instantiate(justiceInst, spawnPosition.position, Quaternion.identity);
             justiceMain.GetComponentInChildren<AIJustice>().justiceZone = this;
             firstJusticeAppeared= true;
+            entryDoor.SetTrigger("Close");
         }
     }
 

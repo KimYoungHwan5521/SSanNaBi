@@ -12,12 +12,12 @@ EditorBuildSettings:
     path: Assets/MyAssets/Scenes/TutorialScene.unity
     guid: 492bb40e648d3e24d808c0bb344c4c3d
   - enabled: 1
-    path: Assets/MyAssets/Scenes/Stage3.unity
-    guid: db34fd0f85bd7724f9b9063f7f9dd6ab
-  - enabled: 1
     path: Assets/MyAssets/Scenes/Stage1.unity
     guid: 4df706aaa3194984499cf6a7ad641d6d
   - enabled: 1
     path: Assets/MyAssets/Scenes/Stage2.unity
     guid: c1fd93d9168d1bd43adcedeb0634449b
+  - enabled: 1
+    path: Assets/MyAssets/Scenes/Stage3.unity
+    guid: db34fd0f85bd7724f9b9063f7f9dd6ab
   m_configObjects: {}
