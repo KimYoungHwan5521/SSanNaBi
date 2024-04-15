@@ -18,7 +18,7 @@ public class TutorialDrone : MonoBehaviour
         if(collision.CompareTag("Player"))
         {
             target = collision.GetComponent<Character>();
-            Invoke("Attack", 0.5f);
+            Invoke(nameof(Attack), 0.5f);
         }
     }
 
@@ -38,7 +38,7 @@ public class TutorialDrone : MonoBehaviour
             lineRenderer.enabled = true;
             lineRenderer.SetPosition(1, target.transform.position);
             target.TakeDamage(GetComponent<Character>(), 1, target.transform.position);
-            Invoke("AttackEnd", 0.1f);
+            Invoke(nameof(AttackEnd), 0.1f);
         }
     }
 

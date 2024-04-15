@@ -107,7 +107,7 @@ public class Character : Breakable
             _isKnockBack= value;
             if(value == true)
             {
-                Invoke("KnockBackEnd", 0.5f);
+                Invoke(nameof(KnockBackEnd), 0.5f);
             }
         }
     }

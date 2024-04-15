@@ -18,7 +18,7 @@ public class ExecutorActivater : MonoBehaviour
     {
         if(executor.isBreak && !doorOpend)
         {
-            Invoke("OpenDoor", 5f);
+            Invoke(nameof(OpenDoor), 5f);
             doorOpend = true;
         }
     }

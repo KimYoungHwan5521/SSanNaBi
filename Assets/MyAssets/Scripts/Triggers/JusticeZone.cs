@@ -35,7 +35,7 @@ public class JusticeZone : MonoBehaviour
         if(!secondJusticeAppeard && firstJusticeAppeared && justiceMainDead)
         {
             justiceMainDead = false;
-            Invoke("SpawnSecondJustice", 3f);
+            Invoke(nameof(SpawnSecondJustice), 3f);
             secondJusticeAppeard = true;
         }
         if(secondJusticeAppeard)
