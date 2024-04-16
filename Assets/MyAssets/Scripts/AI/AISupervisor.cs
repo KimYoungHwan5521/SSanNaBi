@@ -2,7 +2,6 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
-using static UnityEditor.PlayerSettings;
 
 public class AISupervisor : MonoBehaviour
 {
@@ -38,8 +37,8 @@ public class AISupervisor : MonoBehaviour
         {
             deathTimerText.enabled = true;
             deathTimerText.text = $"{(int)Mathf.Clamp(curDeathTime, 0, deathTime)}";
-            xPos = Mathf.Clamp(Camera.main.WorldToScreenPoint(transform.position).x, 0, canvas.rect.width - 10 - deathTimerText.rectTransform.rect.width);
-            yPos = Mathf.Clamp(Camera.main.WorldToScreenPoint(transform.position).y, deathTimerText.rectTransform.rect.height, canvas.rect.height - 10 - deathTimerText.rectTransform.rect.height);
+            xPos = Mathf.Clamp(Camera.main.WorldToScreenPoint(transform.position).x, 0, canvas.rect.width * 1.8f - deathTimerText.rectTransform.rect.width);
+            yPos = Mathf.Clamp(Camera.main.WorldToScreenPoint(transform.position).y, deathTimerText.rectTransform.rect.height, canvas.rect.height * 1.8f - deathTimerText.rectTransform.rect.height);
             pos = new Vector2(xPos, yPos);
             deathTimerText.transform.position = pos;
             curDeathTime -= Time.deltaTime;
@@ -86,4 +85,12 @@ public class AISupervisor : MonoBehaviour
         }
         return true;
     }
+
+    /*
+    private void OnDrawGizmos()
+    {
+        Gizmos.color = Color.yellow;
+        Gizmos.DrawWireCube(canvas.transform.position, canvas.rect.size * 1.8f);
+    }
+    */
 }

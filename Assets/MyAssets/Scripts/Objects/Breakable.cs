@@ -9,6 +9,7 @@ public abstract class Breakable : MonoBehaviour
     protected Rigidbody2D rigid;
 
     public GameObject marker;
+    GameManager gameManager;
 
     public Team team;
     protected bool _isBreak;
@@ -18,10 +19,15 @@ public abstract class Breakable : MonoBehaviour
         set 
         { 
             _isBreak = value;
-            gameObject.layer = LayerMask.NameToLayer("Corpse");
-            Destroy(marker);
-            if(CompareTag("Justice")) transform.parent.gameObject.AddComponent<DestroyTimer>().time =3f;
+            if(CompareTag("Player"))
+            {
+                gameManager.stageDeath++;
+                gameManager.Load();
+            }
+            else if(CompareTag("Justice")) transform.parent.gameObject.AddComponent<DestroyTimer>().time =3f;
             else gameObject.AddComponent<DestroyTimer>().time = 3f;
+            gameObject.layer = LayerMask.NameToLayer("Corpse");
+            if(marker != null) Destroy(marker);
             if (flyable) rigid.gravityScale = 1f;
         }
     }
@@ -54,6 +60,8 @@ public abstract class Breakable : MonoBehaviour
 
     protected virtual void Start()
     {
+        gameManager = FindObjectOfType<GameManager>();
+        if (CompareTag("Player")) transform.position = gameManager.savePoint;
         if(team == Team.Enemy && (CompareTag("Enemy") || CompareTag("ExecutorBody")))
         {
             GameObject inst = Resources.Load<GameObject>("Prefabs/UI/EnemyMarker");

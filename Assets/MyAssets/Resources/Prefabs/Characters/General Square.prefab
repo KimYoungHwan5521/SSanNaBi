@@ -270,8 +270,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   marker: {fileID: 0}
   team: 0
-  _hpCurrent: 1000
-  _hpMax: 1000
+  _hpCurrent: 40
+  _hpMax: 40
   attackDamage: 100
   flyable: 0
   invincibleTime: 2
@@ -288,7 +288,7 @@ MonoBehaviour:
   moveSpeed: 10
   jumpPower: 300
   chainArmSpeed: 30
-  chainArmMaxDistance: 30
+  chainArmMaxDistance: 40
   isGround: 0
   isHit: 0
   isAttack: 0
