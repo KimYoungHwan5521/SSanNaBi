@@ -35,6 +35,10 @@ public class AISupervisor : MonoBehaviour
     {
         if(isWatching)
         {
+            if(curDeathTime < 0)
+            {
+                playerT.GetComponent<Breakable>().HPCurrent = 0;
+            }
             deathTimerText.enabled = true;
             deathTimerText.text = $"{(int)Mathf.Clamp(curDeathTime, 0, deathTime)}";
             xPos = Mathf.Clamp(Camera.main.WorldToScreenPoint(transform.position).x, 0, canvas.rect.width * 1.8f - deathTimerText.rectTransform.rect.width);
