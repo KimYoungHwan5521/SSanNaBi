@@ -122,3 +122,19 @@
 
 해결 방법 : 이렇게 애니메이션 때문에 Update(또는 FixedUpdate)의  동작이 무시될 때는 애니메이션보다 늦게 동작하는 LateUpdate를 사용해주어야 한다. 
 
+
+
+13. 폰트
+
+TextMeshPro에서 폰트를 사용하려면 .otf, .ttf 파일을 Font.asset 파일로 구워 주어야 한다.
+
+1. Window - TextMeshPro - Font Asset Creator 창을 연다.
+2. Character Sequence에 아래 값을 넣어준다.
+(Hex)	: 20-7E,AC00-D7A3,3131-3163,2008-26AC
+(Decimal)	: 32-126,44032-55203,12593-12643,8200-9900
+
+※ 참고
+20-7E		: 영어
+AC00-D7A3	: 한글
+3131-3163	: 한글 자모
+2008-26AC	: 특수문자
