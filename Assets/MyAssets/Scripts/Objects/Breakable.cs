@@ -62,7 +62,7 @@ public abstract class Breakable : MonoBehaviour
     {
         gameManager = FindObjectOfType<GameManager>();
         if (CompareTag("Player")) transform.position = gameManager.savePoint;
-        if(team == Team.Enemy && (CompareTag("Enemy") || CompareTag("ExecutorBody")))
+        if(team == Team.Enemy && (CompareTag("Enemy") && !CompareTag("ExecutorBody")))
         {
             GameObject inst = Resources.Load<GameObject>("Prefabs/UI/EnemyMarker");
             GameObject mainCanvas = GameObject.FindGameObjectWithTag("MainCanvas");

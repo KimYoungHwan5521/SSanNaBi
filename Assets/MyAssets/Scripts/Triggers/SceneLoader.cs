@@ -24,7 +24,7 @@ public class SceneLoader : MonoBehaviour
     {
         if (collision.CompareTag("Player"))
         {
-            if(SceneManager.GetActiveScene().buildIndex != 0)
+            if(string.Compare(SceneManager.GetActiveScene().name, "TutorialScene") != 0)
             {
                 gameManager.stageClear = true;
                 Time.timeScale = 0f;
@@ -42,14 +42,14 @@ public class SceneLoader : MonoBehaviour
 
     public void NextScene()
     {
-        if(SceneManager.GetActiveScene().buildIndex != 0)
+        if(string.Compare(SceneManager.GetActiveScene().name, "TutorialScene") != 0)
         {
             gameManager.totalDeath += gameManager.stageDeath;
             gameManager.totalClearTime+= gameManager.stageClearTime;
         }
         gameManager.stageDeath= 0;
         gameManager.stageClearTime= 0;
-        if(SceneManager.GetActiveScene().buildIndex == 3 && !showTotal)
+        if(string.Compare(SceneManager.GetActiveScene().name, "Stage3") == 0 && !showTotal)
         {
             resultTexts[0].text = "Game Clear!";
             resultTexts[1].text = $"Total Death : {gameManager.totalDeath}";

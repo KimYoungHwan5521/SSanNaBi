@@ -18,11 +18,8 @@ public class ExecutorCore : Breakable
 
     protected override void Update()
     {
-        if(markerScript!= null)
-        {
-            if(executor.isAttack && executor.attackCount >= 3) markerScript.ExposeMarker();
-            else markerScript.HideMarker();
-        }
+        if (executor.isBreak) return;
+        
         base.Update();
 
         if (executor.attackCount < 3) curInvincibleTime = invincibleTime;

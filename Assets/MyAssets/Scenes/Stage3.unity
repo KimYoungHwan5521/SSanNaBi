@@ -210,7 +210,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bc7baf289f8deb14f925bea300890c44, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  SceneName: Ending
+  SceneName: Title
   resultWindow: {fileID: 1458435785}
 --- !u!4 &24136973
 Transform:
@@ -353,7 +353,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &64066418
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6040,23 +6040,27 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5009623994375636899, guid: bc5a957eee3f6f94ab381ca70e612a0e, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0
+      value: 50
       objectReference: {fileID: 0}
     - target: {fileID: 5009623994375636899, guid: bc5a957eee3f6f94ab381ca70e612a0e, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -50
-      objectReference: {fileID: 0}
-    - target: {fileID: 5858832132996626030, guid: bc5a957eee3f6f94ab381ca70e612a0e, type: 3}
-      propertyPath: m_LocalPosition.y
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 6541194619918901867, guid: bc5a957eee3f6f94ab381ca70e612a0e, type: 3}
+    - target: {fileID: 5858832132996626030, guid: bc5a957eee3f6f94ab381ca70e612a0e, type: 3}
       propertyPath: m_LocalPosition.x
       value: 50
       objectReference: {fileID: 0}
-    - target: {fileID: 6541194619918901867, guid: bc5a957eee3f6f94ab381ca70e612a0e, type: 3}
+    - target: {fileID: 5858832132996626030, guid: bc5a957eee3f6f94ab381ca70e612a0e, type: 3}
       propertyPath: m_LocalPosition.y
       value: -50
+      objectReference: {fileID: 0}
+    - target: {fileID: 6541194619918901867, guid: bc5a957eee3f6f94ab381ca70e612a0e, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6541194619918901867, guid: bc5a957eee3f6f94ab381ca70e612a0e, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7579836607543545603, guid: bc5a957eee3f6f94ab381ca70e612a0e, type: 3}
       propertyPath: m_LocalPosition.x
@@ -6104,11 +6108,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8700739688319950874, guid: bc5a957eee3f6f94ab381ca70e612a0e, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 50
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8700739688319950874, guid: bc5a957eee3f6f94ab381ca70e612a0e, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: -50
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -7969,7 +7973,7 @@ MonoBehaviour:
   m_Follow: {fileID: 97468951}
   m_Lens:
     FieldOfView: 60
-    OrthographicSize: 25.124107
+    OrthographicSize: 25
     NearClipPlane: 0.3
     FarClipPlane: 1000
     Dutch: 0
@@ -8560,7 +8564,7 @@ Camera:
   far clip plane: 1000
   field of view: 60
   orthographic: 1
-  orthographic size: 25.124107
+  orthographic size: 25
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -8585,7 +8589,7 @@ Transform:
   m_GameObject: {fileID: 2141657203}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 35.93435, y: 0.20477, z: -10}
+  m_LocalPosition: {x: 35.76629, y: 0.20333, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []

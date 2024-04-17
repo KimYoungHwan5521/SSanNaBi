@@ -283,6 +283,7 @@ public class Character : Breakable
 
     void PredictChainArmTrajectory()
     {
+        if (IsBreak) return;
         if(chainArm == null)
         {
             chainArmPredictLineRenderer.enabled = true;
@@ -403,6 +404,7 @@ public class Character : Breakable
 
     protected void OnChainArmThrow()
     {
+        if (IsBreak) return;
         if(chainArm == null)
         {
             ChainArmThrow(Camera.main.ScreenToWorldPoint(Input.mousePosition) - transform.position);
@@ -448,11 +450,11 @@ public class Character : Breakable
         { 
             isChainAttack= true;
             target.status = Status.Grabed;
-            Invoke("ChainAttackEnd", 3f);
+            Invoke(nameof(ChainAttackEnd), 3f);
         }
         else
         {
-            Invoke("ChainAttackEnd", 0.1f);
+            Invoke(nameof(ChainAttackEnd), 0.1f);
         }
     }
 
@@ -481,7 +483,7 @@ public class Character : Breakable
         DestroyChainArm();
         grabedTarget = jucticeCore.gameObject;
         jucticeCore.TakeDamage(this, attackDamage, transform.position);
-        Invoke("ChainAttackEnd", 0.1f);
+        Invoke(nameof(ChainAttackEnd), 0.1f);
     }
 
     void ChainAttackEnd()
@@ -616,8 +618,8 @@ public class Character : Breakable
             if(chainArm != null) DestroyChainArm();
             IsGrab = false;
             Time.timeScale = 0.2f;
-            Invoke("ReversalDash", 0.15f);
-            Invoke("ReversalDashEnd", 1f);
+            Invoke(nameof(ReversalDash), 0.15f);
+            Invoke(nameof(ReversalDashEnd), 1f);
             
         } else if(CompareTag("Justice"))
         {

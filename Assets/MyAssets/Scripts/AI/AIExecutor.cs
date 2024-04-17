@@ -86,7 +86,11 @@ public class AIExecutor : MonoBehaviour
     public void Break()
     {
         isBreak= true;
-        gameObject.layer = 1 >> LayerMask.GetMask("Corpse");
+        Collider2D[] cols = GetComponentsInChildren<Collider2D>();
+        for (int i = 0;i < cols.Length; i++)
+        {
+            cols[i].enabled = false;
+        }
         gameObject.AddComponent<DestroyTimer>().time = 11f;
         anim.SetTrigger("doDeath");
     }

@@ -9,6 +9,12 @@ EditorBuildSettings:
     path: Assets/MyAssets/Scenes/TestScene.unity
     guid: 2cda990e2423bbf4892e6590ba056729
   - enabled: 1
+    path: Assets/MyAssets/Scenes/Stage3.unity
+    guid: db34fd0f85bd7724f9b9063f7f9dd6ab
+  - enabled: 1
+    path: Assets/MyAssets/Scenes/Title.unity
+    guid: 7d8822c597230c54ea043db340c1a232
+  - enabled: 1
     path: Assets/MyAssets/Scenes/TutorialScene.unity
     guid: 492bb40e648d3e24d808c0bb344c4c3d
   - enabled: 1
@@ -17,9 +23,6 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/MyAssets/Scenes/Stage2.unity
     guid: c1fd93d9168d1bd43adcedeb0634449b
-  - enabled: 1
-    path: Assets/MyAssets/Scenes/Stage3.unity
-    guid: db34fd0f85bd7724f9b9063f7f9dd6ab
   - enabled: 1
     path: Assets/MyAssets/Scenes/Ending.unity
     guid: 806537c7f6ca6e14e85585fc0597b026
