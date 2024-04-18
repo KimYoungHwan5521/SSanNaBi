@@ -600,6 +600,7 @@ public class Character : Breakable
 
     public override int TakeDamage(Breakable from, int damage, Vector3 hitPoint)
     {
+        if (IsBreak) return 0;
         if (CompareTag("Player"))
         {
             // ³Ë¹é
