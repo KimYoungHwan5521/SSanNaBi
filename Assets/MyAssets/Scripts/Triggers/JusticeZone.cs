@@ -59,7 +59,8 @@ public class JusticeZone : MonoBehaviour
             }
             if(justiceMainDead)
             {
-                if(!justiceAlterEgoDead) justiceAlterEgo.GetComponent<Character>().TakeDamage(null, 1000, justiceAlterEgo.transform.position);
+                if (justiceAlterEgo == null) return;
+                if(!justiceAlterEgoDead) justiceAlterEgo.GetComponentInChildren<Character>().TakeDamage(null, 1000, justiceAlterEgo.transform.position);
                 exitDoor.SetTrigger("Open");
                 justiceDefeated= true;
             }

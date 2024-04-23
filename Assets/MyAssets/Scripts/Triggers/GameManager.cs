@@ -5,6 +5,8 @@ using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
+    public static GameManager instance;
+
     public Vector2 savePoint;
     public int stageDeath = 0;
     public float stageClearTime = 0;
@@ -14,14 +16,17 @@ public class GameManager : MonoBehaviour
 
     private void Awake()
     {
-        var GM = FindObjectsOfType<GameManager>();
-        if(GM.Length == 1)
+        if (instance == null)
         {
-            DontDestroyOnLoad(gameObject);
-        }
-        else
-        {
-            Destroy(gameObject);
+            if (instance == null)
+            {
+                instance = this;
+                DontDestroyOnLoad(gameObject);
+            }
+            else
+            {
+                Destroy(gameObject);
+            }
         }
     }
 
