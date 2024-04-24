@@ -73,6 +73,7 @@ public class JusticeZone : MonoBehaviour
         if (firstJusticeAppeared) { return; }
         if(collision.CompareTag("Player") && justiceMain == null)
         {
+            if (SoundManager.GetPlayingBgmIndex() != 4) SoundManager.PlayBgm(4);
             justiceMain = Instantiate(justiceInst, spawnPosition.position, Quaternion.identity);
             justiceMain.GetComponentInChildren<AIJustice>().justiceZone = this;
             firstJusticeAppeared= true;

@@ -27,6 +27,7 @@ public class ExecutorActivater : MonoBehaviour
     {
         if(collision.gameObject.CompareTag("Player"))
         {
+            if (SoundManager.GetPlayingBgmIndex() != 2) SoundManager.PlayBgm(2);
             executor.isActivate= true;
 
         }

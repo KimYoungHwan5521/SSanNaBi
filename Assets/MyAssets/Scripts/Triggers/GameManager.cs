@@ -29,9 +29,9 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    [SerializeField]GameObject skipBtn;
-    [SerializeField]GameObject mainCanvas;
-    [SerializeField]GameObject skipBtnIsnt;
+    GameObject skipBtn;
+    GameObject mainCanvas;
+    GameObject skipBtnIsnt;
     
     private void Update()
     {
@@ -68,21 +68,24 @@ public class GameManager : MonoBehaviour
 
     public void Skip()
     {
-        Debug.Log(savePoint);
         if(savePoint != Vector2.zero)
         {
             if (string.Compare(SceneManager.GetActiveScene().name, "Stage1") == 0)
             {
                 SceneManager.LoadScene("Stage2");
+                SoundManager.PlayBgm(3);
             }
             else if (string.Compare(SceneManager.GetActiveScene().name, "Stage2") == 0)
             {
                 SceneManager.LoadScene("Stage3");
+                SoundManager.PlayBgm(5);
 
             }
             else if (string.Compare(SceneManager.GetActiveScene().name, "Stage3") == 0)
             {
                 SceneManager.LoadScene("Title");
+                SoundManager.PlayBgm(0);
+                Destroy(gameObject);
             }
             savePoint = new Vector2(0, 0);
         }

@@ -60,7 +60,11 @@ public class SceneLoader : MonoBehaviour
         Time.timeScale = 1f;
         gameManager.savePoint = Vector2.zero;
         gameManager.stageClear = false;
+        if (string.Compare(SceneManager.GetActiveScene().name, "Stage1") == 0) SoundManager.PlayBgm(3);
+        if (string.Compare(SceneManager.GetActiveScene().name, "Stage2") == 0) SoundManager.PlayBgm(5);
+        if (string.Compare(SceneManager.GetActiveScene().name, "Stage3") == 0) SoundManager.PlayBgm(0);
         SceneManager.LoadScene(SceneName);
+        if(string.Compare(SceneManager.GetActiveScene().name, "Stage3") == 0) Destroy(gameManager.gameObject);
 
     }
 }
