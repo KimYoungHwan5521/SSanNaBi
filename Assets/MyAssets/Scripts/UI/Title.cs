@@ -7,7 +7,8 @@ public class Title : MonoBehaviour
 {
     public void GameStart()
     {
-        SceneManager.LoadScene("TutorialScene");
+        //SceneManager.LoadScene("TutorialScene");
+        SceneManager.LoadScene("Stage1");
     }
 
     public void GameQuit()
