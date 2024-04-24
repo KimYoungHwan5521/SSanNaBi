@@ -11,13 +11,19 @@ public class SceneLoader : MonoBehaviour
     GameManager gameManager;
     public GameObject resultWindow;
     TextMeshProUGUI[] resultTexts;
+    [SerializeField]Image newRecordImage;
 
     bool showTotal;
 
     private void Start()
     {
         gameManager = FindObjectOfType<GameManager>();
-        if(resultWindow != null) resultTexts = resultWindow.GetComponentsInChildren<TextMeshProUGUI>();
+        if (resultWindow != null)
+        {
+            resultTexts = resultWindow.GetComponentsInChildren<TextMeshProUGUI>();
+            newRecordImage = resultWindow.GetComponentsInChildren<Image>()[2];
+            newRecordImage.gameObject.SetActive(false);
+        }
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -29,7 +35,12 @@ public class SceneLoader : MonoBehaviour
                 gameManager.stageClear = true;
                 Time.timeScale = 0f;
                 resultTexts[1].text = $"Stage Death : {gameManager.stageDeath}";
-                resultTexts[2].text = $"Stage Clear Time : \n{(int)gameManager.stageClearTime / 60:00} : {gameManager.stageClearTime * 100 % 6000 / 100:00.00}";
+                resultTexts[2].text = $"Stage Clear Time : \n{(int)gameManager.stageClearTime / 60:00}\'  {gameManager.stageClearTime * 100 % 6000 / 100:00.00} \"";
+                if(PlayerPrefs.GetFloat($"{SceneManager.GetActiveScene().name}Record") > gameManager.stageClearTime)
+                {
+                    newRecordImage.gameObject.SetActive(true);
+                    PlayerPrefs.SetFloat($"{SceneManager.GetActiveScene().name}Record", gameManager.stageClearTime);
+                }
                 resultWindow.SetActive(true);
             }
             else
@@ -53,7 +64,12 @@ public class SceneLoader : MonoBehaviour
         {
             resultTexts[0].text = "Game Clear!";
             resultTexts[1].text = $"Total Death : {gameManager.totalDeath}";
-            resultTexts[2].text = $"Total Clear Time : \n{(int)gameManager.totalClearTime / 60 :00} : {gameManager.totalClearTime * 100 % 6000 / 100:00.00}";
+            resultTexts[2].text = $"Total Clear Time : \n{(int)gameManager.totalClearTime / 60 :00}\' {gameManager.totalClearTime * 100 % 6000 / 100:00.00}\"";
+            if (PlayerPrefs.GetFloat("TotalRecord") > gameManager.totalClearTime)
+            {
+                newRecordImage.gameObject.SetActive(true);
+                PlayerPrefs.SetFloat("TotalRecord", gameManager.totalClearTime);
+            }
             showTotal = true;
             return;
         }
