@@ -20,8 +20,7 @@ public class Title : MonoBehaviour
     public void GameStart()
     {
         SoundManager.PlayBgm(1);
-        //SceneManager.LoadScene("TutorialScene");
-        SceneManager.LoadScene("Stage1");
+        SceneManager.LoadScene("TutorialScene");
     }
 
     public void GameQuit()

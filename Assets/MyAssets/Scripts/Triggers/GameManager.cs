@@ -54,8 +54,11 @@ public class GameManager : MonoBehaviour
     }
 
     // 시연용
+    // -> 시연용에서 튜토리얼 스킵용으로
     public void 시연용()
     {
+        if (string.Compare(SceneManager.GetActiveScene().name, "TutorialScene") != 0) return;
+
         if(skipBtn == null)skipBtn = Resources.Load<GameObject>("Prefabs/UI/시연용 스킵버튼");
         if(mainCanvas == null)mainCanvas = GameObject.FindGameObjectWithTag("MainCanvas");
         if(skipBtnIsnt == null)
@@ -68,7 +71,11 @@ public class GameManager : MonoBehaviour
 
     public void Skip()
     {
-        if(savePoint != Vector2.zero)
+
+        SceneManager.LoadScene("Stage1");
+        return;
+
+        if (savePoint != Vector2.zero)
         {
             if (string.Compare(SceneManager.GetActiveScene().name, "Stage1") == 0)
             {
