@@ -32,7 +32,7 @@ public class ChainArm : MonoBehaviour
     private void OnTriggerStay2D(Collider2D collision)
     {
         // °ø°Ý ¹ÞÀ¸¸é ²÷¾îÁü
-        if(collision.CompareTag("HitBox"))
+        if (collision.CompareTag("HitBox") || collision.CompareTag("PlasmaEmitter"))
         {
             isChainArmGrab = false;
             userChar.DestroyChainArm();

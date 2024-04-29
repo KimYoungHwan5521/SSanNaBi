@@ -29,12 +29,16 @@ public class JusticeZone : MonoBehaviour
 
         justiceAlterEgoDead = true;
         curAlterEgoSpawnCoolTime = 6f;
-        entryDoor.SetTrigger("Open");
+        entryDoor.SetBool("isOpen", true);
     }
 
     private void Update()
     {
-        if(justiceDefeated) { return; }
+        if(justiceDefeated) 
+        {
+            if (!exitDoor.GetBool("isOpen")) exitDoor.SetBool("isOpen", true);
+            return; 
+        }
         if(!secondJusticeAppeard && firstJusticeAppeared && justiceMainDead)
         {
             justiceMainDead = false;
@@ -60,7 +64,6 @@ public class JusticeZone : MonoBehaviour
             {
                 if (justiceAlterEgo == null) return;
                 if(!justiceAlterEgoDead) justiceAlterEgo.GetComponentInChildren<Character>().TakeDamage(null, 1000, justiceAlterEgo.transform.position);
-                exitDoor.SetTrigger("Open");
                 justiceDefeated= true;
             }
         }
@@ -76,7 +79,7 @@ public class JusticeZone : MonoBehaviour
             justiceMain = Instantiate(justiceInst, spawnPosition.position, Quaternion.identity);
             justiceMain.GetComponentInChildren<AIJustice>().justiceZone = this;
             firstJusticeAppeared= true;
-            entryDoor.SetTrigger("Close");
+            entryDoor.SetBool("isOpen", false);
         }
     }
 

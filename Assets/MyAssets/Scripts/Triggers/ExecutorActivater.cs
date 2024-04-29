@@ -36,7 +36,7 @@ public class ExecutorActivater : MonoBehaviour
 
     void OpenDoor()
     {
-        bossDoor.SetTrigger("Open");
+        bossDoor.SetBool("isOpen", true);
 
     }
 }
