@@ -69,7 +69,6 @@ public class UpDownBlock : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        Debug.Log("gd");
         if(collision.CompareTag("ChainArm"))
         {
             Debug.Log("gd2");

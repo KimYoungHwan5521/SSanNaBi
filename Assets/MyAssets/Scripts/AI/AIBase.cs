@@ -139,7 +139,7 @@ public class AIBase : MonoBehaviour
     protected bool CheckObstacle()
     {
         Vector3 stepableHeight = capsule.bounds.center + Vector3.down * (capsule.bounds.extents.y - capsule.bounds.extents.x);
-        Ray stepRay = new Ray(stepableHeight, controlledCharacter.moveDirection);
+        Ray stepRay = new Ray(stepableHeight, controlledCharacter.faceDirection);
         Debug.DrawRay(stepRay.origin, stepRay.direction * obstacleDetectRange);
 
         // 필터를 통해 이동에 방해되지 않는 오브젝트는 필터링

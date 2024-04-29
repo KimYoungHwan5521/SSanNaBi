@@ -35,7 +35,7 @@ public class SceneLoader : MonoBehaviour
                 gameManager.stageClear = true;
                 Time.timeScale = 0f;
                 resultTexts[1].text = $"Stage Death : {gameManager.stageDeath}";
-                resultTexts[2].text = $"Stage Clear Time : \n{(int)gameManager.stageClearTime / 60:00}\'  {gameManager.stageClearTime * 100 % 6000 / 100:00.00} \"";
+                resultTexts[2].text = $"Stage Clear Time : \n{(int)gameManager.stageClearTime / 60:00}\' {gameManager.stageClearTime * 100 % 6000 / 100:00.00} \"";
                 if(PlayerPrefs.GetFloat($"{SceneManager.GetActiveScene().name}Record") > gameManager.stageClearTime)
                 {
                     newRecordImage.gameObject.SetActive(true);

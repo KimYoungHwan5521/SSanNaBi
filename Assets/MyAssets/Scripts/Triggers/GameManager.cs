@@ -1,6 +1,7 @@
 using JetBrains.Annotations;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -32,13 +33,33 @@ public class GameManager : MonoBehaviour
     GameObject skipBtn;
     GameObject mainCanvas;
     GameObject skipBtnIsnt;
-    
+
+    GameObject stageTime;
+    GameObject totalTime;
+    GameObject stageTimeInst;
+    GameObject totalTimeInst;
+    TextMeshProUGUI stageTimeText;
+    TextMeshProUGUI totalTimeText;
+
+    private void Start()
+    {
+        stageTime = Resources.Load<GameObject>("Prefabs/UI/Stage Timer");
+        totalTime = Resources.Load<GameObject>("Prefabs/UI/Total Timer");
+    }
+
     private void Update()
     {
         시연용();
-        if (!stageClear)
+        LoadTimer();
+        if (!stageClear && string.Compare(SceneManager.GetActiveScene().name, "TutorialScene") != 0)
         {
             stageClearTime += Time.unscaledDeltaTime;
+        }
+        if (string.Compare(SceneManager.GetActiveScene().name, "TutorialScene") != 0)
+        {
+            stageTimeText.text = $"{SceneManager.GetActiveScene().name} : {(int)stageClearTime / 60:00}\' {stageClearTime * 100 % 6000 / 100:00.00}\"";
+            totalTimeText.text = $"Total : {(int)(totalClearTime + stageClearTime) / 60:00}\' {(totalClearTime + stageClearTime) * 100 % 6000 / 100:00.00}\"";
+            
         }
     }
 
@@ -57,16 +78,28 @@ public class GameManager : MonoBehaviour
     // -> 시연용에서 튜토리얼 스킵용으로
     public void 시연용()
     {
+        if(mainCanvas == null)mainCanvas = GameObject.FindGameObjectWithTag("MainCanvas");
         if (string.Compare(SceneManager.GetActiveScene().name, "TutorialScene") != 0) return;
 
         if(skipBtn == null)skipBtn = Resources.Load<GameObject>("Prefabs/UI/시연용 스킵버튼");
-        if(mainCanvas == null)mainCanvas = GameObject.FindGameObjectWithTag("MainCanvas");
         if(skipBtnIsnt == null)
         {
             skipBtnIsnt = Instantiate(skipBtn, mainCanvas.transform);
             skipBtnIsnt.GetComponent<Button>().onClick.AddListener(Skip);
         }
 
+    }
+
+    void LoadTimer()
+    {
+        if (string.Compare(SceneManager.GetActiveScene().name, "TutorialScene") != 0)
+        {
+            if (stageTimeInst == null) stageTimeInst = Instantiate(stageTime, mainCanvas.transform);
+            if(totalTimeInst == null) totalTimeInst = Instantiate(totalTime, mainCanvas.transform);
+            if(stageTimeText == null) stageTimeText = stageTimeInst.GetComponent<TextMeshProUGUI>();
+            if (totalTimeText == null) totalTimeText = totalTimeInst.GetComponent<TextMeshProUGUI>();
+
+        }
     }
 
     public void Skip()
