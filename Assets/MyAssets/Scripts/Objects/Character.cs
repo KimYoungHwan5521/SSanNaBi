@@ -444,7 +444,6 @@ public class Character : Breakable
     public void ChainAttack(Character target)
     {
         DestroyChainArm();
-        Debug.Log($"{target.CompareTag("Justice") && !target.GetComponent<AIJustice>().isWeak && !target.GetComponent<AIJustice>().isAlterEgo}");
         if (target.CompareTag("Justice") && !target.GetComponent<AIJustice>().isWeak && !target.GetComponent<AIJustice>().isAlterEgo) return;
         grabedTarget = target.gameObject;
         grabedCharacter = target;
@@ -524,7 +523,7 @@ public class Character : Breakable
             grabedTarget= null;
             isChainAttack= false;
             chainAttackDashDirection = Camera.main.ScreenToWorldPoint(Input.mousePosition) - transform.position;
-            Invoke("ChainAttackDashEnd", 0.5f);
+            Invoke(nameof(ChainAttackDashEnd), 0.5f);
         }
 
     }

@@ -31,11 +31,6 @@ public class ChainArm : MonoBehaviour
 
     private void OnTriggerStay2D(Collider2D collision)
     {
-        if(collision.CompareTag("Justice"))
-        {
-            Debug.Log(collision.gameObject.GetComponent<Breakable>().curInvincibleTime);
-
-        }
         // °ø°Ý ¹ÞÀ¸¸é ²÷¾îÁü
         if(collision.CompareTag("HitBox"))
         {
@@ -57,7 +52,6 @@ public class ChainArm : MonoBehaviour
         }
         else if ((collision.gameObject.CompareTag("Enemy") || collision.gameObject.CompareTag("Justice")) && collision.gameObject.GetComponent<Breakable>().curInvincibleTime <= 0)
         {
-            Debug.Log("hey~");
             if (collision.TryGetComponent(out Character character))
             {
                 userChar.ChainAttack(character);
