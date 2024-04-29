@@ -444,6 +444,8 @@ public class Character : Breakable
     public void ChainAttack(Character target)
     {
         DestroyChainArm();
+        Debug.Log($"{target.CompareTag("Justice") && !target.GetComponent<AIJustice>().isWeak && !target.GetComponent<AIJustice>().isAlterEgo}");
+        if (target.CompareTag("Justice") && !target.GetComponent<AIJustice>().isWeak && !target.GetComponent<AIJustice>().isAlterEgo) return;
         grabedTarget = target.gameObject;
         grabedCharacter = target;
         if(Input.GetMouseButton(0)) 

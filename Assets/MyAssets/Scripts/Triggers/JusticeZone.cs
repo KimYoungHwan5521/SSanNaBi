@@ -14,7 +14,7 @@ public class JusticeZone : MonoBehaviour
     [SerializeField]GameObject justiceAlterEgo;
     bool firstJusticeAppeared;
     bool secondJusticeAppeard;
-    bool justiceDefeated;
+    [SerializeField]bool justiceDefeated;
 
     public bool justiceMainDead;
     public bool justiceAlterEgoDead;
@@ -39,7 +39,6 @@ public class JusticeZone : MonoBehaviour
         {
             justiceMainDead = false;
             Invoke(nameof(SpawnSecondJustice), 3f);
-            secondJusticeAppeard = true;
         }
         if(secondJusticeAppeard)
         {
@@ -85,5 +84,6 @@ public class JusticeZone : MonoBehaviour
     {
         justiceMain = Instantiate(justiceInst, spawnPosition.position, Quaternion.identity);
         justiceMain.GetComponentInChildren<AIJustice>().justiceZone = this;
+        secondJusticeAppeard = true;
     }
 }

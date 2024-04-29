@@ -11673,7 +11673,6 @@ GameObject:
   - component: {fileID: 5840780083251345916}
   - component: {fileID: 1536574321438743404}
   - component: {fileID: 7892811383620428534}
-  - component: {fileID: 2455895129851896846}
   - component: {fileID: 9150313163639091500}
   - component: {fileID: 894676672975510886}
   m_Layer: 9
@@ -11795,51 +11794,6 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 3, y: 3}
   m_EdgeRadius: 0
---- !u!61 &2455895129851896846
-BoxCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7905565391389052035}
-  m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_ForceSendLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_ForceReceiveLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_ContactCaptureLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_CallbackLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_IsTrigger: 1
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: -4, y: -0.5}
-  m_SpriteTilingProperty:
-    border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0, y: 0}
-    oldSize: {x: 0, y: 0}
-    newSize: {x: 0, y: 0}
-    adaptiveTilingThreshold: 0
-    drawMode: 0
-    adaptiveTiling: 0
-  m_AutoTiling: 0
-  serializedVersion: 2
-  m_Size: {x: 14, y: 6}
-  m_EdgeRadius: 0
 --- !u!114 &9150313163639091500
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -11868,9 +11822,12 @@ MonoBehaviour:
   justiceZone: {fileID: 0}
   isAlterEgo: 1
   dashAttackCoolTime: 10
+  dashAttackReady: 0
   dashCharge: 1
   dashAfterDelay: 1
   isWeak: 0
+  beHit: 0
+  nextPhase: 0
   circularAttackReady: 3
   circularAttackDelay: 0.5
 --- !u!114 &894676672975510886

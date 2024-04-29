@@ -7,7 +7,7 @@ public enum MoveType { Normal, Fixed, Patrol }
 [RequireComponent(typeof(Character))]
 public class AIBase : MonoBehaviour
 {
-    [SerializeField]protected Character controlledCharacter;
+    public Character controlledCharacter;
     [SerializeField]protected Breakable target;
     protected CapsuleCollider2D capsule;
     protected Rigidbody2D rigid;

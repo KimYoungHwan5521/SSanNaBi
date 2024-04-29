@@ -20,6 +20,7 @@ TagManager:
   - PlasmaEmitter
   - DoorButton
   - ExecutorBody
+  - Zone
   layers:
   - Default
   - TransparentFX

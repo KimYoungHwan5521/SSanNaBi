@@ -27,17 +27,16 @@ public class UpDownBlock : MonoBehaviour
         {
             if(collisioinCount > 0)
             {
-                rigid.velocity = Vector2.down * moveSpeed * Time.fixedDeltaTime;
+                rigid.velocity = moveSpeed * Time.fixedDeltaTime * Vector2.down;
             }
             else if(transform.position.y < initialPosition.y)
             {
-                rigid.velocity = Vector2.up * moveSpeed * Time.fixedDeltaTime;
+                rigid.velocity = moveSpeed * Time.fixedDeltaTime * Vector2.up;
             }
             else
             {
                 rigid.velocity= Vector2.zero;
             }
-            //Debug.Log(rigid.velocity);
             updateTime= Time.time;
         }
         
@@ -45,7 +44,7 @@ public class UpDownBlock : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if(collision.collider.CompareTag("ChainArm") || collision.collider.CompareTag("Player") || collision.collider.CompareTag("Enemy"))
+        if(collision.collider.CompareTag("Player") || collision.collider.CompareTag("Enemy"))
         {
             if(collision.collider.TryGetComponent(out Character character))
             {
@@ -57,12 +56,31 @@ public class UpDownBlock : MonoBehaviour
 
     private void OnCollisionExit2D(Collision2D collision)
     {
-        if (collision.collider.CompareTag("ChainArm") || collision.collider.CompareTag("Player") || collision.collider.CompareTag("Enemy"))
+        if (collision.collider.CompareTag("Player") || collision.collider.CompareTag("Enemy"))
         {
             if (collision.collider.TryGetComponent(out Character character))
             {
                 character.velocityCorrection = Vector2.zero;
             }
+            collisioinCount--;
+        }
+
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        Debug.Log("gd");
+        if(collision.CompareTag("ChainArm"))
+        {
+            Debug.Log("gd2");
+            collisioinCount++;
+        }
+    }
+
+    private void OnTriggerExit2D(Collider2D collision)
+    {
+        if (collision.CompareTag("ChainArm"))
+        {
             collisioinCount--;
         }
 

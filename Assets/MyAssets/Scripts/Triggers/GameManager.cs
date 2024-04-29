@@ -73,8 +73,8 @@ public class GameManager : MonoBehaviour
     {
 
         SceneManager.LoadScene("Stage1");
-        return;
-
+        
+        /*
         if (savePoint != Vector2.zero)
         {
             if (string.Compare(SceneManager.GetActiveScene().name, "Stage1") == 0)
@@ -115,5 +115,6 @@ public class GameManager : MonoBehaviour
             SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
             Destroy(skipBtnIsnt);
         }
+        */
     }
 }

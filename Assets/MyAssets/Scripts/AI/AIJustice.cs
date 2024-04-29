@@ -20,7 +20,7 @@ public class AIJustice : AIBase
     Quaternion rememberRotation;
     public float dashAttackCoolTime;
     float curDashAttackCoolTime;
-    bool dashAttackReady;
+    public bool dashAttackReady;
     public float dashCharge;
     float curDashCharge;
     Vector3 dashPosition;
@@ -31,11 +31,11 @@ public class AIJustice : AIBase
     bool dashAfter;
 
     public bool isWeak;
-    bool beHit;
+    public bool beHit;
 
     float readyToNextPhase = 3f;
     float curReadyToNextPhase;
-    bool nextPhase;
+    public bool nextPhase;
 
     public float circularAttackReady;
     float curCircularAttackReady;
@@ -111,6 +111,7 @@ public class AIJustice : AIBase
         {
             if(!isWeak)
             {
+                controlledCharacter.curInvincibleTime = controlledCharacter.invincibleTime;
                 if (!nextPhase)
                 {
                     if (curDashAttackCoolTime < 0 && !dashAttackReady)
@@ -269,19 +270,11 @@ public class AIJustice : AIBase
     }
 
 
-    private void OnTriggerStay2D(Collider2D collision)
-    {
-        if((collision.CompareTag("Player") || (collision.CompareTag("ChainArm") && !isAlterEgo && !justiceCore.isCoreActivated)) && !controlledCharacter.isAttack && !dashAttackReady && !isWeak && !beHit && !nextPhase)
-        {
-            controlledCharacter.isAttack= true;
-            controlledCharacter.anim.SetTrigger("doAttack");
-
-        }
-    }
 
     public void JusticeCoreHit()
     {
         isWeak = true;
+        controlledCharacter.curInvincibleTime= 0.1f;
         if(!isAlterEgo)bodyCollider.enabled = true;
         dashRangeSR.enabled = false;
         controlledCharacter.anim.SetBool("isWeak", true);
